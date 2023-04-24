@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuCategoryEntity {
+public class CategoryEntity {
 
-    private int menuCategoryId;
-    private String menuCategoryName;
-    private int menuCategoryPriority;
+    private int categoryId;
+    private String categoryName;
+    private int categoryPriority;
     
 }
