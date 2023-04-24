@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreEntity {
-
     private int storeId;
     private String storeName;
     private int storeOpenTime;
     private int storeCloseTime;
     private String storeImgUrl;
     private String storeLogoUrl;
-    private int ownerId;
     private String userId;
-    
 }
