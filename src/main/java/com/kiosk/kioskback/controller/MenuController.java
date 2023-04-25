@@ -18,7 +18,7 @@ import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
-import com.kiosk.kioskback.dto.response.menu.GetMenuInCategoryResponseDto;
+import com.kiosk.kioskback.dto.response.menu.GetMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
 import com.kiosk.kioskback.service.MenuService;
@@ -37,13 +37,13 @@ public class MenuController {
     
     @ApiOperation(value = "판매 상품 리스트 조회", notes = "Path Variable에 매장 번호와 카테고리명을 포함하여 요청하면, 성공 시 해당하는 해당하는 카테고리와 그 카테고리의 상품(리스트) 데이터를 반환, 실패 시 실패 메세지를 반환")
     @GetMapping("/")
-    public ResponseDto<List<GetMenuInCategoryResponseDto>> getMenuInCategory(
+    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(
         @ApiParam(value = "가게 번호", example = "1", required = true)
         @PathVariable("storeId") int storeId,
         @ApiParam(value = "카테고리명", example = "커피", required = true)
         @PathVariable("categoryName") String categoryName
         ) {
-            ResponseDto<List<GetMenuInCategoryResponseDto>> response = menuService.getMenuInCategory(storeId, categoryName);
+            ResponseDto<List<GetMenuResponseDto>> response = menuService.getMenuInCategory(storeId, categoryName);
 
             return response;
     }

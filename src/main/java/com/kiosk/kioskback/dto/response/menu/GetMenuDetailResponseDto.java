@@ -21,6 +21,9 @@ public class GetMenuDetailResponseDto {
     @ApiModelProperty(value = "상품 가격", required = true)
     private int menuPrice;
 
+    @ApiModelProperty(value = "상품 이미지", required = true)
+    private String menuImgUrl;
+
     @ApiModelProperty(value = "옵션 정보 리스트", required = true)
     private List<OptionsDto> optionsList;
 }

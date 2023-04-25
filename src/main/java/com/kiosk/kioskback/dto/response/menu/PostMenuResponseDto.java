@@ -16,12 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostMenuResponseDto {
-    @ApiModelProperty(value = "카테고리 번호", required = true)
-    private int categoryId;
+    @ApiModelProperty(value = "메뉴 전체 정보", required = true)
+    private MenuDto menuDto;
 
-    @ApiModelProperty(value = "메뉴 정보 리스트", required = true)
-    private List<MenuDto> menuList;
-
-    @ApiModelProperty(value = "옵션 정보 리스트", required = true)
+    @ApiModelProperty(value = "옵션 정보 list", required = true)
     private List<OptionsDto> optionsList;
 }
