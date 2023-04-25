@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.dto.request.category;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -16,8 +18,12 @@ public class PostCategoryDto {
     @Max(45)
     private String menuCategoryName;
 
-    @ApiModelProperty(value = "카테고리 우선순위", example = 1, required = true)
+    @ApiModelProperty(value = "카테고리 우선순위", example = "1", required = true)
     @Min(1)
     private int menuCategoryPriority;
+
+    @ApiModelProperty(value = "매장 식별 번호", example = "1", required = true)
+    @Min(1)
+    private int storeId;
     
 }

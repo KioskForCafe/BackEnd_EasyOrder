@@ -1,8 +1,8 @@
 package com.kiosk.kioskback.dto.response.category;
 
-import com.kiosk.kioskback.entity.CategoryEntity;
-import com.kiosk.kioskback.entity.StoreEntity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PatchCategoryResponseDto {
 
-    @ApiModelProperty(value = "매장 Entity", required = true)
-    private StoreEntity storeEntity;
+    @ApiModelProperty(value = "카테고리 식별 번호", required = true)
+    private int menuCategoryId;
 
-    @ApiModelProperty(value = "카테고리 Entity", required = true)
-    private CategoryEntity categoryEntity;
+    @ApiModelProperty(value = "카테고리 이름", required = true)
+    private String menuCategoryName;
     
 }

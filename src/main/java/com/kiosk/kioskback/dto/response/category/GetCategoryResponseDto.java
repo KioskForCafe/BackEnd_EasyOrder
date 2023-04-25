@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.CategoryEntity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetListResponseDto {
+public class GetCategoryResponseDto {
 
     @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
     private int menuCategoryId;
@@ -21,17 +23,17 @@ public class GetListResponseDto {
     @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
     private String menuCategoryName;
 
-    public GetListResponseDto(CategoryEntity categoryEntity) {
+    public GetCategoryResponseDto(CategoryEntity categoryEntity) {
         this.menuCategoryId = categoryEntity.getMenuCategoryId();
         this.menuCategoryName = categoryEntity.getMenuCategoryName();
     }
 
-    public static List<GetListResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
+    public static List<GetCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
 
-        List<GetListResponseDto> list = new ArrayList<>();
+        List<GetCategoryResponseDto> list = new ArrayList<>();
 
         for (CategoryEntity categoryEntity : categoryEntityList) {
-            GetListResponseDto dto = new GetListResponseDto(categoryEntity);
+            GetCategoryResponseDto dto = new GetCategoryResponseDto(categoryEntity);
             list.add(dto);
         }
 
