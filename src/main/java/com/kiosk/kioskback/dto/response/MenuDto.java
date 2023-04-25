@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.dto.response;
 
+import com.kiosk.kioskback.entity.MenuEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MenuDto {
 
-    @ApiModelProperty(value = "카테고리 정보", required = true)
-    private CategoryDto categoryDto;
+    @ApiModelProperty(value = "카테고리 번호", required = true)
+    private int categoryId;
 
     @ApiModelProperty(value = "메뉴 번호", required = true)
     private int menuId;
@@ -24,9 +26,18 @@ public class MenuDto {
     @ApiModelProperty(value = "메뉴 가격", required = true)
     private int menuPrice;
 
-    @ApiModelProperty(value = "메뉴 이미지", required = true)
+    @ApiModelProperty(value = "메뉴 이미지", required = false)
     private String menuImgUrl;
 
     @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
     private boolean menuState;
+
+    public MenuDto(MenuEntity menuEntity) {
+        this.categoryId = menuEntity.getCategoryId();
+        this.menuId = menuEntity.getMenuId();
+        this.menuName = menuEntity.getMenuName();
+        this.menuPrice = menuEntity.getMenuPrice();
+        this.menuImgUrl = menuEntity.getMenuImg();
+        this.menuState = menuEntity.isMenuState();
+    }
 }
