@@ -1,10 +1,10 @@
 package com.kiosk.kioskback.dto.response.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.CategoryDto;
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.entity.MenuEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,10 +17,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetMenuResponseDto {
-    @ApiModelProperty(value = "메뉴 전체 정보", required = true)
+
+    @ApiModelProperty(value = "상품 정보", required = true)
     private MenuDto menuDto;
 
-    @ApiModelProperty(value = "옵션 정보 list", required = true)
-    private List<OptionsDto> optionsList;
+    public GetMenuResponseDto(MenuEntity menuEntity) {
+        this.menuDto = new MenuDto(menuEntity);
+    }
+
+    public static List<GetMenuResponseDto> copyList(List<MenuEntity> menuEntityList) {
+
+        List<GetMenuResponseDto> list = new ArrayList<>();
+    
+        for (MenuEntity menuEntity: menuEntityList) {
+            GetMenuResponseDto dto = new GetMenuResponseDto(menuEntity);
+            list.add(dto);
+        }
+    
+        return list;
+    
+    }
+    
+    
     
 }
