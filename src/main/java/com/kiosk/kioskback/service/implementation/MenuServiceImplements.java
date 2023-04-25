@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
@@ -19,8 +20,18 @@ public class MenuServiceImplements implements MenuService{
 
     @Override
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMenuInCategory'");
+
+        List<GetMenuResponseDto> data = null;
+
+        try {
+
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
     @Override
