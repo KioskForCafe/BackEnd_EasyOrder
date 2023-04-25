@@ -22,5 +22,5 @@ public class MenuEntity {
     private boolean menuState;
     private int categoryId;
     private int storeId;
-    
+
 }

@@ -16,8 +16,10 @@ import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
+import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
+import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.MenuService;
 
 @Service
@@ -25,6 +27,7 @@ public class MenuServiceImplements implements MenuService{
 
     @Autowired private MenuRepository menuRepository;
     @Autowired private OptionRepository optionRepository;
+    @Autowired private UserRepository userRepository;
 
     @Override
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName) {
@@ -65,8 +68,21 @@ public class MenuServiceImplements implements MenuService{
 
     @Override
     public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'postMenu'");
+        
+        PostMenuResponseDto data = null;
+
+        try {
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed();
+
+            MenuEntity menuEntity = new MenuEntity();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
     @Override
