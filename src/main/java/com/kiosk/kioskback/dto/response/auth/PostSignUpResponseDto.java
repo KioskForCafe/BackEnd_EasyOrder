@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpResponseDto {
+public class PostSignUpResponseDto {
     @ApiModelProperty(value="회원가입 결과", example="true", required=true)
     private String status;
 }
