@@ -9,7 +9,7 @@ import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
-import com.kiosk.kioskback.dto.response.menu.GetMenuInCategoryResponseDto;
+import com.kiosk.kioskback.dto.response.menu.GetMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
 import com.kiosk.kioskback.service.MenuService;
@@ -18,7 +18,7 @@ import com.kiosk.kioskback.service.MenuService;
 public class MenuServiceImplements implements MenuService{
 
     @Override
-    public ResponseDto<List<GetMenuInCategoryResponseDto>> getMenuInCategory(int storeId, String categoryName) {
+    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getMenuInCategory'");
     }

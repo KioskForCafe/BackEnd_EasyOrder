@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kiosk.kioskback.dto.response.CategoryDto;
 import com.kiosk.kioskback.dto.response.MenuDto;
+import com.kiosk.kioskback.dto.response.OptionsDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,11 +16,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetMenuInCategoryResponseDto {
-    @ApiModelProperty(value = "카테고리 정보", required = true)
-    private CategoryDto category;
+public class GetMenuResponseDto {
+    @ApiModelProperty(value = "메뉴 전체 정보", required = true)
+    private MenuDto menuDto;
 
-    @ApiModelProperty(value = "메뉴 정보 list", required = true)
-    private List<MenuDto> menuList;
+    @ApiModelProperty(value = "옵션 정보 list", required = true)
+    private List<OptionsDto> optionsList;
     
 }
