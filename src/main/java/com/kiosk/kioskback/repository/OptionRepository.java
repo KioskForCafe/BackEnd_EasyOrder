@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.kioskback.entity.OptionEntity;
 
 @Repository
-public interface OptionRepository extends JpaRepository<OptionEntity, String> {
+public interface OptionRepository extends JpaRepository<OptionEntity, Integer> {
     public List<OptionEntity> findByMenuId(int menuId);
 }

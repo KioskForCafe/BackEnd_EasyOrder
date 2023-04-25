@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.kioskback.entity.MenuEntity;
 
 @Repository
-public interface MenuRepository extends JpaRepository<MenuEntity, String> {
+public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
 
     public MenuEntity findByMenuId(int menuId);
     public List<MenuEntity> findByStoreIdAndCategoryName(int storeId, String categoryName);
