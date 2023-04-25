@@ -1,5 +1,5 @@
 package com.kiosk.kioskback.repository;
 
-public class MainRepository {
+public class MenuRepository {
     
 }
