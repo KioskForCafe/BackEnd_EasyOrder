@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value="로그인 Request Body")
 @Data
 @NoArgsConstructor
-public class SignInDto {
+public class PostSignInDto {
     @ApiModelProperty(value="사용자 아이디", example="comet7406", required=true)
     @NotBlank
     @Length(max=40)

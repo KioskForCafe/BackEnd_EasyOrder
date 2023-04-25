@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kiosk.kioskback.common.constants.ApiPattern;
-import com.kiosk.kioskback.dto.request.auth.SignInDto;
-import com.kiosk.kioskback.dto.request.auth.SignUpDto;
+import com.kiosk.kioskback.dto.request.auth.PostSignInDto;
+import com.kiosk.kioskback.dto.request.auth.PostSignUpDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
-import com.kiosk.kioskback.dto.response.auth.SignInResponseDto;
-import com.kiosk.kioskback.dto.response.auth.SignUpResponseDto;
+import com.kiosk.kioskback.dto.response.auth.PostSignInResponseDto;
+import com.kiosk.kioskback.dto.response.auth.PostSignUpResponseDto;
 import com.kiosk.kioskback.service.AuthService;
 
 import io.swagger.annotations.Api;
@@ -29,15 +29,15 @@ public class AuthController {
 
     @ApiOperation(value="회원가입", notes="아이디, 비밀번호, 이름, 이메일, 전화번호를입력하여 회원을 등록하고, 성공 시에는 회원가입 성공 여부에 true가 반환됨")
     @PostMapping(SIGN_UP)
-    public ResponseDto<SignUpResponseDto> signUp(@Valid @RequestBody SignUpDto requestBody) {
-        ResponseDto<SignUpResponseDto> response = authService.signUp(requestBody);
+    public ResponseDto<PostSignUpResponseDto> postSignUp(@Valid @RequestBody PostSignUpDto requestBody) {
+        ResponseDto<PostSignUpResponseDto> response = authService.postSignUp(requestBody);
         return response;
     }
 
     @ApiOperation(value="로그인", notes="아이디와 비밀번호를 입력하면 일치할 경우, 회원 정보와 토큰 그리고 토큰 만료기간을 반환하고, 실패한다면 해당 메세지를 반환")
     @PostMapping(SIGN_IN)
-    public ResponseDto<SignInResponseDto> signIn(@Valid @RequestBody SignInDto requestBody) {
-        ResponseDto<SignInResponseDto> response = authService.signIn(requestBody);
+    public ResponseDto<PostSignInResponseDto> postSignIn(@Valid @RequestBody PostSignInDto requestBody) {
+        ResponseDto<PostSignInResponseDto> response = authService.postSignIn(requestBody);
         return response;
     }
 }
