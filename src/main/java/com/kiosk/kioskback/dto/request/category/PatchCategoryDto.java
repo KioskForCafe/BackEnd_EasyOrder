@@ -15,15 +15,15 @@ public class PatchCategoryDto {
 
     @ApiModelProperty(value = "카테고리 식별 번호", example = "1", required = true)
     @Min(1)
-    private int menuCategoryId;
+    private int categoryId;
 
     @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
     @NotBlank
     @Max(45)
-    private String menuCategoryName;
+    private String categoryName;
 
     @ApiModelProperty(value = "카테고리 우선순위", example = "1", required = true)
     @Min(1)
-    private int menuCategoryPriority;
+    private int categoryPriority;
     
 }

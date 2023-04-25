@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class PatchCategoryResponseDto {
 
     @ApiModelProperty(value = "카테고리 식별 번호", required = true)
-    private int menuCategoryId;
+    private int categoryId;
 
     @ApiModelProperty(value = "카테고리 이름", required = true)
-    private String menuCategoryName;
+    private String categoryName;
     
 }

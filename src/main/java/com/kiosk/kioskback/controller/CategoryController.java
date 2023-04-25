@@ -38,7 +38,7 @@ public class CategoryController {
     private final String GET_LIST = "/list/{storeId}";
     private final String POST_CATEGORY = "";
     private final String PATCH_CATEGORY = "";
-    private final String DELETE_CATEGORY = "/{menuCategoryId}";
+    private final String DELETE_CATEGORY = "/{categoryId}";
 
     @ApiOperation(value = "카테고리 리스트 조회", notes = "Path Variable에 storeId를 포함하여 요청을 하면, 성공시 게시물 전체 데이터를 반환, 실패시 실패 메세지를 반환")
     @GetMapping(GET_LIST)
@@ -56,7 +56,7 @@ public class CategoryController {
         return response;
     }
 
-    @ApiOperation(value = "카테고리 수정", notes = "Request Header Athorization에 Bearer JWT를 포함하고Request Body에 menuCategoryId, menuCategoryPriority를 포함하여 요청을 하면, 성공시 카테고리 전체 데이터를 반환, 실패시 실패 메세지를 반환")
+    @ApiOperation(value = "카테고리 수정", notes = "Request Header Athorization에 Bearer JWT를 포함하고Request Body에 categoryId, categoryPriority를 포함하여 요청을 하면, 성공시 카테고리 전체 데이터를 반환, 실패시 실패 메세지를 반환")
     @PatchMapping(PATCH_CATEGORY)
     public ResponseDto<PatchCategoryResponseDto> patchCategory(@AuthenticationPrincipal String userId, @Valid @RequestBody PatchCategoryDto requestBody) {
         ResponseDto<PatchCategoryResponseDto> response = categoryService.patchCategory(userId, requestBody);
@@ -64,10 +64,10 @@ public class CategoryController {
         return response;
     }
 
-    @ApiOperation(value = "카테고리 삭제", notes = "Request Header Athorization에 Bearer JWT를 포함하고 Path Variable에 menuCategoryId를 포함하여 요청을 하면, 성공시 true를 반환, 실패시 실패 메세지를 반환")
+    @ApiOperation(value = "카테고리 삭제", notes = "Request Header Athorization에 Bearer JWT를 포함하고 Path Variable에 categoryId를 포함하여 요청을 하면, 성공시 true를 반환, 실패시 실패 메세지를 반환")
     @DeleteMapping(DELETE_CATEGORY)
-    public ResponseDto<DeleteCategoryResponseDto> deleteCategory(@ApiParam(hidden = true) @AuthenticationPrincipal String userId, @ApiParam(value = "카테고리 식별 번호", example = "1", required = true) @PathVariable("menuCategoryId") int menuCategoryId) {
-        ResponseDto<DeleteCategoryResponseDto> response = categoryService.deleteCategory(userId, menuCategoryId);
+    public ResponseDto<DeleteCategoryResponseDto> deleteCategory(@ApiParam(hidden = true) @AuthenticationPrincipal String userId, @ApiParam(value = "카테고리 식별 번호", example = "1", required = true) @PathVariable("categoryId") int categoryId) {
+        ResponseDto<DeleteCategoryResponseDto> response = categoryService.deleteCategory(userId, categoryId);
 
         return response;
     }

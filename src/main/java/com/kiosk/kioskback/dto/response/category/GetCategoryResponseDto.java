@@ -18,14 +18,14 @@ import lombok.NoArgsConstructor;
 public class GetCategoryResponseDto {
 
     @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
-    private int menuCategoryId;
+    private int categoryId;
 
     @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
-    private String menuCategoryName;
+    private String categoryName;
 
     public GetCategoryResponseDto(CategoryEntity categoryEntity) {
-        this.menuCategoryId = categoryEntity.getMenuCategoryId();
-        this.menuCategoryName = categoryEntity.getMenuCategoryName();
+        this.categoryId = categoryEntity.getCategoryId();
+        this.categoryName = categoryEntity.getCategoryName();
     }
 
     public static List<GetCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
