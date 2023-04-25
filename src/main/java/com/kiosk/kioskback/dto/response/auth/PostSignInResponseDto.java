@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInResponseDto {
+public class PostSignInResponseDto {
     @ApiModelProperty(value="사용자 아이디", example="comet7406", required=true)
     private String userId;
     @ApiModelProperty(value="사용자 이름", example="홍길동", required=true)
@@ -30,7 +30,7 @@ public class SignInResponseDto {
     @ApiModelProperty(value="토큰 만료 기간", example="3600000", required=true)
     private int expirtedTime;
 
-    public SignInResponseDto(UserEntity userEntity, String token) {
+    public PostSignInResponseDto(UserEntity userEntity, String token) {
         this.userId = userEntity.getUserId();
         this.userName = userEntity.getUserName();
         this.TelNumber = userEntity.getTelNumber();

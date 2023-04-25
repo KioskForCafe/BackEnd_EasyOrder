@@ -1,12 +1,12 @@
 package com.kiosk.kioskback.service;
 
-import com.kiosk.kioskback.dto.request.auth.SignInDto;
-import com.kiosk.kioskback.dto.request.auth.SignUpDto;
+import com.kiosk.kioskback.dto.request.auth.PostSignInDto;
+import com.kiosk.kioskback.dto.request.auth.PostSignUpDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
-import com.kiosk.kioskback.dto.response.auth.SignInResponseDto;
-import com.kiosk.kioskback.dto.response.auth.SignUpResponseDto;
+import com.kiosk.kioskback.dto.response.auth.PostSignInResponseDto;
+import com.kiosk.kioskback.dto.response.auth.PostSignUpResponseDto;
 
 public interface AuthService {
-    public ResponseDto<SignUpResponseDto> signUp(SignUpDto dto);
-    public ResponseDto<SignInResponseDto> signIn(SignInDto dto);
+    public ResponseDto<PostSignUpResponseDto> postSignUp(PostSignUpDto dto);
+    public ResponseDto<PostSignInResponseDto> postSignIn(PostSignInDto dto);
 }
