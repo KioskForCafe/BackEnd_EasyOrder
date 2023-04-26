@@ -11,5 +11,9 @@ public interface ResponseMessage {
     public static final String EXIST_USER_EMAIL = "Existed User Email.";
 
     public static final String DATABASE_ERROR = "Database Error.";
+
+    public static final String NOT_EXIST_USER_ID = "존재하지 않는 아이디 입니다.";
+    public static final String NOT_ADMIN = "관리자 아이디가 아닙니다.";
+    public static final String NOT_PERMISSION = "Doesn't Have Permission";
     
 }

@@ -11,21 +11,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostStoreResponseDto {
-    @ApiModelProperty(value = "매장 번호", example = "1", required = true)
-    private int storeId;
+    @ApiModelProperty(value = "매장 등록 결과", example = "true", required = true)
+    private boolean result;
+    // @ApiModelProperty(value = "매장 번호", example = "1", required = true)
+    // private int storeId;
 
-    @ApiModelProperty(value = "매장 이름", example = "스타벅스", required = true)
-    private String storeName;
+    // @ApiModelProperty(value = "매장 이름", example = "스타벅스", required = true)
+    // private String storeName;
     
-    @ApiModelProperty(value = "매장 오픈시간", example = "8")
-    private int storeOpenTime;
+    // @ApiModelProperty(value = "매장 오픈시간", example = "8")
+    // private int storeOpenTime;
 
-    @ApiModelProperty(value = "매장 마감시간", example = "22")
-    private int storeCloseTime;
+    // @ApiModelProperty(value = "매장 마감시간", example = "22")
+    // private int storeCloseTime;
     
-    @ApiModelProperty(value = "매장 로고 URL", example = "http://~")
-    private String storeLogoUrl;
+    // @ApiModelProperty(value = "매장 로고 URL", example = "http://~")
+    // private String storeLogoUrl;
 
-    @ApiModelProperty(value = "매장 이미지 URL", example = "http://~")
-    private String storeImgUrl;
+    // @ApiModelProperty(value = "매장 이미지 URL", example = "http://~")
+    // private String storeImgUrl;
 }
