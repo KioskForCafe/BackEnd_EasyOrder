@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostSignUpResponseDto {
     @ApiModelProperty(value="회원가입 결과", example="true", required=true)
-    private String status;
+    private boolean status;
 }
