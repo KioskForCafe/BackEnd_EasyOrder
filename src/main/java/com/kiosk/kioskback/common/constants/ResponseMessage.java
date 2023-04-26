@@ -9,6 +9,8 @@ public interface ResponseMessage {
     public static final String EXIST_USER_NAME = "Existed User Name.";
     public static final String EXIST_USER_TEL_NUMBER = "Existed User Tel Number.";
     public static final String EXIST_USER_EMAIL = "Existed User Email.";
+    
+    public static final String NOT_EXIST_USER_ID = "Not Exist User Id.";
 
     public static final String DATABASE_ERROR = "Database Error.";
     

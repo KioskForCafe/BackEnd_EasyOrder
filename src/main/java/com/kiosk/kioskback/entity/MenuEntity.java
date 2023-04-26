@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -22,5 +24,15 @@ public class MenuEntity {
     private boolean menuState;
     private int categoryId;
     private int storeId;
+
+    public MenuEntity(PostMenuDto postMenuDto) {
+        this.menuId = postMenuDto.getMenuDto().getMenuId();
+        this.menuName = postMenuDto.getMenuDto().getMenuName();
+        this.menuPrice = postMenuDto.getMenuDto().getMenuPrice();
+        this.menuImg = postMenuDto.getMenuDto().getMenuImgUrl();
+        this.menuState = postMenuDto.getMenuDto().isMenuState();
+        this.categoryId = postMenuDto.getMenuDto().getCategoryId();
+        this.storeId = postMenuDto.getStoreId();
+    }
 
 }

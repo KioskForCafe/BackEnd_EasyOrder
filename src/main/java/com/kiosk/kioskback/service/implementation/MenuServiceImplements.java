@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
+import com.kiosk.kioskback.dto.response.MenuDto;
+import com.kiosk.kioskback.dto.response.OptionsDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -72,10 +74,20 @@ public class MenuServiceImplements implements MenuService{
         PostMenuResponseDto data = null;
 
         try {
+            // 존재하는 유저인지 확인하는 메서드
             UserEntity userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.setFailed();
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
-            MenuEntity menuEntity = new MenuEntity();
+            // 메뉴 Entity에 데이터 추가
+            MenuEntity menuEntity = new MenuEntity(dto);
+            menuRepository.save(menuEntity);
+
+            // 메뉴 id로 optionEntity 리스트 가져옴
+            List<OptionEntity> optionEntityList = optionRepository.findByMenuId(dto.getMenuDto().getMenuId());
+            // optionEntity 리스트를 optionsDto에 매칭
+            List<OptionsDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
+
+            data = new PostMenuResponseDto(new MenuDto(menuEntity), optionList);
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,7 +14,6 @@ import com.kiosk.kioskback.dto.response.category.GetCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.category.PatchCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.category.PostCategoryResponseDto;
 import com.kiosk.kioskback.entity.CategoryEntity;
-import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.CategoryRepository;
 import com.kiosk.kioskback.service.CategoryService;
 
