@@ -31,7 +31,7 @@ public class CategoryEntity {
 
     public void patch(PatchCategoryDto dto) {
         this.categoryName = dto.getCategoryName();
-        
+        this.categoryPriority = dto.getCategoryPriority();
     }
     
 }

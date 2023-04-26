@@ -75,14 +75,14 @@ public class CategoryServiceImplements implements CategoryService {
             CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
             if (categoryEntity == null) return ResponseDto.setFailed("Not Exist Category");
 
-            StoreEntity storeEntity = storeRepository.findByUserId(userId);
-            boolean isPermission = userId.equals(storeEntity.getUserId());
-            if (!isPermission) return ResponseDto.setFailed("Do Not Permission");
+            List<StoreEntity> storeEntity = storeRepository.findByUserId(userId);
+            boolean isPermission = userId.equals(storeEntity);
+            if (!isPermission) return ResponseDto.setFailed("Do Not Permmission!");       
 
             categoryEntity.patch(dto);
-            
-            
+            categoryRepository.save(categoryEntity);
 
+            data = new PatchCategoryResponseDto(categoryId, userId, categoryId);         
 
         } catch (Exception exception) {
             exception.printStackTrace();
