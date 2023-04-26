@@ -11,7 +11,10 @@ public interface ResponseMessage {
     public static final String EXIST_USER_EMAIL = "Existed User Email.";
     
     public static final String NOT_EXIST_USER_ID = "Not Exist User Id.";
+    public static final String NOT_EXIST_MENU = "Not Exist Menu.";
 
     public static final String DATABASE_ERROR = "Database Error.";
+
+    public static final String NOT_PERMISSION = "Do Not Have Permission";
     
 }

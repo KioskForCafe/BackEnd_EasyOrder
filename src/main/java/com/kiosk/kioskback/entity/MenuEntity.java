@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "menu")
 @Table(name = "menu")
 public class MenuEntity {
 
@@ -34,5 +34,6 @@ public class MenuEntity {
         this.categoryId = postMenuDto.getMenuDto().getCategoryId();
         this.storeId = postMenuDto.getStoreId();
     }
+
 
 }

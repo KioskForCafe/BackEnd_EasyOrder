@@ -18,9 +18,11 @@ import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
+import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
+import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.MenuService;
 
@@ -30,6 +32,7 @@ public class MenuServiceImplements implements MenuService{
     @Autowired private MenuRepository menuRepository;
     @Autowired private OptionRepository optionRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private StoreRepository storeRepository;
 
     @Override
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName) {
@@ -99,8 +102,27 @@ public class MenuServiceImplements implements MenuService{
 
     @Override
     public ResponseDto<PatchMenuResponseDto> patchMenu(String userId, PatchMenuDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'patchMenu'");
+
+        PatchMenuResponseDto data = null;
+
+        int menuId = dto.getMenuDto().getMenuId();
+        StoreEntity storeEntity = storeRepository.findByUserId(userId);
+
+        try {
+            MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
+            if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
+
+            boolean hasPermission = (storeEntity.getStoreId() == menuEntity.getStoreId());
+            if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
     @Override

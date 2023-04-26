@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.dto.response;
 
+import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -32,6 +33,9 @@ public class MenuDto {
     @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
     private boolean menuState;
 
+    @ApiModelProperty(value = "매장 번호", required = true)
+    private int storeId;
+
     public MenuDto(MenuEntity menuEntity) {
         this.categoryId = menuEntity.getCategoryId();
         this.menuId = menuEntity.getMenuId();
@@ -39,5 +43,7 @@ public class MenuDto {
         this.menuPrice = menuEntity.getMenuPrice();
         this.menuImgUrl = menuEntity.getMenuImg();
         this.menuState = menuEntity.isMenuState();
+        this.storeId = menuEntity.getStoreId();
     }
+    
 }
