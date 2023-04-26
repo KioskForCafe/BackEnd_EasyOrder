@@ -49,7 +49,7 @@ public class CategoryServiceImplements implements CategoryService {
 
         try {
 
-            UserEntity userEntity = userRepository.findbyUserId(userId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.setFailed("Not Exist User!");
 
             CategoryEntity categoryEntity = new CategoryEntity(dto);
