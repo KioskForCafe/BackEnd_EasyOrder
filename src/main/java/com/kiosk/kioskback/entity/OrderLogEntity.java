@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Order")
-@Table(name = "Order")
-public class OrderEntity {
-    @Id
-    private int orderId;
-    private String userId;
-    private int totalPrice;
-    private String updatedAt;
-    private boolean orderState;
-    
+@Entity(name = "OrderLog")
+@Table(name = "OrderLog")
+public class OrderLogEntity {
+  @Id
+  private int orderLogId;
+  private int orderId;
+  private String userId;
+  private int totalPrice;
+  private String createdAt;
+
 }

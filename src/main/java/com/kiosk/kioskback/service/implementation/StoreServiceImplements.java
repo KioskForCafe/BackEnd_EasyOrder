@@ -3,6 +3,7 @@ package com.kiosk.kioskback.service.implementation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
@@ -18,6 +19,7 @@ import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.StoreService;
 
+@Service
 public class StoreServiceImplements implements StoreService{
 
     @Autowired private UserRepository userRepository;

@@ -8,16 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "기간동안의 상품별 매장 매출 정보 가져오기 Response Body - data")
+@ApiModel(value = "상품 분석 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAnalysisMenuResponseDto {
-
-    @ApiModelProperty(value = "카테고리별 매출 정보")
-    private List<ByCategoryResponseDto> byCategoryResponseDtoList;
-
-    @ApiModelProperty(value = "메뉴별 매출 정보")
-    private List<ByMenuResponseDto> byMenuResponseDtoList;
-    
+    @ApiModelProperty(value = "카테고리 기준 분석 리스트", required = true)
+    private List<ByCategoryResponseDto> byCategory;
+    @ApiModelProperty(value = "상품 기준 분석 리스트", required = true)
+    private List<ByMenuResponseDto> byMenu;
 }
