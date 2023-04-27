@@ -92,7 +92,7 @@ public class MenuServiceImplements implements MenuService{
             // optionEntity 리스트를 optionsDto에 매칭
             List<OptionDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
 
-            // menuEntity 데이터를 dto로 변환
+            // menuEntity와 optionList 데이터를 dto로 변환
             MenuDto menuDto = new MenuDto(menuEntity, optionList);
 
             data = new PostMenuResponseDto(menuDto);
@@ -111,22 +111,28 @@ public class MenuServiceImplements implements MenuService{
         PatchMenuResponseDto data = null;
 
         try {
+            // 사용자가 가져온 정보에 해당하는 menuId를 가져옴
             int menuId = dto.getMenuDto().getMenuId();
-            
+
+            // menuId로 해당하는 menu의 정보를 불러옴
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
 
+            // 사용자가 가져온 정보에 해당하는 storeId를 가져옴
             int storeId = dto.getMenuDto().getStoreId();
-
+            // storeId에 해당하는 store 정보를 가져옴
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
 
+            // 가져온 store 정보와 사용자가 입력한 userId가 같은지 확인
             boolean hasPermission = storeEntity.getUserId() == userId;
             if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
+            // menuId에 해당하는 option 리스트를 가져옴
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
-
+            // entity를 dto로 변환
             List<OptionDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
-            
+            // menuEntity와 optionList를 menuDto로 변환
             MenuDto menuDto = new MenuDto(menuEntity, optionList);
 
             data = new PatchMenuResponseDto(menuDto);
@@ -142,8 +148,35 @@ public class MenuServiceImplements implements MenuService{
 
     @Override
     public ResponseDto<DeleteMenuResponseDto> deleteMenu(String userId, int menuId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMenu'");
+        DeleteMenuResponseDto data = null;
+
+        try {
+            // menuId로 menuEntity의 정보를 가져옴
+            MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
+            if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
+            
+            // menuId에 해당하는 storeId를 가져옴
+            int storeId = menuEntity.getStoreId();
+
+            // storeEntity에서 userId에 해당하는 store 정보 리스트를 가져옴
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+
+            // menuId에 해당하는 storeId와 일치하는 store 정보에 해당하는 userId와 사용자가 입력한 userId가 같은지 확인
+            boolean isUserId = userId.equals(storeEntity.getUserId());
+            if(!isUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            // 같다면 해당하는 menu를 삭제함
+            menuRepository.delete(menuEntity);
+            data = new DeleteMenuResponseDto(true);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
     
 }

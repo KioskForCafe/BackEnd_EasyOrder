@@ -25,7 +25,4 @@ public class PostMenuDto {
     @ApiModelProperty(value = "상품 정보", required = true)
     private MenuDto menuDto;
 
-    @ApiModelProperty(value = "옵션 리스트", required = false)
-    private List<OptionDto> optionsList;
-
 }

@@ -58,7 +58,7 @@ public class MenuDto {
 
     public MenuEntity toMenuEntity (PostMenuDto dto) {
         List<OptionEntity> optionEntityList = new ArrayList<>();
-        List<OptionDto> optionList = dto.getOptionsList();
+        List<OptionDto> optionList = dto.getMenuDto().getOptionList();
 
         for(OptionDto optionDto: optionList) {
             OptionEntity optionEntity = new OptionEntity(optionDto.getOptionId(), optionDto.getOptionName(), optionDto.getOptionPrice(), optionDto.getMenuId());
