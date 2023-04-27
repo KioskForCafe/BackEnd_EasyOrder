@@ -81,17 +81,21 @@ public class MenuServiceImplements implements MenuService{
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
-            // 메뉴 Entity에 데이터 추가
-            MenuEntity menuEntity = new MenuEntity(dto);
-            menuRepository.save(menuEntity);
-
             // 메뉴 id로 optionEntity 리스트 가져옴
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(dto.getMenuDto().getMenuId());
             if(optionEntityList == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+
+            // 메뉴 Entity에 데이터 추가
+            MenuEntity menuEntity = new MenuDto().toMenuEntity(dto);
+            menuRepository.save(menuEntity);
+
             // optionEntity 리스트를 optionsDto에 매칭
             List<OptionDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
 
-            data = new PostMenuResponseDto(new MenuDto(menuEntity), optionList);
+            // menuEntity 데이터를 dto로 변환
+            MenuDto menuDto = new MenuDto(menuEntity, optionList);
+
+            data = new PostMenuResponseDto(menuDto);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,9 +110,9 @@ public class MenuServiceImplements implements MenuService{
 
         PatchMenuResponseDto data = null;
 
-        int menuId = dto.getMenuDto().getMenuId();
-
         try {
+            int menuId = dto.getMenuDto().getMenuId();
+            
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
 
@@ -118,7 +122,14 @@ public class MenuServiceImplements implements MenuService{
 
             boolean hasPermission = storeEntity.getUserId() == userId;
             if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
+
+            List<OptionDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
             
+            MenuDto menuDto = new MenuDto(menuEntity, optionList);
+
+            data = new PatchMenuResponseDto(menuDto);
             
 
         } catch (Exception e) {

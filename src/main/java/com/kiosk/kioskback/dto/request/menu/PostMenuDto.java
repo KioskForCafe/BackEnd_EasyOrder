@@ -1,9 +1,11 @@
 package com.kiosk.kioskback.dto.request.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kiosk.kioskback.dto.response.MenuDto;
 import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,4 +27,5 @@ public class PostMenuDto {
 
     @ApiModelProperty(value = "옵션 리스트", required = false)
     private List<OptionDto> optionsList;
+
 }

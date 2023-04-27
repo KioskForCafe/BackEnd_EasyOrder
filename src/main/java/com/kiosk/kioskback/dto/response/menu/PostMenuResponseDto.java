@@ -3,8 +3,12 @@ package com.kiosk.kioskback.dto.response.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.mapping.AccessOptions.GetOptions;
+
+import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.MenuDto;
 import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -21,9 +25,6 @@ public class PostMenuResponseDto {
     @ApiModelProperty(value = "메뉴 전체 정보", required = true)
     private MenuDto menuDto;
 
-    @ApiModelProperty(value = "옵션 정보 list", required = true)
-    private List<OptionDto> optionsList;
-
     public static List<OptionDto> copyList(List<OptionEntity> optionEntityList) {
 
         List<OptionDto> list = new ArrayList<>();
@@ -36,4 +37,6 @@ public class PostMenuResponseDto {
         return list;
     
     }
+
+
 }
