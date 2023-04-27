@@ -3,7 +3,7 @@ package com.kiosk.kioskback.dto.response.menu;
 import java.util.List;
 
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.dto.response.OptionDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +20,6 @@ public class PatchMenuResponseDto {
     private MenuDto menu;
 
     @ApiModelProperty(value = "옵션 정보 리스트", required = true)
-    private List<OptionsDto> optionsList;
+    private List<OptionDto> optionsList;
 
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OptionsDto {
+public class OptionDto {
     
     @ApiModelProperty(value = "옵션 번호", required = true)
     private int optionId;
@@ -29,7 +29,7 @@ public class OptionsDto {
     @ApiModelProperty(value = "메뉴 번호", required = true)
     private int menuId;
     
-    public OptionsDto(OptionEntity optionEntity) {
+    public OptionDto(OptionEntity optionEntity) {
         this.optionId = optionEntity.getOptionId();
         this.optionName = optionEntity.getOptionName();
         this.optionPrice = optionEntity.getOptionPrice();

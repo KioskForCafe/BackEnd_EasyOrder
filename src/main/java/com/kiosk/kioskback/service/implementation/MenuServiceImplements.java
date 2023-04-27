@@ -9,7 +9,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.dto.response.OptionDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -87,8 +87,9 @@ public class MenuServiceImplements implements MenuService{
 
             // 메뉴 id로 optionEntity 리스트 가져옴
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(dto.getMenuDto().getMenuId());
+            if(optionEntityList == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
             // optionEntity 리스트를 optionsDto에 매칭
-            List<OptionsDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
+            List<OptionDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
 
             data = new PostMenuResponseDto(new MenuDto(menuEntity), optionList);
             
@@ -106,15 +107,18 @@ public class MenuServiceImplements implements MenuService{
         PatchMenuResponseDto data = null;
 
         int menuId = dto.getMenuDto().getMenuId();
-        StoreEntity storeEntity = storeRepository.findByUserId(userId);
 
         try {
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
 
-            boolean hasPermission = (storeEntity.getStoreId() == menuEntity.getStoreId());
-            if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+            int storeId = dto.getMenuDto().getStoreId();
 
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+
+            boolean hasPermission = storeEntity.getUserId() == userId;
+            if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+            
             
 
         } catch (Exception e) {

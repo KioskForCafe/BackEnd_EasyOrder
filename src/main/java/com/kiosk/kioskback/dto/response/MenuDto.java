@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.dto.response;
 
+import java.util.List;
+
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 
@@ -35,6 +37,9 @@ public class MenuDto {
 
     @ApiModelProperty(value = "매장 번호", required = true)
     private int storeId;
+
+    @ApiModelProperty(value = "옵션 리스트", required = false)
+    private List<OptionDto> optionList;
 
     public MenuDto(MenuEntity menuEntity) {
         this.categoryId = menuEntity.getCategoryId();

@@ -1,5 +1,10 @@
 package com.kiosk.kioskback.dto.response.store;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kiosk.kioskback.entity.StoreEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -28,5 +33,25 @@ public class GetStoreResponseDto {
     
     @ApiModelProperty(value = "매장 로고 URL", example = "http://~" ,required = true)
     private String storeLogoUrl;
+
+    public GetStoreResponseDto(StoreEntity storeEntity){
+        this.storeId = storeEntity.getStoreId();
+        this.storeName = storeEntity.getStoreName();
+        this.storeOpenTime = storeEntity.getStoreOpenTime();
+        this.storeCloseTime = storeEntity.getStoreCloseTime();
+        this.storeImgUrl = storeEntity.getStoreImgUrl();
+        this.storeLogoUrl = storeEntity.getStoreLogoUrl();
+    }
+
+    public static List<GetStoreResponseDto> copyList(List<StoreEntity> storeEntities){
+        List<GetStoreResponseDto> list = new ArrayList<>();
+
+        for(StoreEntity storeEntity : storeEntities){
+            GetStoreResponseDto dto = new GetStoreResponseDto(storeEntity);
+            list.add(dto);
+        }
+
+        return list;
+    }
 
 }

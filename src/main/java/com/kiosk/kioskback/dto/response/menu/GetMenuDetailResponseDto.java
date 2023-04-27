@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.dto.response.OptionDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
 
@@ -23,19 +23,19 @@ public class GetMenuDetailResponseDto {
     private MenuDto menuDto;
 
     @ApiModelProperty(value = "옵션 정보 리스트", required = true)
-    private List<OptionsDto> optionsList;
+    private List<OptionDto> optionsList;
 
     public GetMenuDetailResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList) {
         this.menuDto = new MenuDto(menuEntity);
         this.optionsList = copyList(optionList);
     }
     
-    public static List<OptionsDto> copyList(List<OptionEntity> optionEntityList) {
+    public static List<OptionDto> copyList(List<OptionEntity> optionEntityList) {
 
-        List<OptionsDto> list = new ArrayList<>();
+        List<OptionDto> list = new ArrayList<>();
     
         for (OptionEntity optionEntity: optionEntityList) {
-            OptionsDto dto = new OptionsDto(optionEntity);
+            OptionDto dto = new OptionDto(optionEntity);
             list.add(dto);
         }
     

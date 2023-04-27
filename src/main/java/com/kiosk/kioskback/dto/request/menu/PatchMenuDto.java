@@ -1,7 +1,7 @@
 package com.kiosk.kioskback.dto.request.menu;
 
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.dto.response.OptionDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,13 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatchMenuDto {
 
-    @ApiModelProperty(value = "매장 정보", required = true)
-    private int storeId;
-
     @ApiModelProperty(value = "메뉴 정보", required = true)
     private MenuDto menuDto;
 
     @ApiModelProperty(value = "옵션 정보", required = true)
-    private OptionsDto optionsDto;
+    private OptionDto optionsDto;
 
 }

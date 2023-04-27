@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.dto.response.store;
 
+import com.kiosk.kioskback.entity.StoreEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -28,4 +30,13 @@ public class PatchStoreResponseDto {
 
     @ApiModelProperty(value = "매장 이미지 URL", example = "http://~")
     private String storeImgUrl;
+
+    public PatchStoreResponseDto(StoreEntity storeEntity){
+        this.storeId = storeEntity.getStoreId();
+        this.storeName = storeEntity.getStoreName();
+        this.storeOpenTime = storeEntity.getStoreOpenTime();
+        this.storeCloseTime = storeEntity.getStoreCloseTime();
+        this.storeImgUrl = storeEntity.getStoreImgUrl();
+        this.storeLogoUrl = storeEntity.getStoreLogoUrl();
+    }
 }
