@@ -49,6 +49,7 @@ public class AnalysisServiceImplements implements AnalysisService{
             // List<ByCategoryResponseDto> analysisByCategoryList = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
             // List<ByMenuResponseDto> analysisByMenuList = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
             // data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
+
             
 
 
