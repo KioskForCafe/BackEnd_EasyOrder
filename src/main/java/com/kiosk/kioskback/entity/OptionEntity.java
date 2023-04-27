@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -23,8 +24,11 @@ public class OptionEntity {
 
     private int optionPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_menu_id")
+    // @Column(name = "menu_id")
     private int menuId;
+
+    // @ManyToOne
+    // @JoinColumn(name = "menu_id")
+    // private MenuEntity menuId;
     
 }

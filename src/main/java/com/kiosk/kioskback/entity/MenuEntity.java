@@ -30,8 +30,8 @@ public class MenuEntity {
     private int categoryId;
     private int storeId;
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OptionEntity> getOptions;
+    // @OneToMany(mappedBy = "menu_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // private List<OptionEntity> getOptions;
 
     // public MenuEntity(PostMenuDto postMenuDto) {
     //     this.menuId = postMenuDto.getMenuDto().getMenuId();

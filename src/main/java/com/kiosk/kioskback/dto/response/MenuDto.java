@@ -65,14 +65,23 @@ public class MenuDto {
             optionEntityList.add(optionEntity);
         }
 
-        MenuEntity menuEntity = new MenuEntity(
+        // MenuEntity menuEntity = new MenuEntity(
+        //     dto.getMenuDto().getMenuId(), 
+        //     dto.getMenuDto().getMenuName(), 
+        //     dto.getMenuDto().getMenuPrice(), 
+        //     dto.getMenuDto().getMenuImgUrl(), 
+        //     dto.getMenuDto().isMenuState(), 
+        //     dto.getMenuDto().getCategoryId(), 
+        //     dto.getStoreId(), optionEntityList);
+
+                MenuEntity menuEntity = new MenuEntity(
             dto.getMenuDto().getMenuId(), 
             dto.getMenuDto().getMenuName(), 
             dto.getMenuDto().getMenuPrice(), 
             dto.getMenuDto().getMenuImgUrl(), 
             dto.getMenuDto().isMenuState(), 
             dto.getMenuDto().getCategoryId(), 
-            dto.getStoreId(), optionEntityList);
+            dto.getStoreId());
 
         return menuEntity;
     }

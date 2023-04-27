@@ -12,7 +12,7 @@ import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
 
 public interface MenuService {
-    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName);
+    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, int categoryId);
     public ResponseDto<GetMenuDetailResponseDto> getMenuDetail(int menuId);
 
     public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto);

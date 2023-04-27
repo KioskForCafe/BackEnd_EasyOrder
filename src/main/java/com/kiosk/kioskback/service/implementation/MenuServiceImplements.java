@@ -35,12 +35,12 @@ public class MenuServiceImplements implements MenuService{
     @Autowired private StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, String categoryName) {
+    public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, int categoryId) {
 
         List<GetMenuResponseDto> data = null;
 
         try {
-            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryName(storeId, categoryName);
+            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
             data = GetMenuResponseDto.copyList(menuList);
             
         } catch (Exception e) {
