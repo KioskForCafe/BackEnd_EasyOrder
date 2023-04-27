@@ -18,5 +18,8 @@ public class PatchCategoryResponseDto {
 
     @ApiModelProperty(value = "카테고리 이름", required = true)
     private String categoryName;
+
+    @ApiModelProperty(value = "카테고리 우선순위", required = true)
+    private int categoryPriority;
     
 }
