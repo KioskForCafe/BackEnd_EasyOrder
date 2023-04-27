@@ -14,9 +14,11 @@ import com.kiosk.kioskback.dto.response.analysis.GetAnalysisBusinessResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisMenuResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
+import com.kiosk.kioskback.entity.OrderLogEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
+import com.kiosk.kioskback.repository.OrderLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.AnalysisService;
@@ -27,6 +29,7 @@ public class AnalysisServiceImplements implements AnalysisService{
     @Autowired private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
     @Autowired private OrderDetailLogRepository orderDetailLogRepository;
+    @Autowired private OrderLogRepository orderLogRepository;
 
     //^ 상품 분석 조회
     @Override
@@ -66,8 +69,32 @@ public class AnalysisServiceImplements implements AnalysisService{
 
     @Override
     public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisSale'");
+        GetAnalysisSaleResponseDto data = null;
+
+        try {
+            // 유저 정보 불러오기
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+
+            // 유저의 관리자 유무 검증
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
+
+            // 매장 정보 가져오기
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+
+            // 유저의 매장이 맞는지 검증
+            boolean isEqualUserId = userId.equals(storeEntity.getUserId());
+            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            // 기간동안의 매출액 가져오기
+            List<OrderLogEntity> orderLogEntityList = orderLogRepository.findTotalTotalPriceByCreatedAt(startedAt, endedAt);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
     @Override
