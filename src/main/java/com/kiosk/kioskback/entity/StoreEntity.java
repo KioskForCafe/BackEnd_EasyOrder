@@ -3,6 +3,9 @@ package com.kiosk.kioskback.entity;
 import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
 import com.kiosk.kioskback.dto.request.store.PostStoreDto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "Store")
+@Table(name = "Store")
 public class StoreEntity {
+    @Id
     private int storeId;
     private String storeName;
     private int storeOpenTime;
