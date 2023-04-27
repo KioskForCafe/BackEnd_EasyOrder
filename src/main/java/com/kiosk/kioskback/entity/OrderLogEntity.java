@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "orderLog")
-@Table(name = "orderLog")
+@Entity(name = "OrderLog")
+@Table(name = "OrderLog")
 public class OrderLogEntity {
   @Id
   private int orderLogId;
   private int orderId;
   private String userId;
   private int totalPrice;
-  private Date createdAt;
+  private String createdAt;
 
 }

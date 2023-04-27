@@ -21,7 +21,7 @@ public class UserEntity {
     private String userName;
     private String password;
     private String userEmail;
-    private String userJoinDate;
+    private String createdAt;
     private boolean isAdmin;
     private String telNumber;
     

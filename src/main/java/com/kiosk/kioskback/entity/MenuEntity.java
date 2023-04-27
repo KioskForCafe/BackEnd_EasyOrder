@@ -17,21 +17,21 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "menu")
-@Table(name = "menu")
+@Entity(name = "Menu")
+@Table(name = "Menu")
 public class MenuEntity {
 
     @Id
     private int menuId;
     private String menuName;
     private int menuPrice;
-    private String menuImg;
+    private String menuImgUrl;
     private boolean menuState;
     private int categoryId;
     private int storeId;
 
-    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OptionEntity> getOptions;
+    // @OneToMany(mappedBy = "menu_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // private List<OptionEntity> getOptions;
 
     // public MenuEntity(PostMenuDto postMenuDto) {
     //     this.menuId = postMenuDto.getMenuDto().getMenuId();

@@ -13,7 +13,7 @@ import jakarta.transaction.Transactional;
 public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
 
     public MenuEntity findByMenuId(int menuId);
-    public List<MenuEntity> findByStoreIdAndCategoryName(int storeId, String categoryName);
+    public List<MenuEntity> findByStoreIdAndCategoryId(int storeId, int categoryId);
 
     @Transactional
     public void deleteByCategoryId(int categoryId);
