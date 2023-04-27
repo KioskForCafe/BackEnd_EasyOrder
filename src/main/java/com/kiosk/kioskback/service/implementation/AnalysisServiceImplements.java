@@ -10,7 +10,10 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.ByCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.ByMenuResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisBusinessResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisMenuResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
@@ -27,8 +30,8 @@ public class AnalysisServiceImplements implements AnalysisService{
 
     //^ 상품 분석 조회
     @Override
-    public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, Date startedAt,
-            Date endedAt) {
+    public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, String startedAt,
+            String endedAt) {
         
         GetAnalysisMenuResponseDto data = null;
 
@@ -58,6 +61,25 @@ public class AnalysisServiceImplements implements AnalysisService{
         }
 
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
+    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisSale'");
+    }
+
+    @Override
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt,
+            String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisBusiness'");
+    }
+
+    @Override
+    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, String startedAt, String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisUser'");
     }
     
 }
