@@ -37,7 +37,7 @@ public class MenuDto {
         this.menuId = menuEntity.getMenuId();
         this.menuName = menuEntity.getMenuName();
         this.menuPrice = menuEntity.getMenuPrice();
-        this.menuImgUrl = menuEntity.getMenuImg();
+        this.menuImgUrl = menuEntity.getMenuImgUrl();
         this.menuState = menuEntity.isMenuState();
     }
 }

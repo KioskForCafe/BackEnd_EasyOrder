@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "menu")
+@Entity(name = "Menu")
+@Table(name = "Menu")
 public class MenuEntity {
 
     @Id
     private int menuId;
     private String menuName;
     private int menuPrice;
-    private String menuImg;
+    private String menuImgUrl;
     private boolean menuState;
     private int categoryId;
     private int storeId;
