@@ -1,6 +1,9 @@
 package com.kiosk.kioskback.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +34,8 @@ public class AnalysisController {
     public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(
         @AuthenticationPrincipal String userId,
         @PathVariable int storeId,
-        @PathVariable int startedAt,
-        @PathVariable int endedAt
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startedAt,
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endedAt
     ){
         ResponseDto<GetAnalysisMenuResponseDto> response = analysisService.getAnalysisMenu(userId, storeId, startedAt, endedAt);
         return response;
