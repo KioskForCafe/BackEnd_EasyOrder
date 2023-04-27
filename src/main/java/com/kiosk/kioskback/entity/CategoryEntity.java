@@ -1,5 +1,8 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.category.PatchCategoryDto;
+import com.kiosk.kioskback.dto.request.category.PostCategoryDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Category")
-@Table(name = "Category")
+@Entity(name="Category")
+@Table(name="Category")
 public class CategoryEntity {
 
     @Id
@@ -19,5 +22,16 @@ public class CategoryEntity {
     private String categoryName;
     private int categoryPriority;
     private int storeId;
+
+    public CategoryEntity(PostCategoryDto postCategoryDto) {
+        this.categoryName = postCategoryDto.getCategoryName();
+        this.categoryPriority = postCategoryDto.getCategoryPriority();
+        this.storeId = postCategoryDto.getStoreId();
+    }
+
+    public void patch(PatchCategoryDto dto) {
+        this.categoryName = dto.getCategoryName();
+        this.categoryPriority = dto.getCategoryPriority();
+    }
     
 }
