@@ -22,7 +22,7 @@ public class GetMenuResponseDto {
     private MenuDto menuDto;
 
     public GetMenuResponseDto(MenuEntity menuEntity) {
-        this.menuDto = new MenuDto(menuEntity);
+        this.menuDto = new MenuDto(menuEntity, menuDto.getOptionList());
     }
 
     public static List<GetMenuResponseDto> copyList(List<MenuEntity> menuEntityList) {
