@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.kiosk.kioskback.dto.response.analysis.ByCategoryResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.ByMenuResponseDto;
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 
 public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEntity,Integer>{
@@ -16,9 +17,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "GROUP BY category_id "
   + "ORDER BY saleCount DESC , totalPrice DESC "
   )
-  public List<ByCategoryResponseDto> findAllAnalysisByCategory(Date startedAt, Date endedAt);
-
-  public List<OrderDetailLogEntity> findByStoreIdAndByCreatedAtBetween(int storeId, Date startedAt, Date endedAt);
+  public List<ByCategoryResponseDto> findAllAnalysisByCategory(int storeId, Date startedAt, Date endedAt);
 
   @Query(value = "SELECT menu_id, menu_name, count(menu_name) saleCount, sum(price_with_option) totalPrice "
   + "FROM order_detail_log "
@@ -26,7 +25,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "GROUP BY menu_id "
   + "ORDER BY saleCount DESC , totalPrice DESC "
   )
-  public List<ByCategoryResponseDto> findAllAnalysisByMenu(Date startedAt, Date endedAt);
+  public List<ByMenuResponseDto> findAllAnalysisByMenu(int storeId, Date startedAt, Date endedAt);
 }
 
 

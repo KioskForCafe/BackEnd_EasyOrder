@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.response.ResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.ByCategoryResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.ByMenuResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisMenuResponseDto;
-import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
@@ -39,14 +40,15 @@ public class AnalysisServiceImplements implements AnalysisService{
             if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
             
             //? 매장 정보 가져오기
-            // todo : 매장의 정보를 가져오는게 아니라 매장아이디에 해당하는 유저 아이디만 가져와도됨
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE_ID);
             //? 로그인 유저의 매장이 맞는지 검증
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // todo : GetAnalysisMenuResponseDto, ByCategoryResponseDto, ByMenuResponseDto 데이터 반환 작업하기
-            List<OrderDetailLogEntity> orderDetailLogEntities = orderDetailLogRepository.findByStoreIdAndByCreatedAtBetween(storeId, startedAt, endedAt);
+            List<ByCategoryResponseDto> analysisByCategoryList = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
+            List<ByMenuResponseDto> analysisByMenuList = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
+            data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
             
 
 
