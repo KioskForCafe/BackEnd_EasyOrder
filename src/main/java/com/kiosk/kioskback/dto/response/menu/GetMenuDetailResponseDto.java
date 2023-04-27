@@ -22,12 +22,12 @@ public class GetMenuDetailResponseDto {
     @ApiModelProperty(value = "상품 정보", required = true)
     private MenuDto menuDto;
 
-    @ApiModelProperty(value = "옵션 정보 리스트", required = true)
-    private List<OptionDto> optionsList;
+    // @ApiModelProperty(value = "옵션 정보 리스트", required = true)
+    // private List<OptionDto> optionList;
 
     public GetMenuDetailResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList) {
-        this.menuDto = new MenuDto(menuEntity);
-        this.optionsList = copyList(optionList);
+        this.menuDto.setOptionList(copyList(optionList));
+        this.menuDto = new MenuDto(menuEntity, this.menuDto.getOptionList());
     }
     
     public static List<OptionDto> copyList(List<OptionEntity> optionEntityList) {
