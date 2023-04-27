@@ -14,13 +14,20 @@ import com.kiosk.kioskback.dto.response.category.GetCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.category.PatchCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.category.PostCategoryResponseDto;
 import com.kiosk.kioskback.entity.CategoryEntity;
+import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.repository.CategoryRepository;
+import com.kiosk.kioskback.repository.MenuRepository;
+import com.kiosk.kioskback.repository.StoreRepository;
+import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.CategoryService;
 
 @Service
 public class CategoryServiceImplements implements CategoryService {
 
     @Autowired CategoryRepository categoryRepository;
+    @Autowired UserRepository userRepository;
+    @Autowired StoreRepository storeRepository;
+    @Autowired MenuRepository menuRepository;
 
     public ResponseDto<List<GetCategoryResponseDto>> getList(int storeId) {
         List<GetCategoryResponseDto> data = null;
@@ -43,13 +50,13 @@ public class CategoryServiceImplements implements CategoryService {
 
         try {
 
-            //UserEntity userEntity = userRepository.findByUserId(userId);
-            if (userId == null) return ResponseDto.setFailed("Not Exist User!");
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.setFailed("Not Exist User!");
 
-            // CategoryEntity categoryEntity = new CategoryEntity(userEntity, dto);
-            // categoryRepository.save(categoryEntity)
+            CategoryEntity categoryEntity = new CategoryEntity(dto);
+            categoryRepository.save(categoryEntity);
 
-            // data = new PostCategoryResponseDto(categoryEntity);
+            data = new PostCategoryResponseDto(categoryEntity);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -68,15 +75,14 @@ public class CategoryServiceImplements implements CategoryService {
 
             CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
             if (categoryEntity == null) return ResponseDto.setFailed("Not Exist Category");
+   
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (!userEntity.isAdmin()) return ResponseDto.setFailed("Do Not Admin!");         
 
-            //! CategoryEntity에 WriteUserId가 필요해 보임
-            // boolean isEqualWriteUser = userId.equals(categoryEntity.getWriteUser());
-            // if (!isEqualWriteUser) return ResponseDto.setFailed("Do Not Permission");
+            categoryEntity.patch(dto);
+            categoryRepository.save(categoryEntity);
 
-            // categoryEntity.patch(dto);
-            // categoryRepository.save(categoryEntity);
-
-            // data = new PatchCategoryResponseDto(categoryEntity);
+            data = new PatchCategoryResponseDto(categoryId, userId, categoryId);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -94,8 +100,10 @@ public class CategoryServiceImplements implements CategoryService {
             CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
             if (categoryEntity == null) return ResponseDto.setFailed("Not Exist CategoryId");
 
-            // boolean isEqualWriteUser = userId.equals(categoryEntity.getWriteUser());
-            // if (!isEqualWriteUser) return ResponseDto.setFailed("Do Not Permission");
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (!userEntity.isAdmin()) return ResponseDto.setFailed("Do Not Admin!");
+
+            menuRepository.deleteByCategoryId(categoryId);
 
             categoryRepository.delete(categoryEntity);
 
