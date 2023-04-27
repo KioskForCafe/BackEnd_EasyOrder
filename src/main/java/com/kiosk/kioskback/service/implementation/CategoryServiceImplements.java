@@ -17,6 +17,7 @@ import com.kiosk.kioskback.entity.CategoryEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.CategoryRepository;
+import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.CategoryService;
@@ -27,6 +28,7 @@ public class CategoryServiceImplements implements CategoryService {
     @Autowired CategoryRepository categoryRepository;
     @Autowired UserRepository userRepository;
     @Autowired StoreRepository storeRepository;
+    @Autowired MenuRepository menuRepository;
 
     public ResponseDto<List<GetCategoryResponseDto>> getList(int storeId) {
         List<GetCategoryResponseDto> data = null;
@@ -74,15 +76,14 @@ public class CategoryServiceImplements implements CategoryService {
 
             CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
             if (categoryEntity == null) return ResponseDto.setFailed("Not Exist Category");
-
-            List<StoreEntity> storeEntity = storeRepository.findByUserId(userId);
-            boolean isPermission = userId.equals(storeEntity);
-            if (!isPermission) return ResponseDto.setFailed("Do Not Permmission!");       
+   
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (!userEntity.isAdmin()) return ResponseDto.setFailed("Do Not Admin!");         
 
             categoryEntity.patch(dto);
             categoryRepository.save(categoryEntity);
 
-            data = new PatchCategoryResponseDto(categoryId, userId, categoryId);         
+            data = new PatchCategoryResponseDto(categoryId, userId, categoryId);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -100,8 +101,10 @@ public class CategoryServiceImplements implements CategoryService {
             CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
             if (categoryEntity == null) return ResponseDto.setFailed("Not Exist CategoryId");
 
-            // boolean isEqualWriteUser = userId.equals(categoryEntity.getWriteUser());
-            // if (!isEqualWriteUser) return ResponseDto.setFailed("Do Not Permission");
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (!userEntity.isAdmin()) return ResponseDto.setFailed("Do Not Admin!");
+
+            menuRepository.deleteByCategoryId(categoryId);
 
             categoryRepository.delete(categoryEntity);
 
