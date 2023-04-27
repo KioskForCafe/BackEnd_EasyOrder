@@ -35,7 +35,7 @@ public class PostSignInResponseDto {
         this.userName = userEntity.getUserName();
         this.TelNumber = userEntity.getTelNumber();
         this.userEmail = userEntity.getUserEmail();
-        this.userJoinDate = userEntity.getUserJoinDate();
+        this.userJoinDate = userEntity.getCreatedAt();
         this.isAdmin = false;
         this.token = token;
         this.expirtedTime = 3600000;
