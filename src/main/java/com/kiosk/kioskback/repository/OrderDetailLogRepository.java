@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
-import com.kiosk.kioskback.entity.resultSet.BusinessByTimeResultSet;
+import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
 import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
@@ -76,15 +76,20 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<UserTop10ResultSet> findByTop10UserAndByStoreId(int storeId, Date startedAt, Date endedAt);
 
-  @Query(value = "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time"
+
+  @Query(value = "SELECT c.time time, count(c.orderId) saleCount, sum(c.saleAmount) saleAmount "
+  + "FROM ( "
+  + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time"
   + "FROM order_detail_log a "
   + "LEFT JOIN order_log b "
   + "ON a.order_log_id = b.order_log_id "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "
+  + ") c "
+  + "ORDER BY time ASC"
   , nativeQuery = true
   )
-  public List<BusinessByTimeResultSet> findByBusinessByTime(int storeId, Date startedAt, Date endedAt);
+  public List<GetAnalysisBusinessResultSet> findByBusinessByTime(int storeId, Date startedAt, Date endedAt);
   
 }
 
