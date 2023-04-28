@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailDto;
 import com.kiosk.kioskback.entity.primaryKey.OrderDetailOptionPK;
 
 import jakarta.persistence.Entity;
