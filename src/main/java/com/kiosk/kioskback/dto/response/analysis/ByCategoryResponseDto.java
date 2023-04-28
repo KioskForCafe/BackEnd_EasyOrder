@@ -28,8 +28,8 @@ public class ByCategoryResponseDto {
     public ByCategoryResponseDto(ByCategoryResultSet byCategoryResultSet){
         this.categoryId = byCategoryResultSet.getCategoryId();
         this.categoryName = byCategoryResultSet.getCategoryName();
-        this.saleCount = byCategoryResultSet.getCount();
-        this.totalPrice = byCategoryResultSet.getSum();
+        this.saleCount = byCategoryResultSet.getSaleCount();
+        this.totalPrice = byCategoryResultSet.getTotalPrice();
     }
 
     public static List<ByCategoryResponseDto> copy(List<ByCategoryResultSet> byCategoryResultSetList){
