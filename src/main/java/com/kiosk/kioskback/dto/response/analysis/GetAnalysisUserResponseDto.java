@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 public class GetAnalysisUserResponseDto {
 
     @ApiModelProperty(value = "총 회원수", example = "100", required = true)
-    private int totalUserCount;
+    private int totalVisitedUserCount;
 
     @ApiModelProperty(value = "신규 회원수", example = "10", required = true)
-    private int newUserCount;
+    private int newVisitedUserCount;
 
     @ApiModelProperty(value = "회원 정보 리스트", required = true)
-    private List<UserTop10ResponseDto> userTop10;
+    private List<UserTop10ResponseDto> userTop10List;
 
 }
