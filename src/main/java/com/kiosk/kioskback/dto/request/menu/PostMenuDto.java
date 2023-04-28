@@ -3,8 +3,8 @@ package com.kiosk.kioskback.dto.request.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.dto.response.MenuResponseDto;
+import com.kiosk.kioskback.dto.response.OptionResponseDto;
 import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -23,6 +23,6 @@ public class PostMenuDto {
     private int storeId;
 
     @ApiModelProperty(value = "상품 정보", required = true)
-    private MenuDto menuDto;
+    private MenuResponseDto menuDto;
 
 }

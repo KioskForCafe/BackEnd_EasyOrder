@@ -20,10 +20,12 @@ import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
 import com.kiosk.kioskback.entity.OrderDetailEntity;
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
+import com.kiosk.kioskback.dto.response.analysis.UserTop10ResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
+import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
@@ -182,10 +184,40 @@ public class AnalysisServiceImplements implements AnalysisService{
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    //^ 고객 분석 조회
     @Override
-    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, String startedAt, String endedAt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisUser'");
+    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, Date startedAt, Date endedAt) {
+        
+        GetAnalysisUserResponseDto data = null;
+
+        try {
+            //? 로그인 유저 정보 불러오기
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+            //? 로그인 유저가 관리자인지 검증
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
+            
+            //? 매장 정보 가져오기
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE_ID);
+            //? 로그인 유저의 매장이 맞는지 검증
+            boolean isEqualUserId = userId.equals(storeEntity.getUserId());
+            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            int totalVisitedUserCount = orderDetailLogRepository.countTotalUserByStoreId(storeId);
+            int newVisitedUserCount = orderDetailLogRepository.countNewUserByStoreId(storeId, startedAt, endedAt);
+            List<UserTop10ResultSet> userTop10ResultSets = orderDetailLogRepository.findByTop10UserAndByStoreId(storeId, startedAt, endedAt);
+            List<UserTop10ResponseDto> userTop10List = UserTop10ResponseDto.copy(userTop10ResultSets);
+            
+            data = new GetAnalysisUserResponseDto(totalVisitedUserCount, newVisitedUserCount, userTop10List);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+
     }
     
 }

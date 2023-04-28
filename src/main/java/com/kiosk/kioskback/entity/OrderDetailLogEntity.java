@@ -16,6 +16,8 @@ public class OrderDetailLogEntity {
   @Id
   private int orderDetailLogId;
   private int orderLogId;
+  private String userId;
+  private String telNumber;
   private int menuId;
   private String menuName;
   private int menuPrice;
@@ -28,6 +30,4 @@ public class OrderDetailLogEntity {
   private int count;
   private String createdAt;
   
-
-
 }

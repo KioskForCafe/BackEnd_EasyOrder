@@ -1,5 +1,10 @@
 package com.kiosk.kioskback.dto.response.analysis;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kiosk.kioskback.entity.OrderDetailLogEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,4 +24,17 @@ public class GetAnalysisBusinessResponseDto {
 
     @ApiModelProperty()
     private int time;
+
+    public static List<GetAnalysisBusinessResponseDto> copyList(List<OrderDetailLogEntity> optionDetailLogEntityList) {
+
+        List<GetAnalysisBusinessResponseDto> list = new ArrayList<>();
+    
+        for (OrderDetailLogEntity optiondetailLogEntity: optionDetailLogEntityList) {
+            GetAnalysisBusinessResponseDto dto = new GetAnalysisBusinessResponseDto();
+            list.add(dto);
+        }
+    
+        return list;
+    
+    }
 }
