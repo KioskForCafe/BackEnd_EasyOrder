@@ -16,6 +16,8 @@ import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
+import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
+import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
@@ -30,8 +32,8 @@ public class AnalysisServiceImplements implements AnalysisService{
 
     //^ 상품 분석 조회
     @Override
-    public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, String startedAt,
-            String endedAt) {
+    public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, Date startedAt,
+            Date endedAt) {
         
         GetAnalysisMenuResponseDto data = null;
 
@@ -49,9 +51,11 @@ public class AnalysisServiceImplements implements AnalysisService{
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // List<ByCategoryResponseDto> analysisByCategoryList = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
-            // List<ByMenuResponseDto> analysisByMenuList = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
-            // data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
+            List<ByCategoryResultSet> byCategoryResultSets = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
+            List<ByCategoryResponseDto> analysisByCategoryList = ByCategoryResponseDto.copy(byCategoryResultSets);
+            List<ByMenuResultSet> byMenuResultSets = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
+            List<ByMenuResponseDto> analysisByMenuList = ByMenuResponseDto.copy(byMenuResultSets);
+            data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
             
 
 
