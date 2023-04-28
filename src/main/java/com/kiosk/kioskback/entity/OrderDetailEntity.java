@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,5 +20,11 @@ public class OrderDetailEntity {
     private int menuId;
     private int count;
     private int orderId;
+
+    public OrderDetailEntity(PostOrderDetailDto postOrderDetailDto) {
+        this.menuId = postOrderDetailDto.getMenuId();
+        this.count = postOrderDetailDto.getMenuCount();
+        this.orderId = postOrderDetailDto.getOrderId();
+    }
     
 }
