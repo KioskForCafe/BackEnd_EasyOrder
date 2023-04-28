@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
-import com.kiosk.kioskback.dto.response.MenuDto;
+import com.kiosk.kioskback.dto.response.MenuResponseDto;
 import com.kiosk.kioskback.dto.response.OptionResponseDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
