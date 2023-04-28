@@ -28,6 +28,7 @@ public class AuthServiceImplements implements AuthService {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    //^ 회원가입
     public ResponseDto<PostSignUpResponseDto> postSignUp(PostSignUpDto dto) {
 
         PostSignUpResponseDto data = null;
@@ -68,6 +69,7 @@ public class AuthServiceImplements implements AuthService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    //^ 로그인
     public ResponseDto<PostSignInResponseDto> postSignIn(PostSignInDto dto) {
 
         PostSignInResponseDto data = null;
