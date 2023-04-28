@@ -54,7 +54,8 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<UserTop10ResultSet> findByTop10UserAndByStoreId(int storeId, Date startedAt, Date endedAt);
 
-  @Query(value = "SELECT c.time time, count(c.orderId) saleCount, sum(c.saleAmount) saleAmount"
+
+  @Query(value = "SELECT c.time time, count(c.orderId) saleCount, sum(c.saleAmount) saleAmount "
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time"
   + "FROM order_detail_log a "
