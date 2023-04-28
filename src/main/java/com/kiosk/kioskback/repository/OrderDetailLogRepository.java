@@ -89,7 +89,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "ORDER BY time ASC"
   , nativeQuery = true
   )
-  public List<GetAnalysisBusinessResultSet> findByBusinessByTime(int storeId, Date startedAt, Date endedAt);
+  public List<GetAnalysisBusinessResultSet> findByBusinessByTime(int storeId, String startedAt, String endedAt);
   
 }
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
+import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,12 +26,18 @@ public class GetAnalysisBusinessResponseDto {
     @ApiModelProperty()
     private int time;
 
-    public static List<GetAnalysisBusinessResponseDto> copyList(List<OrderDetailLogEntity> optionDetailLogEntityList) {
+    public GetAnalysisBusinessResponseDto(GetAnalysisBusinessResultSet analysisBusinessResultSet) {
+        this.saleAmount = analysisBusinessResultSet.getSaleAmount();
+        this.saleCount = analysisBusinessResultSet.getSaleCount();
+        this.time = Integer.parseInt(analysisBusinessResultSet.getTime());
+    }
+
+    public List<GetAnalysisBusinessResponseDto> copyList(List<GetAnalysisBusinessResultSet> getAnalysisBusinessResultSets) {
 
         List<GetAnalysisBusinessResponseDto> list = new ArrayList<>();
     
-        for (OrderDetailLogEntity optiondetailLogEntity: optionDetailLogEntityList) {
-            GetAnalysisBusinessResponseDto dto = new GetAnalysisBusinessResponseDto();
+        for (GetAnalysisBusinessResultSet getAnalysisBusinessResultSet: getAnalysisBusinessResultSets) {
+            GetAnalysisBusinessResponseDto dto = new GetAnalysisBusinessResponseDto(getAnalysisBusinessResultSet);
             list.add(dto);
         }
     

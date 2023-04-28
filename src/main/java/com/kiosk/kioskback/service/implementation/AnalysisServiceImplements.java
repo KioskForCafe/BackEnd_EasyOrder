@@ -25,6 +25,7 @@ import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
+import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
 import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
@@ -150,31 +151,34 @@ public class AnalysisServiceImplements implements AnalysisService{
             List<OrderDetailLogEntity> orderDetailLogEntityList = orderDetailLogRepository.findByStoreId(storeId);
             if(orderDetailLogEntityList == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
 
-            int saleAmount = 0;
-            int saleCount = 0;
+            // int saleAmount = 0;
+            // int saleCount = 0;
 
-            // String으로 받아온 startAt, endedAt을 LocalDateTime format으로 변환
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime startedAtDateTime = LocalDateTime.parse(startedAt, formatter);
-            LocalDateTime endedAtDateTime = LocalDateTime.parse(endedAt, formatter);
+            // // // String으로 받아온 startAt, endedAt을 LocalDateTime format으로 변환
+            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            // LocalDateTime startedAtDateTime = LocalDateTime.parse(startedAt, formatter);
+            // LocalDateTime endedAtDateTime = LocalDateTime.parse(endedAt, formatter);
 
-            // 각 시간대별 매출액, 판매 건수 저장을 위한 리스트 생성
-            List<Integer> saleAmountList = new ArrayList<>(23); // index가 시간이고 내용이 saleAmount인 리스트
-            List<Integer> saleCountList = new ArrayList<>(23); // index가 시간이고 내용이 saleCount인 리스트
+            // // 각 시간대별 매출액, 판매 건수 저장을 위한 리스트 생성
+            // List<Integer> saleAmountList = new ArrayList<>(23); // index가 시간이고 내용이 saleAmount인 리스트
+            // List<Integer> saleCountList = new ArrayList<>(23); // index가 시간이고 내용이 saleCount인 리스트
 
-            // orderDetailLogEntity 리스트에서 시간대별로 saleAmount, saleCount를 가져옴
-            for(OrderDetailLogEntity orderDetailLogEntity :orderDetailLogEntityList) {
-                LocalDateTime orderTime = LocalDateTime.parse(orderDetailLogEntity.getCreatedAt(), formatter);
-                if(orderTime.isAfter(startedAtDateTime) && orderTime.isBefore(endedAtDateTime)) {
-                    int hourOfDay = orderTime.getHour();
-                    saleAmount = orderDetailLogEntity.getPriceWithOption();
-                    saleCount = orderDetailLogEntity.getCount();
-                    saleAmountList.set(hourOfDay,saleAmountList.get(hourOfDay) + saleAmount);
-                    saleCountList.set(hourOfDay, saleCountList.get(hourOfDay) + saleCount);
-                }
-            }
+            // // orderDetailLogEntity 리스트에서 시간대별로 saleAmount, saleCount를 가져옴
+            // for(OrderDetailLogEntity orderDetailLogEntity :orderDetailLogEntityList) {
+            //     LocalDateTime orderTime = LocalDateTime.parse(orderDetailLogEntity.getCreatedAt(), formatter);
+            //     if(orderTime.isAfter(startedAtDateTime) && orderTime.isBefore(endedAtDateTime)) {
+            //         int hourOfDay = orderTime.getHour();
+            //         saleAmount = orderDetailLogEntity.getPriceWithOption();
+            //         saleCount = orderDetailLogEntity.getCount();
+            //         saleAmountList.set(hourOfDay,saleAmountList.get(hourOfDay) + saleAmount);
+            //         saleCountList.set(hourOfDay, saleCountList.get(hourOfDay) + saleCount);
+            //     }
+            // }
 
-            data = new List<GetAnalysisBusinessResponseDto>(saleAmount, saleCount, saleCount);
+            List<GetAnalysisBusinessResultSet> analysisBusinessResultSets = orderDetailLogRepository.findByBusinessByTime(storeId, startedAt, endedAt);
+
+            GetAnalysisBusinessResponseDto dto = new GetAnalysisBusinessResponseDto();
+            data = dto.copyList(analysisBusinessResultSets);
 
         } catch (Exception e) {
             e.printStackTrace();
