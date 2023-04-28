@@ -13,5 +13,5 @@ public interface AnalysisService {
     public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt);
     public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt);
     public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, Date startedAt, Date endedAt);
-    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, String startedAt, String endedAt);
+    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, Date startedAt, Date endedAt);
 }

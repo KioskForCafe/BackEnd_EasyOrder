@@ -3,7 +3,7 @@ package com.kiosk.kioskback.dto.response.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.MenuDto;
+import com.kiosk.kioskback.dto.response.MenuResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 public class GetMenuResponseDto {
 
     @ApiModelProperty(value = "상품 정보", required = true)
-    private MenuDto menuDto;
+    private MenuResponseDto menuDto;
 
     public GetMenuResponseDto(MenuEntity menuEntity) {
-        this.menuDto = new MenuDto(menuEntity, menuDto.getOptionList());
+        this.menuDto = new MenuResponseDto(menuEntity, menuDto.getOptionList());
     }
 
     public static List<GetMenuResponseDto> copyList(List<MenuEntity> menuEntityList) {
