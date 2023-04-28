@@ -10,9 +10,14 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.ByCategoryResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.ByMenuResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisBusinessResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisMenuResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
+import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
+import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
+import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
@@ -46,10 +51,11 @@ public class AnalysisServiceImplements implements AnalysisService{
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // List<ByCategoryResponseDto> analysisByCategoryList = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
-            // List<ByMenuResponseDto> analysisByMenuList = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
-            // data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
-
+            List<ByCategoryResultSet> byCategoryResultSets = orderDetailLogRepository.findAllAnalysisByCategory(storeId, startedAt, endedAt);
+            List<ByCategoryResponseDto> analysisByCategoryList = ByCategoryResponseDto.copy(byCategoryResultSets);
+            List<ByMenuResultSet> byMenuResultSets = orderDetailLogRepository.findAllAnalysisByMenu(storeId, startedAt, endedAt);
+            List<ByMenuResponseDto> analysisByMenuList = ByMenuResponseDto.copy(byMenuResultSets);
+            data = new GetAnalysisMenuResponseDto(analysisByCategoryList, analysisByMenuList);
             
 
 
@@ -59,6 +65,25 @@ public class AnalysisServiceImplements implements AnalysisService{
         }
 
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
+    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisSale'");
+    }
+
+    @Override
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt,
+            String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisBusiness'");
+    }
+
+    @Override
+    public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, String startedAt, String endedAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisUser'");
     }
     
 }

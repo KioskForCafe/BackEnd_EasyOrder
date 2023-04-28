@@ -1,5 +1,10 @@
 package com.kiosk.kioskback.dto.response.analysis;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,4 +24,20 @@ public class ByMenuResponseDto {
     private int saleCount;
     @ApiModelProperty(value = "판매 금액", example = "30000", required = true)
     private int totalPrice;
+
+    public ByMenuResponseDto(ByMenuResultSet byMenuResultSet){
+        this.menuId = byMenuResultSet.getMenuId();
+        this.menuName = byMenuResultSet.getMenuName();
+        this.saleCount = byMenuResultSet.getCount();
+        this.totalPrice = byMenuResultSet.getSum();
+    }
+
+    public static List<ByMenuResponseDto> copy(List<ByMenuResultSet> byMenuResultSetList){
+        List<ByMenuResponseDto> list = new ArrayList<>();
+        for(ByMenuResultSet byMenuResultSet : byMenuResultSetList){
+            ByMenuResponseDto dto = new ByMenuResponseDto(byMenuResultSet);
+            list.add(dto);
+        }
+        return list;
+    }
 }
