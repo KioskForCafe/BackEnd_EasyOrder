@@ -1,5 +1,9 @@
 package com.kiosk.kioskback.service.implementation;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -100,9 +104,8 @@ public class AnalysisServiceImplements implements AnalysisService{
                 String createdAt = orderDetailLogEntity.getCreatedAt();
                 if(createdAt.compareTo(startedAt) >= 0 && createdAt.compareTo(endedAt) <= 0) {
                     int count = orderDetailLogEntity.getCount();
-                    int menuPrice = orderDetailLogEntity.getMenuPrice();
                     int priceWithOption = orderDetailLogEntity.getPriceWithOption();
-                    int totalPrice = count * (menuPrice + priceWithOption);
+                    int totalPrice = count * priceWithOption;
                     saleAmount += totalPrice;
                     saleCount += count;
                 }
@@ -123,10 +126,54 @@ public class AnalysisServiceImplements implements AnalysisService{
 
     @Override
     public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt) {
+
         List<GetAnalysisBusinessResponseDto> data = null;
 
         try {
-            
+            // 유저 정보 불러오기
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+
+            // 유저의 관리자 유무 검증
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
+
+            // 매장 정보 가져오기
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+
+            // 유저의 매장이 맞는지 검증
+            boolean isEqualUserId = userId.equals(storeEntity.getUserId());
+            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+
+            // 매장번호로 orderDetailLogEntity 리스트를 가져옴
+            List<OrderDetailLogEntity> orderDetailLogEntityList = orderDetailLogRepository.findByStoreId(storeId);
+            if(orderDetailLogEntityList == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
+
+            int saleAmount = 0;
+            int saleCount = 0;
+
+            // String으로 받아온 startAt, endedAt을 LocalDateTime format으로 변환
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startedAtDateTime = LocalDateTime.parse(startedAt, formatter);
+            LocalDateTime endedAtDateTime = LocalDateTime.parse(endedAt, formatter);
+
+            // 각 시간대별 매출액, 판매 건수 저장을 위한 리스트 생성
+            List<Integer> saleAmountList = new ArrayList<>(23); // index가 시간이고 내용이 saleAmount인 리스트
+            List<Integer> saleCountList = new ArrayList<>(23); // index가 시간이고 내용이 saleCount인 리스트
+
+            // orderDetailLogEntity 리스트에서 시간대별로 saleAmount, saleCount를 가져옴
+            for(OrderDetailLogEntity orderDetailLogEntity :orderDetailLogEntityList) {
+                LocalDateTime orderTime = LocalDateTime.parse(orderDetailLogEntity.getCreatedAt(), formatter);
+                if(orderTime.isAfter(startedAtDateTime) && orderTime.isBefore(endedAtDateTime)) {
+                    int hourOfDay = orderTime.getHour();
+                    saleAmount = orderDetailLogEntity.getPriceWithOption();
+                    saleCount = orderDetailLogEntity.getCount();
+                    saleAmountList.set(hourOfDay,saleAmountList.get(hourOfDay) + saleAmount);
+                    saleCountList.set(hourOfDay, saleCountList.get(hourOfDay) + saleCount);
+                }
+            }
+
+            data = new List<GetAnalysisBusinessResponseDto>(saleAmount, saleCount, saleCount);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
