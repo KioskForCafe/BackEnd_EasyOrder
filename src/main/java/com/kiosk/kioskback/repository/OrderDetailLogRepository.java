@@ -26,6 +26,8 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   // + "ORDER BY saleCount DESC , totalPrice DESC "
   // )
   // public List<ByMenuResponseDto> findAllAnalysisByMenu(int storeId, Date startedAt, Date endedAt);
+
+    public List<Integer> findOrderLogIdByStoreId(int storeId);
 }
 
 

@@ -86,8 +86,16 @@ public class AnalysisServiceImplements implements AnalysisService{
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // 기간동안의 매출액 가져오기
-            List<OrderLogEntity> orderLogEntityList = orderLogRepository.findTotalTotalPriceByCreatedAt(startedAt, endedAt);
+            // 매장번호로 orderDetailEntity에서 그에 해당하는 주문번호 리스트를 가져옴
+            List<Integer> orderLogIdList = orderDetailLogRepository.findOrderLogIdByStoreId(storeId);
+            if(orderLogIdList == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER_LOG_ID);
+
+            // 주문번호 리스트를 통해 해당하는 orderLogEntity 리스트를 가져옴
+            List<OrderLogEntity> orderLogEntityList = orderLogRepository.findByOrderLogIdList(orderLogIdList);
+
+            // 가져온 orderLogEntityList에서 기간동안의 매출액을 가져옴
+            int totalRevenue = orderLogRepository.findTotalTotalPriceByCreatedAt(startedAt, endedAt, orderLogIdList);
+
             
         } catch (Exception e) {
             e.printStackTrace();
