@@ -2,7 +2,7 @@ package com.kiosk.kioskback.dto.request.order;
 
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.dto.request.OptionDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

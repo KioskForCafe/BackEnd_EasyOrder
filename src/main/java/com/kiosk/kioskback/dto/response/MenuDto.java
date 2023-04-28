@@ -43,9 +43,9 @@ public class MenuDto {
     private int storeId;
 
     @ApiModelProperty(value = "옵션 리스트", required = false)
-    private List<OptionDto> optionList;
+    private List<OptionResponseDto> optionList;
 
-    public MenuDto(MenuEntity menuEntity, List<OptionDto> optionList) {
+    public MenuDto(MenuEntity menuEntity, List<OptionResponseDto> optionList) {
         this.categoryId = menuEntity.getCategoryId();
         this.menuId = menuEntity.getMenuId();
         this.menuName = menuEntity.getMenuName();
@@ -58,9 +58,9 @@ public class MenuDto {
 
     public MenuEntity toMenuEntity (PostMenuDto dto) {
         List<OptionEntity> optionEntityList = new ArrayList<>();
-        List<OptionDto> optionList = dto.getMenuDto().getOptionList();
+        List<OptionResponseDto> optionList = dto.getMenuDto().getOptionList();
 
-        for(OptionDto optionDto: optionList) {
+        for(OptionResponseDto optionDto: optionList) {
             OptionEntity optionEntity = new OptionEntity(optionDto.getOptionId(), optionDto.getOptionName(), optionDto.getOptionPrice(), optionDto.getMenuId());
             optionEntityList.add(optionEntity);
         }

@@ -9,7 +9,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 import com.kiosk.kioskback.dto.response.MenuDto;
-import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.dto.response.OptionResponseDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -90,7 +90,7 @@ public class MenuServiceImplements implements MenuService{
             menuRepository.save(menuEntity);
 
             // optionEntity 리스트를 optionsDto에 매칭
-            List<OptionDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
+            List<OptionResponseDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
 
             // menuEntity와 optionList 데이터를 dto로 변환
             MenuDto menuDto = new MenuDto(menuEntity, optionList);
@@ -131,7 +131,7 @@ public class MenuServiceImplements implements MenuService{
             // menuId에 해당하는 option 리스트를 가져옴
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
             // entity를 dto로 변환
-            List<OptionDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
+            List<OptionResponseDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
             // menuEntity와 optionList를 menuDto로 변환
             MenuDto menuDto = new MenuDto(menuEntity, optionList);
 
