@@ -18,6 +18,6 @@ public class GetAnalysisSaleResponseDto {
     private int saleCount;
 
     @ApiModelProperty()
-    private double avgSaleAmount;
+    private int avgSaleAmount;
     
 }

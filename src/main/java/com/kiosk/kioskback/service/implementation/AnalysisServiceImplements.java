@@ -122,10 +122,17 @@ public class AnalysisServiceImplements implements AnalysisService{
     }
 
     @Override
-    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt,
-            String endedAt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAnalysisBusiness'");
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt) {
+        List<GetAnalysisBusinessResponseDto> data = null;
+
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
     @Override
