@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuDto {
+public class MenuResponseDto {
 
     @ApiModelProperty(value = "카테고리 번호", required = true)
     private int categoryId;
@@ -45,7 +45,7 @@ public class MenuDto {
     @ApiModelProperty(value = "옵션 리스트", required = false)
     private List<OptionResponseDto> optionList;
 
-    public MenuDto(MenuEntity menuEntity, List<OptionResponseDto> optionList) {
+    public MenuResponseDto(MenuEntity menuEntity, List<OptionResponseDto> optionList) {
         this.categoryId = menuEntity.getCategoryId();
         this.menuId = menuEntity.getMenuId();
         this.menuName = menuEntity.getMenuName();

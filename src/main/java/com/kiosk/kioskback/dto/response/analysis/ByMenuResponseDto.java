@@ -28,8 +28,8 @@ public class ByMenuResponseDto {
     public ByMenuResponseDto(ByMenuResultSet byMenuResultSet){
         this.menuId = byMenuResultSet.getMenuId();
         this.menuName = byMenuResultSet.getMenuName();
-        this.saleCount = byMenuResultSet.getCount();
-        this.totalPrice = byMenuResultSet.getSum();
+        this.saleCount = byMenuResultSet.getSaleCount();
+        this.totalPrice = byMenuResultSet.getTotalPrice();
     }
 
     public static List<ByMenuResponseDto> copy(List<ByMenuResultSet> byMenuResultSetList){

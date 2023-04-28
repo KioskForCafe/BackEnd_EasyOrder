@@ -86,14 +86,14 @@ public class MenuServiceImplements implements MenuService{
             if(optionEntityList == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
 
             // 메뉴 Entity에 데이터 추가
-            MenuEntity menuEntity = new MenuDto().toMenuEntity(dto);
+            MenuEntity menuEntity = new MenuResponseDto().toMenuEntity(dto);
             menuRepository.save(menuEntity);
 
             // optionEntity 리스트를 optionsDto에 매칭
             List<OptionResponseDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
 
             // menuEntity와 optionList 데이터를 dto로 변환
-            MenuDto menuDto = new MenuDto(menuEntity, optionList);
+            MenuResponseDto menuDto = new MenuResponseDto(menuEntity, optionList);
 
             data = new PostMenuResponseDto(menuDto);
             
@@ -133,7 +133,7 @@ public class MenuServiceImplements implements MenuService{
             // entity를 dto로 변환
             List<OptionResponseDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
             // menuEntity와 optionList를 menuDto로 변환
-            MenuDto menuDto = new MenuDto(menuEntity, optionList);
+            MenuResponseDto menuDto = new MenuResponseDto(menuEntity, optionList);
 
             data = new PatchMenuResponseDto(menuDto);
             

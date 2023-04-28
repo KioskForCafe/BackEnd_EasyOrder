@@ -2,7 +2,7 @@ package com.kiosk.kioskback.dto.request.menu;
 
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.MenuDto;
+import com.kiosk.kioskback.dto.response.MenuResponseDto;
 import com.kiosk.kioskback.dto.response.OptionResponseDto;
 
 import io.swagger.annotations.ApiModel;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PatchMenuDto {
 
     @ApiModelProperty(value = "메뉴 정보", required = true)
-    private MenuDto menuDto;
+    private MenuResponseDto menuDto;
 
     @ApiModelProperty(value = "옵션 정보", required = true)
     private List<OptionResponseDto> optionList;
