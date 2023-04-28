@@ -36,7 +36,6 @@ public class UserEntity {
     }
 
     public void patch(PatchUserDto dto) {
-        this.userId = dto.getUserId();
         this.userName = dto.getUserName();
         this.userEmail = dto.getUserEmail();
         this.telNumber = dto.getTelNumber();
