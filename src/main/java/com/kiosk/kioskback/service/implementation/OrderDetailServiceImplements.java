@@ -23,7 +23,9 @@ public class OrderDetailServiceImplements implements OrderDetailService {
         try {
 
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity(dto);
-            
+            orderDetailRepository.save(orderDetailEntity);
+
+            data = new PostOrderDetailResponseDto(true);
 
         } catch (Exception exception) {
             exception.printStackTrace();
