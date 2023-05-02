@@ -8,7 +8,7 @@ public class KioskBackApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KioskBackApplication.class, args);
-		System.out.println("ddd");
+		System.out.println("kiosk back-end server start");
 	}
 
 }

@@ -26,10 +26,12 @@ public class GetMenuDetailResponseDto {
     // private List<OptionDto> optionList;
 
     public GetMenuDetailResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList) {
+        // todo : this.menuDto = new MenuResponseDto(menuEntity, OptionResponseDto.copyList(optionList));
         this.menuDto.setOptionList(copyList(optionList));
         this.menuDto = new MenuResponseDto(menuEntity, this.menuDto.getOptionList());
     }
     
+    // todo : OptionResponseDto로 변환하는 내용으로 필요시 OptionResponseDto에 있으면 될것으로 보임
     public static List<OptionResponseDto> copyList(List<OptionEntity> optionEntityList) {
 
         List<OptionResponseDto> list = new ArrayList<>();

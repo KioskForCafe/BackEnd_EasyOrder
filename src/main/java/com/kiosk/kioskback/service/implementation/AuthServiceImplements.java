@@ -43,6 +43,7 @@ public class AuthServiceImplements implements AuthService {
             boolean hasUserId = userRepository.existsByUserId(userId);
             if (hasUserId) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_ID);
 
+            // todo : userName은 중복이 가능하다 ( 동명이인 )
             boolean hasUserName = userRepository.existsByUserName(userName);
             if (hasUserName) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_NAME);
 
