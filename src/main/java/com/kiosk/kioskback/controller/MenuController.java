@@ -50,10 +50,10 @@ public class MenuController {
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(
         @ApiParam(value = "가게 번호", example = "1", required = true)
         @PathVariable("storeId") int storeId,
-        @ApiParam(value = "카테고리명", example = "커피", required = true)
-        @PathVariable("categoryName") String categoryName
+        @ApiParam(value = "카테고리번호", example = "1", required = true)
+        @PathVariable("categoryId") int categoryId
         ) {
-            ResponseDto<List<GetMenuResponseDto>> response = menuService.getMenuInCategory(storeId, categoryName);
+            ResponseDto<List<GetMenuResponseDto>> response = menuService.getMenuInCategory(storeId, categoryId);
 
             return response;
     }

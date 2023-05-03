@@ -34,7 +34,7 @@ public class PostSignUpDto {
     @Length(max=45)
     private String userEmail;
 
-    @ApiModelProperty(value="사용자 휴대전화번호", example="010-1234-9876", required=true)
+    @ApiModelProperty(value="사용자 전화번호", example="010-1234-9876", required=true)
     @NotBlank
     @Length(min=11, max=13)
     private String telNumber;

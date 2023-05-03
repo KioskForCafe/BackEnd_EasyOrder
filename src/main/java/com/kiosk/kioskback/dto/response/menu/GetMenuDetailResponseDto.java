@@ -1,8 +1,12 @@
 package com.kiosk.kioskback.dto.response.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.OptionsDto;
+import com.kiosk.kioskback.dto.response.MenuResponseDto;
+import com.kiosk.kioskback.dto.response.OptionResponseDto;
+import com.kiosk.kioskback.entity.MenuEntity;
+import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,15 +19,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetMenuDetailResponseDto {
-    @ApiModelProperty(value = "상품 이름", required = true)
-    private String menuName;
+    @ApiModelProperty(value = "상품 정보", required = true)
+    private MenuResponseDto menuDto;
 
-    @ApiModelProperty(value = "상품 가격", required = true)
-    private int menuPrice;
+    // @ApiModelProperty(value = "옵션 정보 리스트", required = true)
+    // private List<OptionDto> optionList;
 
-    @ApiModelProperty(value = "상품 이미지", required = true)
-    private String menuImgUrl;
+    public GetMenuDetailResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList) {
+        this.menuDto.setOptionList(copyList(optionList));
+        this.menuDto = new MenuResponseDto(menuEntity, this.menuDto.getOptionList());
+    }
+    
+    public static List<OptionResponseDto> copyList(List<OptionEntity> optionEntityList) {
 
-    @ApiModelProperty(value = "옵션 정보 리스트", required = true)
-    private List<OptionsDto> optionsList;
+        List<OptionResponseDto> list = new ArrayList<>();
+    
+        for (OptionEntity optionEntity: optionEntityList) {
+            OptionResponseDto dto = new OptionResponseDto(optionEntity);
+            list.add(dto);
+        }
+    
+        return list;
+    
+    }
 }

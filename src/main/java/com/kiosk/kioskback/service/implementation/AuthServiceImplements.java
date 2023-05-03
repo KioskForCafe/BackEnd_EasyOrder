@@ -6,8 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
+import com.kiosk.kioskback.dto.request.auth.PostSignInDto;
 import com.kiosk.kioskback.dto.request.auth.PostSignUpDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
+import com.kiosk.kioskback.dto.response.auth.PostSignInResponseDto;
 import com.kiosk.kioskback.dto.response.auth.PostSignUpResponseDto;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.provider.TokenProvider;
@@ -26,6 +28,7 @@ public class AuthServiceImplements implements AuthService {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    //^ 회원가입
     public ResponseDto<PostSignUpResponseDto> postSignUp(PostSignUpDto dto) {
 
         PostSignUpResponseDto data = null;
@@ -35,7 +38,6 @@ public class AuthServiceImplements implements AuthService {
         String password = dto.getPassword();
         String userEmail = dto.getUserEmail();
         String telNumber = dto.getTelNumber();
-        Boolean isAdmin = dto.isAdmin();
         
         try {
             boolean hasUserId = userRepository.existsByUserId(userId);
@@ -44,10 +46,56 @@ public class AuthServiceImplements implements AuthService {
             boolean hasUserName = userRepository.existsByUserName(userName);
             if (hasUserName) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_NAME);
 
-            boolean hasTelNumber = userRepository.existsByTelNumber(ResponseMessage.EXIST_USER_TEL_NUMBER);
+            boolean hasTelNumber = userRepository.existsByTelNumber(telNumber);
+            if (hasTelNumber) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_TEL_NUMBER);
+
+            boolean hasUserEmail = userRepository.existsByUserEmail(userEmail);
+            if (hasUserEmail) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_EMAIL);
+
+
+            String encodedPassword = passwordEncoder.encode(password);
+            dto.setPassword(encodedPassword);
+
+            UserEntity userEntity = new UserEntity(dto);
+            userRepository.save(userEntity);
+
+            data = new PostSignUpResponseDto(true);
+
         } catch(Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    //^ 로그인
+    public ResponseDto<PostSignInResponseDto> postSignIn(PostSignInDto dto) {
+
+        PostSignInResponseDto data = null;
+
+        String userId = dto.getUserId();
+        String password = dto.getPassword();
+
+        UserEntity userEntity = null;
+
+        try {
+            userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
+
+            boolean isEqualPassword = passwordEncoder.matches(password, userEntity.getPassword());
+            if (!isEqualPassword) return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        try {
+            String token = tokenProvider.create(userId);
+            data = new PostSignInResponseDto(userEntity, token);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.FAIL_SIGN_IN);
         }
 
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);

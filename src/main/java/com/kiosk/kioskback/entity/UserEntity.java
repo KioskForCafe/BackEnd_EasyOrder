@@ -1,6 +1,7 @@
 package com.kiosk.kioskback.entity;
 
 import com.kiosk.kioskback.dto.request.auth.PostSignUpDto;
+import com.kiosk.kioskback.dto.request.user.PatchUserDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ public class UserEntity {
     private String userName;
     private String password;
     private String userEmail;
-    private String userJoinDate;
+    private String createdAt;
     private boolean isAdmin;
     private String telNumber;
     
@@ -32,6 +33,12 @@ public class UserEntity {
         this.userEmail = dto.getUserEmail();
         this.telNumber = dto.getTelNumber();
         this.isAdmin = dto.isAdmin();
+    }
+
+    public void patch(PatchUserDto dto) {
+        this.userName = dto.getUserName();
+        this.userEmail = dto.getUserEmail();
+        this.telNumber = dto.getTelNumber();
     }
 }
  
