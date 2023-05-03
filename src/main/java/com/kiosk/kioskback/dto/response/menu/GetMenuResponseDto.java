@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetMenuResponseDto {
 
+    // todo : MenuResponseDto에 optionList 등 필요 없는 데이터가 존재한다.
     @ApiModelProperty(value = "상품 정보", required = true)
     private MenuResponseDto menuDto;
 

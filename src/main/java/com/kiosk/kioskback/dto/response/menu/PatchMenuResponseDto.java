@@ -21,6 +21,7 @@ public class PatchMenuResponseDto {
     @ApiModelProperty(value = "메뉴 전체 정보", required = true)
     private MenuResponseDto menuDto;
 
+    // todo : OptionResponseDto로 변환하는 내용으로 필요시 OptionResponseDto에 있으면 될것으로 보임
     public static List<OptionResponseDto> copyList(List<OptionEntity> optionEntityList) {
 
         List<OptionResponseDto> list = new ArrayList<>();

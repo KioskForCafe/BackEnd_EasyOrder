@@ -53,6 +53,9 @@ public class CategoryServiceImplements implements CategoryService {
             UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
+            // todo : 로그인 유저가 관리자 인지 확인
+            // todo : 로그인 유저가 매장 주인이 맞는지 확인
+
             CategoryEntity categoryEntity = new CategoryEntity(dto);
             categoryRepository.save(categoryEntity);
 
@@ -77,7 +80,10 @@ public class CategoryServiceImplements implements CategoryService {
             if (categoryEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY_ID);
    
             UserEntity userEntity = userRepository.findByUserId(userId);
-            if (!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);         
+            // todo : userId가 존재하는지 확인
+            if (!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
+
+            // todo : 로그인 유저가 매장 주인이 맞는지 확인
 
             categoryEntity.patch(dto);
             categoryRepository.save(categoryEntity);
@@ -101,8 +107,13 @@ public class CategoryServiceImplements implements CategoryService {
             if (categoryEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY_ID);
 
             UserEntity userEntity = userRepository.findByUserId(userId);
+            // todo : userId가 존재하는지 확인
             if (!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
+            // todo : 로그인 유저가 매장 주인이 맞는지 확인
+
+            // todo(논의점) : 카테고리 삭제시 메뉴를 모두 삭제할 것인지 남겨놓을 것인지
+            // todo(유호성 의견) : 메뉴는 남겨놓고 카테고리만 삭제하는 건 어떤지? menuEntity의 categoryId가 notNull이 아니면 가능
             menuRepository.deleteByCategoryId(categoryId);
 
             categoryRepository.delete(categoryEntity);
