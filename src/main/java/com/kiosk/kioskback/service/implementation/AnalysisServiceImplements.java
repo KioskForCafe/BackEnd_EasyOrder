@@ -1,9 +1,5 @@
 package com.kiosk.kioskback.service.implementation;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +14,6 @@ import com.kiosk.kioskback.dto.response.analysis.GetAnalysisBusinessResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisMenuResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
-import com.kiosk.kioskback.entity.OrderDetailEntity;
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 import com.kiosk.kioskback.dto.response.analysis.UserTop10ResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
@@ -26,6 +21,7 @@ import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
 import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
+import com.kiosk.kioskback.entity.resultSet.GetAnalysisSaleResultSet;
 import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
@@ -77,7 +73,7 @@ public class AnalysisServiceImplements implements AnalysisService{
     }
 
     @Override
-    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt) {
+    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, Date startedAt, Date endedAt) {
         GetAnalysisSaleResponseDto data = null;
 
         try {
@@ -95,29 +91,30 @@ public class AnalysisServiceImplements implements AnalysisService{
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // 매장번호로 orderDetailLogEntity 리스트를 가져옴
-            List<OrderDetailLogEntity> orderDetailLogEntityList = orderDetailLogRepository.findByStoreId(storeId);
-            if(orderDetailLogEntityList == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
+            // // 매장번호로 orderDetailLogEntity 리스트를 가져옴
+            // List<OrderDetailLogEntity> orderDetailLogEntityList = orderDetailLogRepository.findByStoreId(storeId);
+            // if(orderDetailLogEntityList == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
 
-            int saleAmount = 0;
-            int saleCount = 0;
+            // int saleAmount = 0;
+            // int saleCount = 0;
 
-            // orderDetailLogEntity 리스트에서 시작일과 마감일동안의 매출액, 판매 건수를 가져옴
-            for(OrderDetailLogEntity orderDetailLogEntity: orderDetailLogEntityList) {
-                String createdAt = orderDetailLogEntity.getCreatedAt();
-                if(createdAt.compareTo(startedAt) >= 0 && createdAt.compareTo(endedAt) <= 0) {
-                    int count = orderDetailLogEntity.getCount();
-                    int priceWithOption = orderDetailLogEntity.getPriceWithOption();
-                    int totalPrice = count * priceWithOption;
-                    saleAmount += totalPrice;
-                    saleCount += count;
-                }
-            }
+            // // orderDetailLogEntity 리스트에서 시작일과 마감일동안의 매출액, 판매 건수를 가져옴
+            // for(OrderDetailLogEntity orderDetailLogEntity: orderDetailLogEntityList) {
+            //     String createdAt = orderDetailLogEntity.getCreatedAt();
+            //     if(createdAt.compareTo(startedAt) >= 0 && createdAt.compareTo(endedAt) <= 0) {
+            //         int count = orderDetailLogEntity.getCount();
+            //         int priceWithOption = orderDetailLogEntity.getPriceWithOption();
+            //         int totalPrice = count * priceWithOption;
+            //         saleAmount += totalPrice;
+            //         saleCount += count;
+            //     }
+            // }
 
-            // 가져온 매출액과 판매 건수로 평균 매출액을 구함
-            int avgSaleAmount = saleAmount/saleCount;
+            // // 가져온 매출액과 판매 건수로 평균 매출액을 구함
+            // int avgSaleAmount = saleAmount/saleCount;
+            GetAnalysisSaleResultSet getAnalysisSaleResultSet = orderDetailLogRepository.findBySale(storeId, startedAt, endedAt);
 
-            data = new GetAnalysisSaleResponseDto(saleAmount, saleCount, avgSaleAmount);
+            data = new GetAnalysisSaleResponseDto(getAnalysisSaleResultSet);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,7 +125,7 @@ public class AnalysisServiceImplements implements AnalysisService{
     }
 
     @Override
-    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt) {
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, Date startedAt, Date endedAt) {
 
         List<GetAnalysisBusinessResponseDto> data = null;
 

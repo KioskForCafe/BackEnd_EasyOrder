@@ -36,9 +36,7 @@ public class PostSignInResponseDto {
         this.TelNumber = userEntity.getTelNumber();
         this.userEmail = userEntity.getUserEmail();
         this.userJoinDate = userEntity.getCreatedAt();
-        // todo : 관리자유무는 userEntity.getIsAdmin();
-        // todo : 무조건 false일 경우 어떤 아이디로 로그인하더라도 관리자 기능을 할 수 없다.
-        this.isAdmin = false;
+        this.isAdmin = userEntity.isAdmin();
         this.token = token;
         this.expirtedTime = 3600000;
     }

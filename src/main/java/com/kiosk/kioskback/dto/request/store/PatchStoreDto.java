@@ -1,7 +1,5 @@
 package com.kiosk.kioskback.dto.request.store;
 
-import org.hibernate.validator.constraints.Length;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Max;

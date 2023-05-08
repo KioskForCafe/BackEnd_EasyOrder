@@ -3,13 +3,8 @@ package com.kiosk.kioskback.dto.response.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mapping.AccessOptions.GetOptions;
-
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
-import com.kiosk.kioskback.dto.response.MenuResponseDto;
-import com.kiosk.kioskback.dto.response.OptionResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
-import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,25 +17,51 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostMenuResponseDto {
+    @ApiModelProperty(value = "메뉴 번호", required = true)
+    private int menuId;
 
-    // todo : 메뉴 등록 후 리스트를 반환
-    // todo : 리스트 반환에는 option은 필요 없어 보임
-    // todo : MenuResponseDto의 필요 없는 데이터들이 보임
-    @ApiModelProperty(value = "메뉴 전체 정보", required = true)
-    private MenuResponseDto menuDto;
+    @ApiModelProperty(value = "메뉴 이름", required = true)
+    private String menuName;
 
-    // todo : OptionResponseDto로 변환하는 내용으로 필요시 OptionResponseDto에 있으면 될것으로 보임
-    public static List<OptionResponseDto> copyList(List<OptionEntity> optionEntityList) {
+    @ApiModelProperty(value = "메뉴 가격", required = true)
+    private int menuPrice;
 
-        List<OptionResponseDto> list = new ArrayList<>();
-    
-        for (OptionEntity optionEntity: optionEntityList) {
-            OptionResponseDto dto = new OptionResponseDto(optionEntity);
+    @ApiModelProperty(value = "메뉴 이미지", required = false)
+    private String menuImgUrl;
+
+    @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
+    private boolean menuState;
+
+    public PostMenuResponseDto(MenuEntity menuEntity) {
+        this.menuId = menuEntity.getMenuId();
+        this.menuName = menuEntity.getMenuName();
+        this.menuPrice = menuEntity.getMenuPrice();
+        this.menuImgUrl = menuEntity.getMenuImgUrl();
+        this.menuState = menuEntity.isMenuState();
+    }
+
+    public static MenuEntity toMenuEntity (PostMenuDto dto){
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setMenuImgUrl(dto.getMenuImgUrl());
+        menuEntity.setMenuName(dto.getMenuName());
+        menuEntity.setMenuPrice(dto.getMenuPrice());
+        menuEntity.setMenuState(dto.getMenuState());
+        menuEntity.setCategoryId(dto.getCategoryId());
+        menuEntity.setStoreId(dto.getStoreId());
+
+        return menuEntity;
+    }
+
+    public static List<PostMenuResponseDto> copyList(List<MenuEntity> menuList){
+        List<PostMenuResponseDto> list = new ArrayList<>();
+
+        for (MenuEntity menuEntity: menuList) {
+            PostMenuResponseDto dto = new PostMenuResponseDto(menuEntity);
             list.add(dto);
         }
     
         return list;
-    
+
     }
 
 

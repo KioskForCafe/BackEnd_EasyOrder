@@ -15,7 +15,7 @@ public interface MenuService {
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, int categoryId);
     public ResponseDto<GetMenuDetailResponseDto> getMenuDetail(int menuId);
 
-    public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto);
+    public ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto);
 
     public ResponseDto<PatchMenuResponseDto> patchMenu(String userId, PatchMenuDto dto);
 

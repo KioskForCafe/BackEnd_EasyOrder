@@ -7,19 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
+import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
-import com.kiosk.kioskback.dto.response.MenuResponseDto;
-import com.kiosk.kioskback.dto.response.OptionResponseDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PatchMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.PostMenuResponseDto;
+import com.kiosk.kioskback.entity.CategoryEntity;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
+import com.kiosk.kioskback.repository.CategoryRepository;
 import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
@@ -33,6 +34,7 @@ public class MenuServiceImplements implements MenuService{
     @Autowired private OptionRepository optionRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
+    @Autowired private CategoryRepository categoryRepository;
 
     @Override
     public ResponseDto<List<GetMenuResponseDto>> getMenuInCategory(int storeId, int categoryId) {
@@ -60,8 +62,15 @@ public class MenuServiceImplements implements MenuService{
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId); // menuId에 해당하는 menuEntity 정보 가져옴
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
             List<OptionEntity> optionList = optionRepository.findByMenuId(menuId); // menuId에 해당하는 option List를 가져옴
+            // todo: 이렇게 해야하는게 맞는지 생각해봐야할 부분인것 같음
+                int categoryId = menuEntity.getCategoryId();
+                String categoryName =null;
+                if(categoryId>0){
+                    CategoryEntity categoryEntity = categoryRepository.findByCategoryId(menuEntity.getCategoryId());
+                    categoryName = categoryEntity.getCategoryName();
+                }
 
-            data = new GetMenuDetailResponseDto(menuEntity, optionList);
+                data = new GetMenuDetailResponseDto(menuEntity, optionList, categoryName);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,46 +80,33 @@ public class MenuServiceImplements implements MenuService{
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    // todo : 메뉴 등록 후 리스트로 반환할 예정이었는데 List가 아님
-    // todo : ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto)
     @Override
-    public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto) {
+    public ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto) {
         
-        // todo : List<PostMenuResponseDto> data = null;
-        PostMenuResponseDto data = null;
+        List<PostMenuResponseDto> data = null;
+
+        int storeId = dto.getStoreId();
+        int categoryId = dto.getCategoryId();
+        
 
         try {
             // 존재하는 유저인지 확인하는 메서드
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
-            // todo : 로그인 유저가 관리자 인지 확인
-            // todo : 관리자라면 해당 매장의 주인이 맞는지 확인
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE_ID);
 
-            // todo : 메뉴 등록에는 메뉴 id는 주지 않는다.
-            // 메뉴 id로 optionEntity 리스트 가져옴
-            List<OptionEntity> optionEntityList = optionRepository.findByMenuId(dto.getMenuDto().getMenuId());
-            if(optionEntityList == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+            boolean isEqualUserId = storeEntity.getUserId().equals(userId);
+            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // todo : MenuEntity menuEntity = new MenuResponseDto();
-            // todo : menuEntity.toMenuEntity(dto);
-            // 메뉴 Entity에 데이터 추가
-            MenuEntity menuEntity = new MenuResponseDto().toMenuEntity(dto);
+            MenuEntity menuEntity = PostMenuResponseDto.toMenuEntity(dto);
             menuRepository.save(menuEntity);
 
-            // todo : 옵션 리스트 목록 저장
-            // todo : OptionEntity optionEntity = new OptionEntity(dto); or PostMenuResponseDto.toOptionEntity(dto);
-            // todo : 리스트 조회
-            // todo : List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
-            // todo : data = PostMenuResponseDto.copyList(menuList);
-            // optionEntity 리스트를 optionsDto에 매칭
-            List<OptionResponseDto> optionList = PostMenuResponseDto.copyList(optionEntityList);
+            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
+            data = PostMenuResponseDto.copyList(menuList);
 
-            // menuEntity와 optionList 데이터를 dto로 변환
-            MenuResponseDto menuDto = new MenuResponseDto(menuEntity, optionList);
-
-            data = new PostMenuResponseDto(menuDto);
-            
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
@@ -125,40 +121,56 @@ public class MenuServiceImplements implements MenuService{
         PatchMenuResponseDto data = null;
 
         try {
-            // 사용자가 가져온 정보에 해당하는 menuId를 가져옴
-            int menuId = dto.getMenuDto().getMenuId();
+            // 존재하는 유저인지 확인하는 메서드
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
-            // todo : userId가 존재하는지
-            // todo : 존재한다면 관리자권환이 있는지
+            // 사용자가 가져온 정보에 해당하는 menuId를 가져옴
+            int menuId = dto.getMenuId();
 
             // menuId로 해당하는 menu의 정보를 불러옴
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
 
             // 사용자가 가져온 정보에 해당하는 storeId를 가져옴
-            int storeId = dto.getMenuDto().getStoreId();
+            int storeId = menuEntity.getStoreId();
             // storeId에 해당하는 store 정보를 가져옴
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
             if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
-
-            // todo : isEqualsUserId = userId.equals(storeEntity.getUserId())
             // 가져온 store 정보와 사용자가 입력한 userId가 같은지 확인
-            boolean hasPermission = storeEntity.getUserId() == userId;
+            boolean hasPermission = userId.equals(storeEntity.getUserId());
             if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // todo : option 리스트를 가져와서 dto로 변환하면 원래 있던 option 그대로 저장됨
-            // todo : PatchMenuDto의 클라이언트에서 준 데이터를 저장해야함 (menu, optionList 둘다 수정된 데이터를 저장)
-            // todo : 생각해보니 옵션 추가 및 옵션 삭제에 대한 기능을 추가로 만들어야 할 것 같다.
+            // 메뉴정보 수정 및 저장
+            menuEntity.patch(dto);
+            menuRepository.save(menuEntity);
 
-            // menuId에 해당하는 option 리스트를 가져옴
+            // menuId에 해당하는 option 리스트 수정 및 추가 저장
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
-            // entity를 dto로 변환
-            List<OptionResponseDto> optionList = PatchMenuResponseDto.copyList(optionEntityList);
-            // todo : 수정한 menuEntity를 넣어야함
-            // menuEntity와 optionList를 menuDto로 변환
-            MenuResponseDto menuDto = new MenuResponseDto(menuEntity, optionList);
+            List<PatchMenuOptionDto> patchMenuOptionDtoList = dto.getOptionList();
+            for(OptionEntity optionEntity : optionEntityList){
+                for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
+                    if(optionEntity.getOptionId() == patchMenuOptionDto.getOptionId()){
+                        optionEntity.patch(patchMenuOptionDto);
+                        optionRepository.save(optionEntity);
+                    }
+                    else if(patchMenuOptionDto.getOptionId() == null){
+                        optionEntity = new OptionEntity(patchMenuOptionDto, menuId);
+                        optionRepository.save(optionEntity);
+                    }
+                }
+            }
+            
+            optionEntityList = optionRepository.findByMenuId(menuId);
+            int categoryId = menuEntity.getCategoryId();
+            String categoryName =null;
+            if(categoryId>0){
+                CategoryEntity categoryEntity = categoryRepository.findByCategoryId(menuEntity.getCategoryId());
+                categoryName = categoryEntity.getCategoryName();
+            }
 
-            data = new PatchMenuResponseDto(menuDto);
+            data = new PatchMenuResponseDto(menuEntity, optionEntityList, categoryName);
             
 
         } catch (Exception e) {
@@ -174,8 +186,9 @@ public class MenuServiceImplements implements MenuService{
         DeleteMenuResponseDto data = null;
 
         try {
-            // todo : userId가 존재하는지
-            // todo : userId가 Admin의 권한이 있는지
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
+            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
             
             // menuId로 menuEntity의 정보를 가져옴
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
@@ -189,10 +202,9 @@ public class MenuServiceImplements implements MenuService{
 
             if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
 
-            // todo : isUserId -> isEqualsUserId
             // menuId에 해당하는 storeId와 일치하는 store 정보에 해당하는 userId와 사용자가 입력한 userId가 같은지 확인
-            boolean isUserId = userId.equals(storeEntity.getUserId());
-            if(!isUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+            boolean isEqualsUserId = userId.equals(storeEntity.getUserId());
+            if(!isEqualsUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
             // 같다면 해당하는 menu를 삭제함
             menuRepository.delete(menuEntity);
