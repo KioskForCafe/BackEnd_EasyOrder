@@ -2,7 +2,7 @@ package com.kiosk.kioskback.dto.request.order;
 
 import java.util.List;
 
-import com.kiosk.kioskback.dto.response.OptionDto;
+import com.kiosk.kioskback.dto.response.OptionResponseDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,6 +28,6 @@ public class PostOrderDetailDto {
     private int orderId;
 
     @ApiModelProperty(value = "옵션 리스트", example = "1,2,3", required = false)
-    private List<OptionDto> optionList;
+    private List<OptionResponseDto> optionList;
     
 }

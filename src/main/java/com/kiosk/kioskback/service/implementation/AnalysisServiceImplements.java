@@ -77,7 +77,7 @@ public class AnalysisServiceImplements implements AnalysisService{
     }
 
     @Override
-    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt) {
+    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, Date startedAt, Date endedAt) {
         GetAnalysisSaleResponseDto data = null;
 
         try {
@@ -105,7 +105,7 @@ public class AnalysisServiceImplements implements AnalysisService{
             // orderDetailLogEntity 리스트에서 시작일과 마감일동안의 매출액, 판매 건수를 가져옴
             for(OrderDetailLogEntity orderDetailLogEntity: orderDetailLogEntityList) {
                 String createdAt = orderDetailLogEntity.getCreatedAt();
-                if(createdAt.compareTo(startedAt) >= 0 && createdAt.compareTo(endedAt) <= 0) {
+                if(createdAt.compareTo(startedAt.toString()) >= 0 && createdAt.compareTo(endedAt.toString()) <= 0) {
                     int count = orderDetailLogEntity.getCount();
                     int priceWithOption = orderDetailLogEntity.getPriceWithOption();
                     int totalPrice = count * priceWithOption;
@@ -128,7 +128,7 @@ public class AnalysisServiceImplements implements AnalysisService{
     }
 
     @Override
-    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt) {
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId,  int storeId, String startedAt, String endedAt) {
 
         List<GetAnalysisBusinessResponseDto> data = null;
 

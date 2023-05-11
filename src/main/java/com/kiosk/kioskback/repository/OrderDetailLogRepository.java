@@ -79,17 +79,18 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
 
   @Query(value = "SELECT c.time time, count(c.orderId) saleCount, sum(c.saleAmount) saleAmount "
   + "FROM ( "
-  + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time"
+  + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time "
   + "FROM order_detail_log a "
-  + "LEFT JOIN order_log b "
+  + "JOIN order_log b "
   + "ON a.order_log_id = b.order_log_id "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "
   + ") c "
+  + "GROUP BY time "
   + "ORDER BY time ASC"
   , nativeQuery = true
   )
-  public List<GetAnalysisBusinessResultSet> findByBusinessByTime(int storeId, String startedAt, String endedAt);
+  public List<GetAnalysisBusinessResultSet> findByBusinessByTime(@Param(value = "storeId") int storeId, @Param(value = "startedAt")String startedAt, @Param(value = "endedAt") String endedAt);
   
 }
 
