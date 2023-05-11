@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
@@ -15,6 +16,7 @@ import com.kiosk.kioskback.entity.resultSet.ByCategoryResultSet;
 import com.kiosk.kioskback.entity.resultSet.ByMenuResultSet;
 import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 
+@Repository
 public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEntity,Integer>{
   @Query(value = "SELECT category_id catedgoryId, category_name categoryName, count(category_id) saleCount, sum(price_with_option) totalPrice "
   + "FROM order_detail_log "
