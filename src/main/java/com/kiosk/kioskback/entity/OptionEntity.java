@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,5 +32,15 @@ public class OptionEntity {
     // @ManyToOne
     // @JoinColumn(name = "menu_id")
     // private MenuEntity menuId;
+    public OptionEntity(PatchMenuOptionDto patchMenuOptionDto, int menuId) {
+        this.optionName = patchMenuOptionDto.getOptionName();
+        this.optionPrice = patchMenuOptionDto.getOptionPrice();
+        this.menuId = menuId;
+    }
+
+    public void patch(PatchMenuOptionDto patchMenuOptionDto) {
+        this.optionName = patchMenuOptionDto.getOptionName();
+        this.optionPrice = patchMenuOptionDto.getOptionPrice();
+    }
     
 }

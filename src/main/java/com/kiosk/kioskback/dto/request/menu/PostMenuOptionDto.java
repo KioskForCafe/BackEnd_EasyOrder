@@ -1,39 +1,30 @@
-package com.kiosk.kioskback.dto.response;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.kiosk.kioskback.dto.request.menu;
 
 import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "옵션 정보 Format")
+@ApiModel(value = "메뉴 수정 옵션 Request Body")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OptionResponseDto {
-    
-    @ApiModelProperty(value = "옵션 번호", required = true)
-    private int optionId;
-
+public class PostMenuOptionDto {
     @ApiModelProperty(value = "옵션 이름", required = true)
+    @NotBlank
     private String optionName;
 
     @ApiModelProperty(value = "옵션 가격", required = true)
+    @Min(0)
     private int optionPrice;
-
-    @ApiModelProperty(value = "메뉴 번호", required = true)
-    private int menuId;
     
-    public OptionResponseDto(OptionEntity optionEntity) {
-        this.optionId = optionEntity.getOptionId();
+    public PostMenuOptionDto(OptionEntity optionEntity) {
         this.optionName = optionEntity.getOptionName();
         this.optionPrice = optionEntity.getOptionPrice();
-        this.menuId = optionEntity.getMenuId();
     }
-    
 }
