@@ -1,5 +1,21 @@
 package com.kiosk.kioskback.repository;
 
-public class MenuRepository {
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.kiosk.kioskback.entity.MenuEntity;
+
+import jakarta.transaction.Transactional;
+
+@Repository
+public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
+
+    public MenuEntity findByMenuId(int menuId);
+    public List<MenuEntity> findByStoreIdAndCategoryId(int storeId, int categoryId);
+
+    @Transactional
+    public void deleteByCategoryId(int categoryId);
     
 }

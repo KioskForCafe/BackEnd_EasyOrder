@@ -18,8 +18,8 @@ public class PostSignInDto {
     @Length(max=40)
     private String userId;
 
-    @ApiModelProperty(value="비밀번호", example="P!ssw0rd", required=true)
+    @ApiModelProperty(value="사용자 비밀번호", example="P!ssw0rd", required=true)
     @NotBlank
-    @Length(min=8, max=20)
+    // @Length(min=8, max=20)
     private String password;
 }
