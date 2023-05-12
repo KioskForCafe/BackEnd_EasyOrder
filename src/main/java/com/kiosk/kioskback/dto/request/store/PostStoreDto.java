@@ -29,6 +29,6 @@ public class PostStoreDto {
     @ApiModelProperty(value = "매장 로고 URL", example = "http://~", required = true)
     private String storeLogoUrl;
     
-    @ApiModelProperty(value = "매장 이미지 URL", example = "스타벅스", required = true)
+    @ApiModelProperty(value = "매장 이미지 URL", example = "http://~", required = true)
     private String storeImgUrl;
 }

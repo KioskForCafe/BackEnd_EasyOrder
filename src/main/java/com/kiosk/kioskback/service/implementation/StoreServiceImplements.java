@@ -95,6 +95,7 @@ public class StoreServiceImplements implements StoreService{
 
             //? 매장 정보 가져오기
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            // todo : storeEntity == null 확인
 
             //? 로그인 유저의 매장이 맞는지 검증
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
@@ -130,11 +131,13 @@ public class StoreServiceImplements implements StoreService{
 
             //? 매장 정보 가져오기
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            // todo : storeEntity == null 확인
 
             //? 로그인 유저의 매장이 맞는지 검증
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
+            // todo : 연결된 카테고리와 메뉴 삭제하기
             //? 매장 삭제 하기
             storeRepository.deleteById(storeEntity.getStoreId());
 

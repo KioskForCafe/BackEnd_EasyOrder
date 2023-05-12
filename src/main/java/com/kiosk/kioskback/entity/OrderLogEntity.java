@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,5 +18,5 @@ public class OrderLogEntity {
     @Id
     private int orderLogId;
     private int orderId;
-    private String createdAt;
+    private Date createdAt;
 }
