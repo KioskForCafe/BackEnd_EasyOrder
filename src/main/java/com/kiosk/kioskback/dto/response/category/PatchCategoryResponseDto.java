@@ -1,6 +1,8 @@
 package com.kiosk.kioskback.dto.response.category;
 
 
+import com.kiosk.kioskback.entity.CategoryEntity;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,5 +23,11 @@ public class PatchCategoryResponseDto {
 
     @ApiModelProperty(value = "카테고리 우선순위", required = true)
     private int categoryPriority;
+
+    public PatchCategoryResponseDto(CategoryEntity categoryEntity){
+        this.categoryId = categoryEntity.getCategoryId();
+        this.categoryName = categoryEntity.getCategoryName();
+        this.categoryPriority = categoryEntity.getCategoryPriority();
+    }
     
 }

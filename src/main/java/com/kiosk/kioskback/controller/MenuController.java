@@ -71,12 +71,12 @@ public class MenuController {
 
     @ApiOperation(value = "메뉴 등록", notes = "Request Header Athorization에 Bearer JWT를 포함하고, Request Body에 storeId, menuCategoryId, menuName, menuPrice, menuState, menuImg, optionsName, optionsPrice를 포함하여 전송하면 판매상품 작성 결과로 작성된 상품 정보를 반환, 실패시 실패 메세지를 반환")
     @PostMapping(POST_MENU)
-    public ResponseDto<PostMenuResponseDto> postMenu(
+    public ResponseDto<List<PostMenuResponseDto>> postMenu(
         @ApiParam(hidden = true)
         @AuthenticationPrincipal String userId, 
         @Valid @RequestBody PostMenuDto requestBody
         ) {
-            ResponseDto<PostMenuResponseDto> response = menuService.postMenu(userId, requestBody);
+            ResponseDto<List<PostMenuResponseDto>> response = menuService.postMenu(userId, requestBody);
             return response;
     }
 

@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,7 +19,7 @@ public class ReviewEntity {
     @Id
     private int reviewId;
     private String reviewContent;
-    private String createdAt;
+    private Date createdAt;
     private int orderId;
     
 }

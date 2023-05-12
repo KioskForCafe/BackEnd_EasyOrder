@@ -10,8 +10,8 @@ import com.kiosk.kioskback.dto.response.analysis.GetAnalysisSaleResponseDto;
 import com.kiosk.kioskback.dto.response.analysis.GetAnalysisUserResponseDto;
 
 public interface AnalysisService {
-    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, String startedAt, String endedAt);
-    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, String startedAt, String endedAt);
+    public ResponseDto<GetAnalysisSaleResponseDto> getAnalysisSale(String userId, int storeId, Date startedAt, Date endedAt);
+    public ResponseDto<List<GetAnalysisBusinessResponseDto>> getAnalysisBusiness(String userId, int storeId, Date startedAt, Date endedAt);
     public ResponseDto<GetAnalysisMenuResponseDto> getAnalysisMenu(String userId, int storeId, Date startedAt, Date endedAt);
     public ResponseDto<GetAnalysisUserResponseDto> getAnalysisUser(String userId, int storeId, Date startedAt, Date endedAt);
 }
