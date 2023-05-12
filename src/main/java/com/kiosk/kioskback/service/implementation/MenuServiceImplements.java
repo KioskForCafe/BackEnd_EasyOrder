@@ -70,7 +70,7 @@ public class MenuServiceImplements implements MenuService{
                     categoryName = categoryEntity.getCategoryName();
                 }
 
-                data = new GetMenuDetailResponseDto(menuEntity, optionList, categoryName);
+            data = new GetMenuDetailResponseDto(menuEntity, optionList, categoryName);
             
         } catch (Exception e) {
             e.printStackTrace();
