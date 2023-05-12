@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,7 +19,7 @@ public class OrderEntity {
     private int orderId;
     private String userId;
     private int totalPrice;
-    private String updatedAt;
+    private Date updatedAt;
     private boolean orderState;
     
 }

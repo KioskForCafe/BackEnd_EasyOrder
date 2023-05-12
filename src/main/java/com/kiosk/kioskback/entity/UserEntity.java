@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.Date;
+
 import com.kiosk.kioskback.dto.request.auth.PostSignUpDto;
 import com.kiosk.kioskback.dto.request.user.PatchUserDto;
 
@@ -22,7 +24,7 @@ public class UserEntity {
     private String userName;
     private String password;
     private String userEmail;
-    private String createdAt;
+    private Date createdAt;
     private boolean isAdmin;
     private String telNumber;
     
@@ -33,6 +35,8 @@ public class UserEntity {
         this.userEmail = dto.getUserEmail();
         this.telNumber = dto.getTelNumber();
         this.isAdmin = dto.isAdmin();
+        this.createdAt = new Date();
+
     }
 
     public void patch(PatchUserDto dto) {
