@@ -95,7 +95,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<GetAnalysisBusinessResultSet> findByBusinessByTime(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT count(c.orderId) saleCount, sum(c.saleAmount) saleAmount "
+  @Query(value = "SELECT count(*) saleCount, sum(c.saleAmount) saleAmount "
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount "
   + "FROM order_detail_log a "
@@ -104,8 +104,6 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "
   + ") c "
-  + "GROUP BY orderId "
-  // + "ORDER BY time ASC "
   , nativeQuery = true
   )
   public GetAnalysisSaleResultSet findBySale(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
