@@ -1,0 +1,16 @@
+INSERT INTO `kiosk`.`store` (`store_id`, `store_name`, `store_open_time`, `store_close_time`, `user_id`) VALUES ('1', '스타벅스', '8', '22', 'admin');
+INSERT INTO `kiosk`.`store` (`store_id`, `store_name`, `store_open_time`, `store_close_time`, `user_id`) VALUES ('2', '빽다방', '8', '22', 'admin');
+INSERT INTO `kiosk`.`category` (`category_id`, `category_name`, `category_priority`, `store_id`) VALUES ('1', '시그니처', '99', '1');
+INSERT INTO `kiosk`.`category` (`category_id`, `category_name`, `category_priority`, `store_id`) VALUES ('2', '커피', '98', '1');
+INSERT INTO `kiosk`.`category` (`category_id`, `category_name`, `category_priority`, `store_id`) VALUES ('3', '시그니처', '99', '2');
+INSERT INTO `kiosk`.`category` (`category_id`, `category_name`, `category_priority`, `store_id`) VALUES ('4', '커피', '98', '2');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('1', '시그니처', '8000', '1', '1', '1');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('2', '아메리카노', '6000', '1', '2', '1');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('3', '라떼', '6000', '1', '2', '1');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('4', '시그니처', '7000', '1', '1', '2');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('5', '아메리카노', '4000', '1', '2', '2');
+INSERT INTO `kiosk`.`menu` (`menu_id`, `menu_name`, `menu_price`, `menu_state`, `category_id`, `store_id`) VALUES ('6', '라떼', '5000', '1', '2', '2');
+INSERT INTO `kiosk`.`order_log` (`order_log_id`, `order_id`, `created_at`) VALUES ('1', '1', '2023-05-12');
+INSERT INTO `kiosk`.`order_log` (`order_log_id`, `order_id`, `created_at`) VALUES ('2', '2', '2023-05-13');
+INSERT INTO `kiosk`.`order_detail_log` (`order_detail_log_id`, `order_log_id`, `user_id`, `user_name`, `tel_number`, `menu_id`, `menu_name`, `menu_price`, `category_id`, `category_name`, `store_id`, `store_name`, `options`, `price_with_option`, `count`, `created_at`) VALUES ('1', '1', 'admin', 'admin', '010-0000-0001', '1', '시그니처', '8000', '1', '시그니처', '1', '스타벅스', '[{\"샷추가\":500},{\"진하게\":500}]', '9000', '2', '2023-05-12');
+INSERT INTO `kiosk`.`order_detail_log` (`order_detail_log_id`, `order_log_id`, `user_id`, `user_name`, `tel_number`, `menu_id`, `menu_name`, `menu_price`, `category_id`, `category_name`, `store_id`, `store_name`, `price_with_option`, `count`, `created_at`) VALUES ('2', '1', 'admin', 'admin', '010-0000-0001', '2', '아메리카노', '6000', '2', '커피', '1', '스타벅스', '6000', '1', '2023-05-12');
