@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.kiosk.kioskback.filter.JwtAuthenticationFilter;
 
@@ -24,10 +25,11 @@ public class WebSecurityConfig {
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().requestMatchers("/**", "/**").permitAll()
+            .authorizeRequests().requestMatchers("/", "/auth/**").permitAll()
             .anyRequest().authenticated();
 
-            httpSecurity.addFilter(jwtAuthenticationFilter);
+            httpSecurity
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
