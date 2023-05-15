@@ -83,6 +83,8 @@ public class UserServiceImplements implements UserServcie {
             UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
+            // todo : Email, TelNumber 중복 확인
+
             userEntity.patch(dto);
             userRepository.save(userEntity);
 
@@ -103,6 +105,8 @@ public class UserServiceImplements implements UserServcie {
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
+            // todo : 관리자일 경우 매장을 모두 삭제해야 삭제가 가능함.
+            // todo : 매장이 있는지 확인 후 있다면 Failed 없다면 삭제 성공
             userRepository.deleteById(userEntity.getUserId());
 
             data = new DeleteUserResponseDto(true);

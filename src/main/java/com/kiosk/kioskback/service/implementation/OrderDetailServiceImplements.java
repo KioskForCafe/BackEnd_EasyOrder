@@ -47,7 +47,7 @@ public class OrderDetailServiceImplements implements OrderDetailService {
 
             orderDetailRepository.delete(orderDetailEntity);
 
-            // data = new DeleteOrderResponseDto(orderDetailEntity, null);
+            data = new DeleteOrderResponseDto();
 
         } catch (Exception exception) {
             exception.printStackTrace();

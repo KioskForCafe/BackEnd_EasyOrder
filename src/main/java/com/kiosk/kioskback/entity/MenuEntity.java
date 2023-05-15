@@ -2,6 +2,7 @@ package com.kiosk.kioskback.entity;
 
 import java.util.List;
 
+import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
 
 import jakarta.persistence.CascadeType;
@@ -34,7 +35,7 @@ public class MenuEntity {
     // private List<OptionEntity> getOptions;
 
     // public MenuEntity(PostMenuDto postMenuDto) {
-    //     this.menuId = postMenuDto.getMenuDto().getMenuId();
+    //     this.menuId = postMenuDto.getMenuId();
     //     this.menuName = postMenuDto.getMenuDto().getMenuName();
     //     this.menuPrice = postMenuDto.getMenuDto().getMenuPrice();
     //     this.menuImg = postMenuDto.getMenuDto().getMenuImgUrl();
@@ -43,5 +44,12 @@ public class MenuEntity {
     //     this.storeId = postMenuDto.getStoreId();
     // }
 
+    public void patch(PatchMenuDto patchMenuDto) {
+        this.menuName = patchMenuDto.getMenuName();
+        this.menuPrice = patchMenuDto.getMenuPrice();
+        this.menuImgUrl = patchMenuDto.getMenuImgUrl();
+        this.menuState = patchMenuDto.getMenuState();
+        this.categoryId = patchMenuDto.getCategoryId();
+    }
 
 }

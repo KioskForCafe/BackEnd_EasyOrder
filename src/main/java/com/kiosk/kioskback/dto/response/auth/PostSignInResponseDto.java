@@ -1,5 +1,8 @@
 package com.kiosk.kioskback.dto.response.auth;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.kiosk.kioskback.entity.UserEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -22,7 +25,7 @@ public class PostSignInResponseDto {
     @ApiModelProperty(value="사용자 이메일", example="qwer@qwer.com", required=true)
     private String userEmail;
     @ApiModelProperty(value="사용자 가입일", example="2023-04-24", required=true)
-    private String userJoinDate;
+    private String createdAt;
     @ApiModelProperty(value="관리자 유무", example="false", required=true)
     private boolean isAdmin;
     @ApiModelProperty(value="JWT", example="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c", required=true)
@@ -35,8 +38,9 @@ public class PostSignInResponseDto {
         this.userName = userEntity.getUserName();
         this.TelNumber = userEntity.getTelNumber();
         this.userEmail = userEntity.getUserEmail();
-        this.userJoinDate = userEntity.getCreatedAt();
-        this.isAdmin = false;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.createdAt = simpleDateFormat.format(userEntity.getCreatedAt());
+        this.isAdmin = userEntity.isAdmin();
         this.token = token;
         this.expirtedTime = 3600000;
     }

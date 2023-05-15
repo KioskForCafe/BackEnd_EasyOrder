@@ -42,9 +42,9 @@ public class AnalysisController {
         @ApiParam(value = "매장 번호", example = "1", required = true)
         @PathVariable("storeId") int storeId, 
         @ApiParam(value = "매출인식 시작일", example = "2023-04-27", required = true)
-        @PathVariable("startedAt") String startedAt,
+        @PathVariable("startedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startedAt,
         @ApiParam(value = "매출인식 마감일", example = "2023-04-27", required = true)
-        @PathVariable("endedAt") String endedAt
+        @PathVariable("endedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endedAt
         ) {
             ResponseDto<GetAnalysisSaleResponseDto> response = analysisService.getAnalysisSale(userId, storeId, startedAt, endedAt);
             return response;
@@ -57,9 +57,9 @@ public class AnalysisController {
         @ApiParam(value = "매장 번호", example = "1", required = true)
         @PathVariable("storeId") int storeId, 
         @ApiParam(value = "매출인식 시작일", example = "2023-04-27", required = true)
-        @PathVariable("startedAt") String startedAt,
+        @PathVariable("startedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startedAt,
         @ApiParam(value = "매출인식 마감일", example = "2023-04-27", required = true)
-        @PathVariable("endedAt") String endedAt
+        @PathVariable("endedAt") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endedAt
         ) {
         ResponseDto<List<GetAnalysisBusinessResponseDto>> response = analysisService.getAnalysisBusiness(userId, storeId, startedAt, endedAt);
         return response; 
