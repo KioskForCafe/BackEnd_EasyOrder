@@ -18,10 +18,10 @@ import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 
 @Repository
 public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEntity,Integer>{
-  @Query(value = "SELECT category_id catedgoryId, category_name categoryName, count(category_id) saleCount, sum(price_with_option) totalPrice "
+  @Query(value = "SELECT category_id categoryId, category_name categoryName, count(category_id) saleCount, sum(price_with_option) totalPrice "
   + "FROM order_detail_log "
   + "WHERE store_id = :storeId AND created_at BETWEEN :startedAt AND :endedAt "
-  + "GROUP BY category_id "
+  + "GROUP BY category_id, category_name "
   + "ORDER BY saleCount DESC , totalPrice DESC ", nativeQuery = true
   )
   public List<ByCategoryResultSet> findAllAnalysisByCategory(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
@@ -38,7 +38,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   @Query(value = "SELECT menu_id menuId, menu_name menuName, count(menu_name) saleCount, sum(price_with_option) totalPrice "
   + "FROM order_detail_log "
   + "WHERE store_id = :storeId AND created_at BETWEEN :startedAt AND :endedAt "
-  + "GROUP BY menu_id "
+  + "GROUP BY menu_id, menu_name "
   + "ORDER BY saleCount DESC , totalPrice DESC ", nativeQuery = true
   )
   public List<ByMenuResultSet> findAllAnalysisByMenu(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
@@ -73,7 +73,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "LEFT JOIN point b "
   + "ON a.tel_number = b.tel_number "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
-  + "GROUP BY a.user_id, a.order_log_id "
+  + "GROUP BY a.user_id, a.order_log_id, a.user_name, a.tel_number "
   + "ORDER BY amountPayment DESC "
   , nativeQuery = true
   )
@@ -95,7 +95,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<GetAnalysisBusinessResultSet> findByBusinessByTime(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT count(c.orderId) saleCount, sum(c.saleAmount) saleAmount "
+  @Query(value = "SELECT count(*) saleCount, sum(c.saleAmount) saleAmount "
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount "
   + "FROM order_detail_log a "
@@ -104,8 +104,6 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "
   + ") c "
-  + "GROUP BY orderId "
-  // + "ORDER BY time ASC "
   , nativeQuery = true
   )
   public GetAnalysisSaleResultSet findBySale(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);

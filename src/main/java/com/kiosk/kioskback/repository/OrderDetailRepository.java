@@ -7,5 +7,7 @@ import com.kiosk.kioskback.entity.OrderDetailEntity;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetailEntity, Integer>{
+
+    public OrderDetailEntity findByOrderDetailId(int orderDetailId);
     
 }
