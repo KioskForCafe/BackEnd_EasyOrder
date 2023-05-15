@@ -66,7 +66,7 @@ public class MenuServiceImplements implements MenuService{
                 int categoryId = menuEntity.getCategoryId();
                 String categoryName =null;
                 if(categoryId>0){
-                    CategoryEntity categoryEntity = categoryRepository.findByCategoryId(menuEntity.getCategoryId());
+                    CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
                     categoryName = categoryEntity.getCategoryName();
                 }
 
