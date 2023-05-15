@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailResponseDto {
+public class DeleteOrderDetailResponseDto {
 
     @ApiModelProperty(value = "상세 주문 번호", example = "1", required = true)
     private int orderDetailId;
@@ -25,6 +25,7 @@ public class OrderDetailResponseDto {
     @ApiModelProperty(value = "메뉴 가격", example = "2000", required = true)
     private int menuPrice;
 
+    // todo : Entity를 바로 사용하지 말것
     @ApiModelProperty(value = "옵션 리스트", example = "list", required = false)
     private List<OptionEntity> optionList;
 
