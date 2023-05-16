@@ -10,4 +10,5 @@ import com.kiosk.kioskback.entity.OptionEntity;
 @Repository
 public interface OptionRepository extends JpaRepository<OptionEntity, Integer> {
     public List<OptionEntity> findByMenuId(int menuId);
+    public OptionEntity findByOptionId(int optionId);
 }

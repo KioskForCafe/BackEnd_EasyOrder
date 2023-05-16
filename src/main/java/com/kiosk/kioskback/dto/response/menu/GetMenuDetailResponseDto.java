@@ -44,6 +44,10 @@ public class GetMenuDetailResponseDto {
     private List<GetMenuDetailOptionResponseDto> optionList;
 
     public GetMenuDetailResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList, String categoryName) {
+        List<GetMenuDetailOptionResponseDto> GetMenuDetailOptionResponseDtoList = null;
+        if(optionList != null){
+            GetMenuDetailOptionResponseDtoList = GetMenuDetailOptionResponseDto.copyList(optionList);
+        }
         this.categoryId = menuEntity.getCategoryId();
         this.categoryName = categoryName;
         this.menuId = menuEntity.getMenuId();
@@ -52,6 +56,6 @@ public class GetMenuDetailResponseDto {
         this.menuImgUrl = menuEntity.getMenuImgUrl();
         this.menuState = menuEntity.isMenuState();
         this.storeId = menuEntity.getStoreId();
-        this.optionList = GetMenuDetailOptionResponseDto.copyList(optionList);
+        this.optionList = GetMenuDetailOptionResponseDtoList;
     }
 }
