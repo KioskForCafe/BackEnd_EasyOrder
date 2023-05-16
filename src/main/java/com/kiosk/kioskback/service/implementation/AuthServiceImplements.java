@@ -16,10 +16,6 @@ import com.kiosk.kioskback.provider.TokenProvider;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.AuthService;
 
-import io.swagger.models.Response;
-
-
-
 @Service
 public class AuthServiceImplements implements AuthService {
     
@@ -34,7 +30,6 @@ public class AuthServiceImplements implements AuthService {
         PostSignUpResponseDto data = null;
 
         String userId = dto.getUserId();
-        String userName = dto.getUserName();
         String password = dto.getPassword();
         String userEmail = dto.getUserEmail();
         String telNumber = dto.getTelNumber();
@@ -42,9 +37,6 @@ public class AuthServiceImplements implements AuthService {
         try {
             boolean hasUserId = userRepository.existsByUserId(userId);
             if (hasUserId) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_ID);
-
-            boolean hasUserName = userRepository.existsByUserName(userName);
-            if (hasUserName) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_NAME);
 
             boolean hasTelNumber = userRepository.existsByTelNumber(telNumber);
             if (hasTelNumber) return ResponseDto.setFailed(ResponseMessage.EXIST_USER_TEL_NUMBER);

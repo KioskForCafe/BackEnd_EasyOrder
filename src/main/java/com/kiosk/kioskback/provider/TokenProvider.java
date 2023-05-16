@@ -17,13 +17,13 @@ public class TokenProvider {
     @Value("${jwt.security-key}")
     private String SECURITY_KEY;
     
-    public String create(String email) {
+    public String create(String userId) {
 
         Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 
         String jwt = Jwts.builder()
                         .signWith(SignatureAlgorithm.HS256, SECURITY_KEY)
-                        .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate)
+                        .setSubject(userId).setIssuedAt(new Date()).setExpiration(expiredDate)
                         .compact();
 
         return jwt;

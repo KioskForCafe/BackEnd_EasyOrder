@@ -40,6 +40,5 @@ public class PostSignUpDto {
     private String telNumber;
 
     @ApiModelProperty(value="관리자 유무", example="true", required=true)
-    @NotBlank
     private boolean isAdmin;
 }

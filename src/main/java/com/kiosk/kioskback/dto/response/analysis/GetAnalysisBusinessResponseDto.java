@@ -3,7 +3,6 @@ package com.kiosk.kioskback.dto.response.analysis;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
 
 import io.swagger.annotations.ApiModel;
