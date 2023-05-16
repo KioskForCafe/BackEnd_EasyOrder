@@ -31,19 +31,6 @@ public class MenuEntity {
     private int categoryId;
     private int storeId;
 
-    // @OneToMany(mappedBy = "menu_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // private List<OptionEntity> getOptions;
-
-    // public MenuEntity(PostMenuDto postMenuDto) {
-    //     this.menuId = postMenuDto.getMenuId();
-    //     this.menuName = postMenuDto.getMenuDto().getMenuName();
-    //     this.menuPrice = postMenuDto.getMenuDto().getMenuPrice();
-    //     this.menuImg = postMenuDto.getMenuDto().getMenuImgUrl();
-    //     this.menuState = postMenuDto.getMenuDto().isMenuState();
-    //     this.categoryId = postMenuDto.getMenuDto().getCategoryId();
-    //     this.storeId = postMenuDto.getStoreId();
-    // }
-
     public void patch(PatchMenuDto patchMenuDto) {
         this.menuName = patchMenuDto.getMenuName();
         this.menuPrice = patchMenuDto.getMenuPrice();
