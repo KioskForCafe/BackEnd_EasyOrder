@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostOrderDetailResponseDto {
+public class PostOrderResponseDto {
 
     @ApiModelProperty(value = "장바구니 메뉴 추가 결과", example = "true", required = true)
     private boolean result;

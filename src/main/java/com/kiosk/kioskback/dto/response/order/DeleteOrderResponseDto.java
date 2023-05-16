@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class DeleteOrderResponseDto {
 
     @ApiModelProperty(value = "주문 리스트", example = "list", required = false)
-    private List<OrderDetailResponseDto> orderDetailList;
+    private List<DeleteOrderDetailResponseDto> orderDetailList;
 
     @ApiModelProperty(value = "총 가격", example = "4000", required = true)
     private String totalPrice;
