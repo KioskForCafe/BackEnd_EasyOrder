@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "메뉴 수정 옵션 Request Body")
+@ApiModel(value = "상세주문 옵션 리스트 Request Body")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

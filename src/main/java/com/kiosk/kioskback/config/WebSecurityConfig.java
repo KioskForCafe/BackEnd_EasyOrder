@@ -26,7 +26,7 @@ public class WebSecurityConfig {
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().requestMatchers("/", "/auth/**").permitAll()
+            .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/menu/**").permitAll()
             .anyRequest().authenticated();
 
