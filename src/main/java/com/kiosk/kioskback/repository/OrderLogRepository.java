@@ -7,5 +7,7 @@ import com.kiosk.kioskback.entity.OrderLogEntity;
 
 @Repository
 public interface OrderLogRepository  extends JpaRepository<OrderLogEntity, Integer>{
+
+    
     
 }

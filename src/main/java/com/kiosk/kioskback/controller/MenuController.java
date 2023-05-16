@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 public class MenuController {
 
     private static final String GET_MENU_LIST = "/list/{storeId}/{categoryId}";
-    private static final String GET_MENU_DETAIL = "/list/{menuId}";
+    private static final String GET_MENU_DETAIL = "/{menuId}";
 
     private static final String POST_MENU = "";
 

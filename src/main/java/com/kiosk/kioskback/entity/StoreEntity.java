@@ -4,6 +4,8 @@ import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
 import com.kiosk.kioskback.dto.request.store.PostStoreDto;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Store")
 public class StoreEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int storeId;
     private String storeName;
     private int storeOpenTime;

@@ -3,6 +3,8 @@ package com.kiosk.kioskback.entity;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "OrderLog")
 public class OrderLogEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderLogId;
     private int orderId;
     private Date createdAt;
