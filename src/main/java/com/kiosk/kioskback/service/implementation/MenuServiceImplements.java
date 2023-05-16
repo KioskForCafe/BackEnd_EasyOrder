@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,20 +148,25 @@ public class MenuServiceImplements implements MenuService{
             menuRepository.save(menuEntity);
 
             // menuId에 해당하는 option 리스트 수정 및 추가 저장
+            // todo: SQL문을 살짝 손보는 것으로 해결될 수 있음
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
             List<PatchMenuOptionDto> patchMenuOptionDtoList = dto.getOptionList();
+
+            List<OptionEntity> patchedOptionEntityList = new ArrayList<>();
+
             for(OptionEntity optionEntity : optionEntityList){
                 for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
                     if(optionEntity.getOptionId() == patchMenuOptionDto.getOptionId()){
                         optionEntity.patch(patchMenuOptionDto);
-                        optionRepository.save(optionEntity);
                     }
-                    else if(patchMenuOptionDto.getOptionId() == null){
+                    if(patchMenuOptionDto.getOptionId() == null){
                         optionEntity = new OptionEntity(patchMenuOptionDto, menuId);
-                        optionRepository.save(optionEntity);
                     }
+                    patchedOptionEntityList.add(optionEntity);
                 }
             }
+
+            optionRepository.saveAll(patchedOptionEntityList);
             
             optionEntityList = optionRepository.findByMenuId(menuId);
             int categoryId = menuEntity.getCategoryId();
