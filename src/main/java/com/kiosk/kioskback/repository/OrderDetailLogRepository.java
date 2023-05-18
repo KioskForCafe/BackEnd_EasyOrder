@@ -59,14 +59,14 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "WHERE store_id = :storeId "
   + "GROUP BY user_id, order_log_id " , nativeQuery = true
   )
-  public int countTotalUserByStoreId(@Param("storeId") int storeId);
+  public Integer countTotalUserByStoreId(@Param("storeId") int storeId);
   
   @Query(value = "SELECT count(*) "
   + "FROM order_detail_log "
   + "WHERE store_id = :storeId AND user_id IN (SELECT user_id FROM user WHERE created_at BETWEEN :startedAt AND :endedAt) AND created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY user_id, order_log_id " , nativeQuery = true
   )
-  public int countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
+  public Integer countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
   @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, b.point point, sum(price_with_option) amountPayment "
   + "FROM order_detail_log a "
