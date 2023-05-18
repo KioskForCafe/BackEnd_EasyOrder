@@ -9,7 +9,7 @@ public interface UserTop10ResultSet {
 
     public int getVisitedCount();
 
-    public int getPoint();
+    public Integer getPoint();
 
     public int getAmountPayment();
 }
