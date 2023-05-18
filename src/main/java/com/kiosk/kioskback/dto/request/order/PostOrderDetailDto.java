@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "장바구니 메뉴 추가 Request Body")
+@ApiModel(value = "상세 주문 리스트 Request Body")
 @Data
 @NoArgsConstructor
 public class PostOrderDetailDto {
@@ -22,6 +22,6 @@ public class PostOrderDetailDto {
     private int menuCount;
 
     @ApiModelProperty(value = "옵션 리스트", required = false)
-    private List<PostOrderDetailOptionDto> optionList;
+    private List<Integer> optionList;
     
 }

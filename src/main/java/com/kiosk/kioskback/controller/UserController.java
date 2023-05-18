@@ -36,8 +36,8 @@ public class UserController {
     private final String GET_USER = "/";
     private final String PATCH_USER = "/";
     private final String DELETE = "/{userId}";
-    private final String POST_CHECKEMAIL_DUPLICATE = "/checkEmail/duplicate";
-    private final String POST_CHECKID_DUPLICATE = "/checkId/duplicate";
+    private final String POST_CHECKEMAIL_DUPLICATE = "/duplicate/checkEmail";
+    private final String POST_CHECKID_DUPLICATE = "/duplicate/checkId";
 
     @ApiOperation(value="회원 정보 조회", notes="Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
     @GetMapping(GET_USER)
