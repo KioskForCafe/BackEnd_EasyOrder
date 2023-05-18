@@ -34,7 +34,7 @@ public class UserEntity {
         this.password = dto.getPassword();
         this.userEmail = dto.getUserEmail();
         this.telNumber = dto.getTelNumber();
-        this.isAdmin = true;
+        this.isAdmin = dto.isAdmin();
         this.createdAt = new Date();
 
     }
