@@ -123,10 +123,19 @@ public class OrderServiceImplements implements OrderService {
             orderEntity = orderRepository.save(orderEntity);
             int orderId = orderEntity.getOrderId();
 
+            List<OrderDetailOptionEntity> orderDetailOptionEntities = new ArrayList<>();
+
             for(PostOrderDetailDto postOrderDetailDto : postOrderDetailDtoList){
                 OrderDetailEntity orderDetailEntity = new OrderDetailEntity(postOrderDetailDto, orderId);
-                orderDetailRepository.save(orderDetailEntity);
+                orderDetailEntity = orderDetailRepository.save(orderDetailEntity);
+                int orderDetailId = orderDetailEntity.getOrderDetailId();
+                List<Integer> optionList = postOrderDetailDto.getOptionList();
+                for(Integer optionId : optionList){
+                    OrderDetailOptionEntity orderDetailOptionEntity = new OrderDetailOptionEntity(orderDetailId, optionId);
+                    orderDetailOptionEntities.add(orderDetailOptionEntity);
+                }
             }
+            orderDetailOptionRepository.saveAll(orderDetailOptionEntities);
 
             data = new PostOrderResponseDto(true);
 
