@@ -22,6 +22,6 @@ public class PostOrderDetailDto {
     private int menuCount;
 
     @ApiModelProperty(value = "옵션 리스트", required = false)
-    private List<PostOrderDetailOptionDto> optionList;
+    private List<Integer> optionList;
     
 }
