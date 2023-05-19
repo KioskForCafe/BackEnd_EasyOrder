@@ -13,7 +13,7 @@ import com.kiosk.kioskback.dto.response.category.PostCategoryResponseDto;
 public interface CategoryService {
     
     public ResponseDto<List<GetCategoryResponseDto>> getList(int storeId);
-    public ResponseDto<List<PostCategoryResponseDto>> postCategory(String userId, PostCategoryDto dto);
+    public ResponseDto<PostCategoryResponseDto> postCategory(String userId, PostCategoryDto dto);
     public ResponseDto<PatchCategoryResponseDto> patchCategory(String userId, PatchCategoryDto dto);
     public ResponseDto<DeleteCategoryResponseDto> deleteCategory(String userId, int categoryId);
 }
