@@ -10,6 +10,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
+import com.kiosk.kioskback.dto.request.menu.PostMenuOptionDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -82,12 +83,13 @@ public class MenuServiceImplements implements MenuService{
     }
 
     @Override
-    public ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto) {
+    public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto) {
         
-        List<PostMenuResponseDto> data = null;
+        PostMenuResponseDto data = null;
 
         int storeId = dto.getStoreId();
         int categoryId = dto.getCategoryId();
+        List<PostMenuOptionDto> optionList = dto.getOptionList();
         
 
         try {
@@ -103,10 +105,15 @@ public class MenuServiceImplements implements MenuService{
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
             MenuEntity menuEntity = PostMenuResponseDto.toMenuEntity(dto);
-            menuRepository.save(menuEntity);
+            menuEntity = menuRepository.save(menuEntity);
+            int menuId = menuEntity.getMenuId();
 
-            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
-            data = PostMenuResponseDto.copyList(menuList);
+            for(PostMenuOptionDto option : optionList){
+                OptionEntity optionEntity = new OptionEntity(option, menuId);
+                optionRepository.save(optionEntity);
+            }
+
+            data = new PostMenuResponseDto(true);
 
         } catch (Exception e) {
             e.printStackTrace();
