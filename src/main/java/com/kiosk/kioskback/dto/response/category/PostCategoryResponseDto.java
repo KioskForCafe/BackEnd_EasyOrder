@@ -16,28 +16,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostCategoryResponseDto {
+    @ApiModelProperty(value = "카테고리 등록 결과 상태", example = "true", required = true)
+    private boolean resultState;
 
-    @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
-    private int categoryId;
+    // @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
+    // private int categoryId;
 
-    @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
-    private String categoryName;
+    // @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
+    // private String categoryName;
 
-    public PostCategoryResponseDto(CategoryEntity categoryEntity) {
-        this.categoryId = categoryEntity.getCategoryId();
-        this.categoryName = categoryEntity.getCategoryName();
-    }
+    // public PostCategoryResponseDto(CategoryEntity categoryEntity) {
+    //     this.categoryId = categoryEntity.getCategoryId();
+    //     this.categoryName = categoryEntity.getCategoryName();
+    // }
     
-    public static List<PostCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
+    // public static List<PostCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
 
-        List<PostCategoryResponseDto> list = new ArrayList<>();
+    //     List<PostCategoryResponseDto> list = new ArrayList<>();
 
-        for (CategoryEntity categoryEntity : categoryEntityList) {
-            PostCategoryResponseDto dto = new PostCategoryResponseDto(categoryEntity);
-            list.add(dto);
-        }
+    //     for (CategoryEntity categoryEntity : categoryEntityList) {
+    //         PostCategoryResponseDto dto = new PostCategoryResponseDto(categoryEntity);
+    //         list.add(dto);
+    //     }
 
-        return list;
-    }
+    //     return list;
+    // }
 
 }
