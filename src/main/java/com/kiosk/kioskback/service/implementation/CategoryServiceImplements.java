@@ -33,7 +33,7 @@ public class CategoryServiceImplements implements CategoryService {
 
         try {
 
-            List<CategoryEntity> categoryEntityList = categoryRepository.findByStoreIdOrderByCategoryPriorityDesc(storeId);
+            List<CategoryEntity> categoryEntityList = categoryRepository.findByStoreIdOrderByCategoryPriorityAsc(storeId);
             data = GetCategoryResponseDto.copyList(categoryEntityList);
 
         } catch (Exception exception) {

@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.dto.request.category;
 
+import org.hibernate.validator.constraints.Length;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Max;
@@ -15,7 +17,7 @@ public class PostCategoryDto {
 
     @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
     @NotBlank
-    @Max(45)
+    @Length(max=45)
     private String categoryName;
 
     @ApiModelProperty(value = "카테고리 우선순위", example = "1", required = true)
