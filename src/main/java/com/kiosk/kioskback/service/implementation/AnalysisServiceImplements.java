@@ -209,8 +209,10 @@ public class AnalysisServiceImplements implements AnalysisService{
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            int totalVisitedUserCount = orderDetailLogRepository.countTotalUserByStoreId(storeId);
-            int newVisitedUserCount = orderDetailLogRepository.countNewUserByStoreId(storeId, startedAt, endedAt);
+            Integer totalVisitedUserCount = orderDetailLogRepository.countTotalUserByStoreId(storeId);
+            if(totalVisitedUserCount == null) totalVisitedUserCount = 0;
+            Integer newVisitedUserCount = orderDetailLogRepository.countNewUserByStoreId(storeId, startedAt, endedAt);
+            if(newVisitedUserCount == null) newVisitedUserCount = 0;
             List<UserTop10ResultSet> userTop10ResultSets = orderDetailLogRepository.findByTop10UserAndByStoreId(storeId, startedAt, endedAt);
             List<UserTop10ResponseDto> userTop10List = UserTop10ResponseDto.copy(userTop10ResultSets);
             

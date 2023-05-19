@@ -50,8 +50,8 @@ public class CategoryController {
 
     @ApiOperation(value = "카테고리 등록", notes = "카테고리 이름, 우선순위를 등록하여 성공시 작성된 카테고리 정보를  반환, 실패시 실패 메세지를 반환")
     @PostMapping(POST_CATEGORY)
-    public ResponseDto<List<PostCategoryResponseDto>> postCategory(@ApiParam(hidden = true) @AuthenticationPrincipal String userId, @Valid @RequestBody PostCategoryDto requestBody) {
-        ResponseDto<List<PostCategoryResponseDto>> response = categoryService.postCategory(userId, requestBody);
+    public ResponseDto<PostCategoryResponseDto> postCategory(@ApiParam(hidden = true) @AuthenticationPrincipal String userId, @Valid @RequestBody PostCategoryDto requestBody) {
+        ResponseDto<PostCategoryResponseDto> response = categoryService.postCategory(userId, requestBody);
 
         return response;
     }

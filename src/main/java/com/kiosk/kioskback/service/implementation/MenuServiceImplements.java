@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
+import com.kiosk.kioskback.dto.request.menu.PostMenuOptionDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -81,12 +83,13 @@ public class MenuServiceImplements implements MenuService{
     }
 
     @Override
-    public ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto) {
+    public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto) {
         
-        List<PostMenuResponseDto> data = null;
+        PostMenuResponseDto data = null;
 
         int storeId = dto.getStoreId();
         int categoryId = dto.getCategoryId();
+        List<PostMenuOptionDto> optionList = dto.getOptionList();
         
 
         try {
@@ -102,10 +105,15 @@ public class MenuServiceImplements implements MenuService{
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
             MenuEntity menuEntity = PostMenuResponseDto.toMenuEntity(dto);
-            menuRepository.save(menuEntity);
+            menuEntity = menuRepository.save(menuEntity);
+            int menuId = menuEntity.getMenuId();
 
-            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
-            data = PostMenuResponseDto.copyList(menuList);
+            for(PostMenuOptionDto option : optionList){
+                OptionEntity optionEntity = new OptionEntity(option, menuId);
+                optionRepository.save(optionEntity);
+            }
+
+            data = new PostMenuResponseDto(true);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,20 +155,25 @@ public class MenuServiceImplements implements MenuService{
             menuRepository.save(menuEntity);
 
             // menuId에 해당하는 option 리스트 수정 및 추가 저장
+            // todo: SQL문을 살짝 손보는 것으로 해결될 수 있음
             List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
             List<PatchMenuOptionDto> patchMenuOptionDtoList = dto.getOptionList();
+
+            List<OptionEntity> patchedOptionEntityList = new ArrayList<>();
+
             for(OptionEntity optionEntity : optionEntityList){
                 for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
                     if(optionEntity.getOptionId() == patchMenuOptionDto.getOptionId()){
                         optionEntity.patch(patchMenuOptionDto);
-                        optionRepository.save(optionEntity);
                     }
-                    else if(patchMenuOptionDto.getOptionId() == null){
+                    if(patchMenuOptionDto.getOptionId() == null){
                         optionEntity = new OptionEntity(patchMenuOptionDto, menuId);
-                        optionRepository.save(optionEntity);
                     }
+                    patchedOptionEntityList.add(optionEntity);
                 }
             }
+
+            optionRepository.saveAll(patchedOptionEntityList);
             
             optionEntityList = optionRepository.findByMenuId(menuId);
             int categoryId = menuEntity.getCategoryId();
