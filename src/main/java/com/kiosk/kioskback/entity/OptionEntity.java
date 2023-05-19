@@ -1,6 +1,7 @@
 package com.kiosk.kioskback.entity;
 
 import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
+import com.kiosk.kioskback.dto.request.menu.PostMenuOptionDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,12 @@ public class OptionEntity {
     private int optionPrice;
 
     private int menuId;
+
+    public OptionEntity(PostMenuOptionDto postMenuOptionDto, int menuId){
+        this.optionName = postMenuOptionDto.getOptionName();
+        this.optionPrice = postMenuOptionDto.getOptionPrice();
+        this.menuId = menuId;
+    }
 
     public OptionEntity(PatchMenuOptionDto patchMenuOptionDto, int menuId) {
         this.optionName = patchMenuOptionDto.getOptionName();
