@@ -33,7 +33,7 @@ public class CategoryServiceImplements implements CategoryService {
 
         try {
 
-            List<CategoryEntity> categoryEntityList = categoryRepository.findByStoreIdOrderByCategoryPriorityDesc(storeId);
+            List<CategoryEntity> categoryEntityList = categoryRepository.findByStoreIdOrderByCategoryPriorityAsc(storeId);
             data = GetCategoryResponseDto.copyList(categoryEntityList);
 
         } catch (Exception exception) {
@@ -44,8 +44,8 @@ public class CategoryServiceImplements implements CategoryService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<List<PostCategoryResponseDto>> postCategory(String userId, PostCategoryDto dto) {
-        List<PostCategoryResponseDto> data = null;
+    public ResponseDto<PostCategoryResponseDto> postCategory(String userId, PostCategoryDto dto) {
+        PostCategoryResponseDto data = null;
 
         int storeId = dto.getStoreId();
 
@@ -64,9 +64,7 @@ public class CategoryServiceImplements implements CategoryService {
             CategoryEntity categoryEntity = new CategoryEntity(dto);
             categoryRepository.save(categoryEntity);
 
-            // todo : 리스트를 다시 줘야하는게 맞는지 다시 생각해볼 필요가 있음.
-            List<CategoryEntity> categoryEntityList = categoryRepository.findByStoreIdOrderByCategoryPriorityDesc(storeId);
-            data = PostCategoryResponseDto.copyList(categoryEntityList);
+            data = new PostCategoryResponseDto(true);
 
         } catch (Exception exception) {
             exception.printStackTrace();
