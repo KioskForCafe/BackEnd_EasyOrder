@@ -17,28 +17,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostMenuResponseDto {
-    @ApiModelProperty(value = "메뉴 번호", required = true)
-    private int menuId;
+    @ApiModelProperty(value = "상품 등록 결과 상태",example = "true", required = true)
+    private boolean resultState;
 
-    @ApiModelProperty(value = "메뉴 이름", required = true)
-    private String menuName;
+    // @ApiModelProperty(value = "메뉴 번호", required = true)
+    // private int menuId;
 
-    @ApiModelProperty(value = "메뉴 가격", required = true)
-    private int menuPrice;
+    // @ApiModelProperty(value = "메뉴 이름", required = true)
+    // private String menuName;
 
-    @ApiModelProperty(value = "메뉴 이미지", required = false)
-    private String menuImgUrl;
+    // @ApiModelProperty(value = "메뉴 가격", required = true)
+    // private int menuPrice;
 
-    @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
-    private boolean menuState;
+    // @ApiModelProperty(value = "메뉴 이미지", required = false)
+    // private String menuImgUrl;
 
-    public PostMenuResponseDto(MenuEntity menuEntity) {
-        this.menuId = menuEntity.getMenuId();
-        this.menuName = menuEntity.getMenuName();
-        this.menuPrice = menuEntity.getMenuPrice();
-        this.menuImgUrl = menuEntity.getMenuImgUrl();
-        this.menuState = menuEntity.isMenuState();
-    }
+    // @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
+    // private boolean menuState;
+
+    // public PostMenuResponseDto(MenuEntity menuEntity) {
+    //     this.menuId = menuEntity.getMenuId();
+    //     this.menuName = menuEntity.getMenuName();
+    //     this.menuPrice = menuEntity.getMenuPrice();
+    //     this.menuImgUrl = menuEntity.getMenuImgUrl();
+    //     this.menuState = menuEntity.isMenuState();
+    // }
 
     public static MenuEntity toMenuEntity (PostMenuDto dto){
         MenuEntity menuEntity = new MenuEntity();
@@ -52,17 +55,17 @@ public class PostMenuResponseDto {
         return menuEntity;
     }
 
-    public static List<PostMenuResponseDto> copyList(List<MenuEntity> menuList){
-        List<PostMenuResponseDto> list = new ArrayList<>();
+    // public static List<PostMenuResponseDto> copyList(List<MenuEntity> menuList){
+    //     List<PostMenuResponseDto> list = new ArrayList<>();
 
-        for (MenuEntity menuEntity: menuList) {
-            PostMenuResponseDto dto = new PostMenuResponseDto(menuEntity);
-            list.add(dto);
-        }
+    //     for (MenuEntity menuEntity: menuList) {
+    //         PostMenuResponseDto dto = new PostMenuResponseDto(menuEntity);
+    //         list.add(dto);
+    //     }
     
-        return list;
+    //     return list;
 
-    }
+    // }
 
 
 }
