@@ -116,10 +116,11 @@ public class OrderServiceImplements implements OrderService {
         PostOrderResponseDto data = null;
         int storeId = dto.getStoreId();
         int totalPrice = dto.getTotalPrice();
+        String orderState = dto.getOrderState();
         List<PostOrderDetailDto> postOrderDetailDtoList = dto.getOrderDetailList();
         try {
 
-            OrderEntity orderEntity = new OrderEntity(storeId, totalPrice);
+            OrderEntity orderEntity = new OrderEntity(storeId, totalPrice, orderState);
             orderEntity = orderRepository.save(orderEntity);
             int orderId = orderEntity.getOrderId();
 
