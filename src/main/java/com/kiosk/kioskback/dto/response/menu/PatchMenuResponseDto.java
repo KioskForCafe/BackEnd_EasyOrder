@@ -41,6 +41,7 @@ public class PatchMenuResponseDto {
     private List<PatchMenuOptionResponseDto> optionList;
 
     public PatchMenuResponseDto(MenuEntity menuEntity, List<OptionEntity> optionList, String categoryName) {
+        this.menuId = menuEntity.getMenuId();
         this.categoryId = menuEntity.getCategoryId();
         this.categoryName = categoryName;
         this.menuName = menuEntity.getMenuName();

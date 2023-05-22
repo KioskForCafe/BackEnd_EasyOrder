@@ -9,6 +9,7 @@ public interface ResponseMessage {
     public static final String EXIST_USER_NAME = "Existed User Name.";
     public static final String EXIST_USER_TEL_NUMBER = "Existed User Tel Number.";
     public static final String EXIST_USER_EMAIL = "Existed User Email.";
+    public static final String DELETE_STORE_ERROR = "The product must be deleted.";
     
     public static final String NOT_EXIST_STORE = "Not Exist Store.";
     public static final String NOT_EXIST_MENU = "Not Exist Menu.";

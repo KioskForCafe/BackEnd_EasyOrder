@@ -1,5 +1,8 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuOptionDto;
 
@@ -36,6 +39,7 @@ public class OptionEntity {
     }
 
     public OptionEntity(PatchMenuOptionDto patchMenuOptionDto, int menuId) {
+        if(patchMenuOptionDto.getOptionId() != null) this.optionId = patchMenuOptionDto.getOptionId();
         this.optionName = patchMenuOptionDto.getOptionName();
         this.optionPrice = patchMenuOptionDto.getOptionPrice();
         this.menuId = menuId;
@@ -44,6 +48,17 @@ public class OptionEntity {
     public void patch(PatchMenuOptionDto patchMenuOptionDto) {
         this.optionName = patchMenuOptionDto.getOptionName();
         this.optionPrice = patchMenuOptionDto.getOptionPrice();
+    }
+
+    public static List<OptionEntity> copyList(List<PatchMenuOptionDto> patchMenuOptionDtoList, int menuId){
+        List<OptionEntity> list = new ArrayList<>();
+
+        for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
+            OptionEntity optionEntity = new OptionEntity(patchMenuOptionDto, menuId);
+            list.add(optionEntity);
+        }
+
+        return list;
     }
     
 }

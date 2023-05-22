@@ -15,6 +15,7 @@ import com.kiosk.kioskback.dto.response.store.PatchStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PostStoreResponseDto;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
+import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.StoreService;
@@ -24,6 +25,7 @@ public class StoreServiceImplements implements StoreService{
 
     @Autowired private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
+    @Autowired private MenuRepository menuRepository;
 
     //^ 매장 리스트 가져오기
     @Override
@@ -131,13 +133,14 @@ public class StoreServiceImplements implements StoreService{
 
             //? 매장 정보 가져오기
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
-            // todo : storeEntity == null 확인
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE_ID);
 
             //? 로그인 유저의 매장이 맞는지 검증
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // todo : 연결된 카테고리와 메뉴 삭제하기
+            boolean isMenu = menuRepository.existsByStoreId(storeId);
+            if(isMenu) return ResponseDto.setFailed(ResponseMessage.DELETE_STORE_ERROR);
             //? 매장 삭제 하기
             storeRepository.deleteById(storeEntity.getStoreId());
 
