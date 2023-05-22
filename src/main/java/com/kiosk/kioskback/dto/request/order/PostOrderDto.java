@@ -23,5 +23,8 @@ public class PostOrderDto {
 
     @ApiModelProperty(value = "상세주문 리스트", example = "1", required = true)
     private List<PostOrderDetailDto> orderDetailList;
+
+    @ApiModelProperty(value = "주문 상태", example = "대기", required = true)
+    private String orderState;
     
 }

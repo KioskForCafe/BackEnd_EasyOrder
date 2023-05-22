@@ -23,14 +23,14 @@ public class OrderEntity {
     private String userId;
     private int totalPrice;
     private Date updatedAt;
-    private boolean orderState;
+    private String orderState;
     private int storeId;
 
-    public OrderEntity(int storeId, int totalPrice){
+    public OrderEntity(int storeId, int totalPrice, String orderState){
         Date now = new Date();
         this.totalPrice = totalPrice;
         this.updatedAt = now;
-        this.orderState = true;
+        this.orderState = orderState;
         this.storeId = storeId;
     }
     
