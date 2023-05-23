@@ -13,4 +13,5 @@ public class ApiPattern {
     public static final String REVIEW = "/api/review";
 
     public static final String FILE = "/file";
+    public static final String SMS = "/sms";
 }
