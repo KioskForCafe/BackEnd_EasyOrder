@@ -2,6 +2,8 @@ package com.kiosk.kioskback.entity;
 
 import java.util.Date;
 
+import com.kiosk.kioskback.dto.request.order.PatchOrderDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,5 +35,8 @@ public class OrderEntity {
         this.orderState = orderState;
         this.storeId = storeId;
     }
-    
+
+    public void patch(PatchOrderDto dto) {
+        this.orderState = dto.getOrderState();
+    }
 }

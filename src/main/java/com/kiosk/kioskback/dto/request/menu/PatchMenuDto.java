@@ -14,13 +14,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PatchMenuDto {
+    @ApiModelProperty(value = "매장 번호", example = "1" ,required = true)
+    @Min(1)
+    private int storeId;
+
     @ApiModelProperty(value = "상품 번호", example = "1" ,required = true)
     @Min(1)
     private int menuId;
 
     @ApiModelProperty(value = "카테고리 번호", required = true)
-    @Min(1)
-    private int categoryId;
+    private Integer categoryId;
 
     @ApiModelProperty(value = "메뉴 이름", required = true)
     @NotBlank
