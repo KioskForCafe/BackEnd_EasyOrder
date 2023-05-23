@@ -163,11 +163,6 @@ public class MenuServiceImplements implements MenuService{
                 if(categoryEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY_ID);
                 categoryName = categoryEntity.getCategoryName();
             }
-
-            System.out.println(menuEntity.getMenuId());
-            System.out.println(menuEntity.getMenuName());
-            System.out.println(menuEntity.getMenuPrice());
-            System.out.println(menuEntity.isMenuState());
             
             data = new PatchMenuResponseDto(menuEntity, optionEntityList, categoryName);
             

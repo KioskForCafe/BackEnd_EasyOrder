@@ -23,9 +23,13 @@ public class GetCategoryResponseDto {
     @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
     private String categoryName;
 
+    @ApiModelProperty(value = "카테고리 순위", example = "1", required = true)
+    private int categoryPriority;
+
     public GetCategoryResponseDto(CategoryEntity categoryEntity) {
         this.categoryId = categoryEntity.getCategoryId();
         this.categoryName = categoryEntity.getCategoryName();
+        this.categoryPriority = categoryEntity.getCategoryPriority();
     }
 
     public static List<GetCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
