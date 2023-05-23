@@ -11,7 +11,7 @@ import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
 
 public interface OrderService {
 
-    public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId);
+    public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState);
     public ResponseDto<List<GetOrderDetailResponseDto>> getOrderDetailList(String userId, int orderId);
     public ResponseDto<PostOrderResponseDto> postOrder(PostOrderDto dto);
     public ResponseDto<DeleteOrderResponseDto> deleteOrderDetail(int orderDetailId);

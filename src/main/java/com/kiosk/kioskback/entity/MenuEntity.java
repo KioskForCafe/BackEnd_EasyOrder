@@ -31,7 +31,7 @@ public class MenuEntity {
     private int menuPrice;
     private String menuImgUrl;
     private boolean menuState;
-    private int categoryId;
+    private Integer categoryId;
     private int storeId;
 
     public void patch(PatchMenuDto patchMenuDto) {

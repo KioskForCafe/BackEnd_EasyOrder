@@ -20,7 +20,7 @@ public class PostMenuDto {
     private int storeId;
 
     @ApiModelProperty(value = "카테고리 번호", required = true)
-    private int categoryId;
+    private Integer categoryId;
 
     @ApiModelProperty(value = "메뉴 이름", required = true)
     @NotBlank
