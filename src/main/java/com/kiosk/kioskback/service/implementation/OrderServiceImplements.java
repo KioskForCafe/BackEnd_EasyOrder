@@ -176,7 +176,6 @@ public class OrderServiceImplements implements OrderService {
 
         PatchOrderResponseDto data = null;
         int orderId = dto.getOrderId();
-        System.out.println(dto.getOrderState());
 
         try {
             OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
