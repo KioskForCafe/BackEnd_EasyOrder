@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
+import com.kiosk.kioskback.dto.request.order.PatchOrderDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDetailDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
+import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
@@ -161,6 +163,30 @@ public class OrderServiceImplements implements OrderService {
 
             data = new DeleteOrderResponseDto();
 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
+    public ResponseDto<PatchOrderResponseDto> patchOrder(String userId, PatchOrderDto dto) {
+
+        PatchOrderResponseDto data = null;
+        int orderId = dto.getOrderId();
+
+        try {
+
+            OrderEntity orderEntity = orderRepository.findByUserIdAndOrderId(userId, orderId);
+            if(orderEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
+
+            orderEntity.patch(dto);
+            orderRepository.save(orderEntity);
+            
+            data = new PatchOrderResponseDto(true);
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
