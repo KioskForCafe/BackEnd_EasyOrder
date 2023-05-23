@@ -21,12 +21,15 @@ public class GetOrderResponseDto {
     private int orderId;
     @ApiModelProperty(value = "총 가격", example = "18000", required = true)
     private int totalPrice;
+    @ApiModelProperty(value = "주문 상태", example = "접수", required = true)
+    private String orderState;
     @ApiModelProperty(value = "주문 시간", example = "2023-05-15 23:03:22", required = true)
     private Date updatedAt;
     
     public GetOrderResponseDto(OrderEntity orderEntity){
         this.orderId = orderEntity.getOrderId();
         this.totalPrice = orderEntity.getTotalPrice();
+        this.orderState = orderEntity.getOrderState();
         this.updatedAt = orderEntity.getUpdatedAt();
     }
 
