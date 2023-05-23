@@ -41,7 +41,7 @@ public class OrderServiceImplements implements OrderService {
     @Autowired private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
 
-    public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId){
+    public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState){
         List<GetOrderResponseDto> data = null;
 
         try {
@@ -55,7 +55,7 @@ public class OrderServiceImplements implements OrderService {
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            List<OrderEntity> orderEntityList = orderRepository.findByStoreIdAndOrderState(storeId, true);
+            List<OrderEntity> orderEntityList = orderRepository.findByStoreIdAndOrderState(storeId, orderState);
 
             data = GetOrderResponseDto.copyList(orderEntityList);
 

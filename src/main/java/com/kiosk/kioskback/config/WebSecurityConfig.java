@@ -29,6 +29,7 @@ public class WebSecurityConfig {
             .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/menu/**", "/api/category/**", "/file/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/user/duplicate/**", "/file/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/order").permitAll()
             .anyRequest().authenticated();
 
             httpSecurity

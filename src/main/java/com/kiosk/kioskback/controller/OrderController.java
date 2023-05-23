@@ -33,7 +33,7 @@ public class OrderController {
 
     @Autowired private OrderService orderService;
 
-    private final String GET_ORDER_LIST = "/list/{storeId}";
+    private final String GET_ORDER_LIST = "/list/{storeId}/{orderState}";
     private final String GET_ORDER_DETAIL_LIST = "/{orderId}";
     private final String POST_ORDER = "";
     private final String DELETE_ORDER_DETAIL = "/detail/{orderDetailId}";
@@ -43,9 +43,10 @@ public class OrderController {
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(
         @ApiParam(hidden = true)
         @AuthenticationPrincipal String userId,
-        @PathVariable("storeId") int storeId
+        @PathVariable("storeId") int storeId,
+        @PathVariable("orderState") String orderState
     ) {
-        ResponseDto<List<GetOrderResponseDto>> response = orderService.getOrderList(userId, storeId);
+        ResponseDto<List<GetOrderResponseDto>> response = orderService.getOrderList(userId, storeId, orderState);
         return response;
     }
 

@@ -11,4 +11,5 @@ import com.kiosk.kioskback.entity.StoreEntity;
 public interface StoreRepository extends JpaRepository<StoreEntity,Integer> {
     public List<StoreEntity> findByUserId(String userId);
     public StoreEntity findByStoreId(int storeId);
+    public boolean existsByUserIdAndStoreId(String userId, int storeId);
 }
