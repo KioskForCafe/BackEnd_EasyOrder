@@ -176,10 +176,10 @@ public class OrderServiceImplements implements OrderService {
 
         PatchOrderResponseDto data = null;
         int orderId = dto.getOrderId();
+        System.out.println(dto.getOrderState());
 
         try {
-
-            OrderEntity orderEntity = orderRepository.findByUserIdAndOrderId(userId, orderId);
+            OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
             if(orderEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
 
             orderEntity.patch(dto);
