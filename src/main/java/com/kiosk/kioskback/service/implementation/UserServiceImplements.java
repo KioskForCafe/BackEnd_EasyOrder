@@ -7,17 +7,17 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.user.PatchUserDto;
 import com.kiosk.kioskback.dto.request.user.PostCheckEmailDuplicateDto;
 import com.kiosk.kioskback.dto.request.user.PostCheckIdDuplicateDto;
+import com.kiosk.kioskback.dto.request.user.PostCheckTelNumberDuplicateDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.user.DeleteUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.GetUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.PatchUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.PostCheckEmailDuplicateResponseDto;
 import com.kiosk.kioskback.dto.response.user.PostCheckIdDuplicateResponseDto;
+import com.kiosk.kioskback.dto.response.user.PostCheckTelNumberDuplicateResponseDto;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.UserRepository;
 import com.kiosk.kioskback.service.UserServcie;
-
-import io.swagger.models.Response;
 
 @Service
 public class UserServiceImplements implements UserServcie {
@@ -57,6 +57,24 @@ public class UserServiceImplements implements UserServcie {
 
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
+    //^ 전화번호 중복체크하기
+    public ResponseDto<PostCheckTelNumberDuplicateResponseDto> postCheckTelNumberDuplicate(PostCheckTelNumberDuplicateDto dto) {
+        PostCheckTelNumberDuplicateResponseDto data = null;
+
+        String telNumber = dto.getTelNumber();
+
+        try {
+            boolean hasTelNumber = userRepository.existsByTelNumber(telNumber);
+            data = new PostCheckTelNumberDuplicateResponseDto(!hasTelNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
     //^ 유저 정보 조회
     public ResponseDto<GetUserResponseDto> getUser(String userId) {
 
