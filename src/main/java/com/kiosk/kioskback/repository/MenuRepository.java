@@ -16,6 +16,8 @@ public interface MenuRepository extends JpaRepository<MenuEntity, Integer> {
     // public List<MenuEntity> findByStoreIdAndCategoryName(int storeId, String categoryName);
     public List<MenuEntity> findByStoreIdAndCategoryId(int storeId, int categoryId);
 
+    public boolean existsByStoreId(int storeId);
+
     @Transactional
     public void deleteByCategoryId(int categoryId);
     
