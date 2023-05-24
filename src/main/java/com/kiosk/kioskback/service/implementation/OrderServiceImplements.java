@@ -172,9 +172,9 @@ public class OrderServiceImplements implements OrderService {
     }
 
     @Override
-    public ResponseDto<PatchOrderResponseDto> patchOrder(String userId, PatchOrderDto dto) {
+    public ResponseDto<List<PatchOrderResponseDto>> patchOrder(String userId, PatchOrderDto dto) {
 
-        PatchOrderResponseDto data = null;
+        List<PatchOrderResponseDto> data = null;
         int orderId = dto.getOrderId();
         System.out.println(dto.getOrderState());
 
@@ -182,10 +182,16 @@ public class OrderServiceImplements implements OrderService {
             OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
             if(orderEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
 
+            int storeId = orderEntity.getStoreId();
+            String orderState = orderEntity.getOrderState();
+
             orderEntity.patch(dto);
             orderRepository.save(orderEntity);
+
+            List<OrderEntity> orderEntityList = orderRepository.findByStoreIdAndOrderState(storeId, orderState);
+
             
-            data = new PatchOrderResponseDto(true);
+            data = PatchOrderResponseDto.copyList(orderEntityList);
             
         } catch (Exception exception) {
             exception.printStackTrace();
