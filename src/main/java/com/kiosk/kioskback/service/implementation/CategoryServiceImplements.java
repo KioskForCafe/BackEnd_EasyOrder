@@ -74,8 +74,8 @@ public class CategoryServiceImplements implements CategoryService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<PatchCategoryResponseDto> patchCategory(String userId, PatchCategoryDto dto) {
-        PatchCategoryResponseDto data = null;
+    public ResponseDto<List<PatchCategoryResponseDto>> patchCategory(String userId, PatchCategoryDto dto) {
+        List<PatchCategoryResponseDto> data = null;
 
         int categoryId = dto.getCategoryId();
 
@@ -98,7 +98,10 @@ public class CategoryServiceImplements implements CategoryService {
             categoryEntity.patch(dto);
             categoryRepository.save(categoryEntity);
 
-            data = new PatchCategoryResponseDto(categoryEntity);
+            List<CategoryEntity> categoryEntities = categoryRepository.findByStoreIdOrderByCategoryPriorityAsc(storeId);
+
+
+            data = PatchCategoryResponseDto.copyList(categoryEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -108,8 +111,8 @@ public class CategoryServiceImplements implements CategoryService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<DeleteCategoryResponseDto> deleteCategory(String userId, int categoryId) {
-        DeleteCategoryResponseDto data = null;
+    public ResponseDto<List<DeleteCategoryResponseDto>> deleteCategory(String userId, int categoryId) {
+        List<DeleteCategoryResponseDto> data = null;
 
         try {
 
@@ -129,7 +132,9 @@ public class CategoryServiceImplements implements CategoryService {
 
             categoryRepository.delete(categoryEntity);
 
-            data = new DeleteCategoryResponseDto(true);
+            List<CategoryEntity> categoryEntities = categoryRepository.findByStoreIdOrderByCategoryPriorityAsc(storeId);
+
+            data = DeleteCategoryResponseDto.copyList(categoryEntities);
 
         } catch (Exception exception) {
             exception.printStackTrace();

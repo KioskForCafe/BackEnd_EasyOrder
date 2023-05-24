@@ -95,7 +95,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<GetAnalysisBusinessResultSet> findByBusinessByTime(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT count(*) saleCount, sum(c.saleAmount) saleAmount "
+  @Query(value = "SELECT IFNULL(count(*),0) saleCount, IFNULL(sum(c.saleAmount),0) saleAmount "
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount "
   + "FROM order_detail_log a "
