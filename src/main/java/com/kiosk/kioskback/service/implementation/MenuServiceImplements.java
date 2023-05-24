@@ -1,5 +1,6 @@
 package com.kiosk.kioskback.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuDto;
 import com.kiosk.kioskback.dto.request.menu.PatchMenuOptionDto;
 import com.kiosk.kioskback.dto.request.menu.PostMenuDto;
+import com.kiosk.kioskback.dto.request.menu.PostMenuOptionDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.menu.DeleteMenuResponseDto;
 import com.kiosk.kioskback.dto.response.menu.GetMenuDetailResponseDto;
@@ -66,7 +68,7 @@ public class MenuServiceImplements implements MenuService{
                 int categoryId = menuEntity.getCategoryId();
                 String categoryName =null;
                 if(categoryId>0){
-                    CategoryEntity categoryEntity = categoryRepository.findByCategoryId(menuEntity.getCategoryId());
+                    CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
                     categoryName = categoryEntity.getCategoryName();
                 }
 
@@ -81,12 +83,12 @@ public class MenuServiceImplements implements MenuService{
     }
 
     @Override
-    public ResponseDto<List<PostMenuResponseDto>> postMenu(String userId, PostMenuDto dto) {
+    public ResponseDto<PostMenuResponseDto> postMenu(String userId, PostMenuDto dto) {
         
-        List<PostMenuResponseDto> data = null;
+        PostMenuResponseDto data = null;
 
         int storeId = dto.getStoreId();
-        int categoryId = dto.getCategoryId();
+        List<PostMenuOptionDto> optionList = dto.getOptionList();
         
 
         try {
@@ -102,10 +104,15 @@ public class MenuServiceImplements implements MenuService{
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
             MenuEntity menuEntity = PostMenuResponseDto.toMenuEntity(dto);
-            menuRepository.save(menuEntity);
+            menuEntity = menuRepository.save(menuEntity);
+            int menuId = menuEntity.getMenuId();
 
-            List<MenuEntity> menuList = menuRepository.findByStoreIdAndCategoryId(storeId, categoryId);
-            data = PostMenuResponseDto.copyList(menuList);
+            for(PostMenuOptionDto option : optionList){
+                OptionEntity optionEntity = new OptionEntity(option, menuId);
+                optionRepository.save(optionEntity);
+            }
+
+            data = new PostMenuResponseDto(true);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,59 +124,46 @@ public class MenuServiceImplements implements MenuService{
 
     @Override
     public ResponseDto<PatchMenuResponseDto> patchMenu(String userId, PatchMenuDto dto) {
-
         PatchMenuResponseDto data = null;
 
+        int menuId = dto.getMenuId();
+        int storeId = dto.getStoreId();
+        Integer categoryId = dto.getCategoryId();
+        String categoryName = null;
+        List<PatchMenuOptionDto> patchMenuOptionDtoList = dto.getOptionList();
+
         try {
-            // 존재하는 유저인지 확인하는 메서드
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
             if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
-            // 사용자가 가져온 정보에 해당하는 menuId를 가져옴
-            int menuId = dto.getMenuId();
-
-            // menuId로 해당하는 menu의 정보를 불러옴
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
 
-            // 사용자가 가져온 정보에 해당하는 storeId를 가져옴
-            int storeId = menuEntity.getStoreId();
-            // storeId에 해당하는 store 정보를 가져옴
-            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
-            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
-            // 가져온 store 정보와 사용자가 입력한 userId가 같은지 확인
-            boolean hasPermission = userId.equals(storeEntity.getUserId());
+            boolean hasPermission = storeRepository.existsByUserIdAndStoreId(userId, storeId);
             if(!hasPermission) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
-            // 메뉴정보 수정 및 저장
             menuEntity.patch(dto);
-            menuRepository.save(menuEntity);
-
-            // menuId에 해당하는 option 리스트 수정 및 추가 저장
-            List<OptionEntity> optionEntityList = optionRepository.findByMenuId(menuId);
-            List<PatchMenuOptionDto> patchMenuOptionDtoList = dto.getOptionList();
-            for(OptionEntity optionEntity : optionEntityList){
-                for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
-                    if(optionEntity.getOptionId() == patchMenuOptionDto.getOptionId()){
-                        optionEntity.patch(patchMenuOptionDto);
-                        optionRepository.save(optionEntity);
-                    }
-                    else if(patchMenuOptionDto.getOptionId() == null){
-                        optionEntity = new OptionEntity(patchMenuOptionDto, menuId);
-                        optionRepository.save(optionEntity);
-                    }
-                }
+            menuEntity = menuRepository.save(menuEntity);
+            List<Integer> optionIdList = new ArrayList<Integer>();
+            for(PatchMenuOptionDto patchMenuOptionDto : patchMenuOptionDtoList){
+                Integer optionId = patchMenuOptionDto.getOptionId();
+                optionIdList.add(optionId);
             }
+
+            List<OptionEntity> deleteOptionEntityList = optionRepository.findOptionNotInList(optionIdList);
             
-            optionEntityList = optionRepository.findByMenuId(menuId);
-            int categoryId = menuEntity.getCategoryId();
-            String categoryName =null;
-            if(categoryId>0){
-                CategoryEntity categoryEntity = categoryRepository.findByCategoryId(menuEntity.getCategoryId());
+            optionRepository.deleteAll(deleteOptionEntityList);
+            
+            List<OptionEntity> patchedOptionEntityList = OptionEntity.copyList(patchMenuOptionDtoList, menuId);
+            List<OptionEntity> optionEntityList =  optionRepository.saveAll(patchedOptionEntityList);
+            
+            if(categoryId != null){
+                CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
+                if(categoryEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY_ID);
                 categoryName = categoryEntity.getCategoryName();
             }
-
+            
             data = new PatchMenuResponseDto(menuEntity, optionEntityList, categoryName);
             
 

@@ -9,6 +9,7 @@ public interface ResponseMessage {
     public static final String EXIST_USER_NAME = "Existed User Name.";
     public static final String EXIST_USER_TEL_NUMBER = "Existed User Tel Number.";
     public static final String EXIST_USER_EMAIL = "Existed User Email.";
+    public static final String DELETE_STORE_ERROR = "The product must be deleted.";
     
     public static final String NOT_EXIST_STORE = "Not Exist Store.";
     public static final String NOT_EXIST_MENU = "Not Exist Menu.";
@@ -19,6 +20,7 @@ public interface ResponseMessage {
     public static final String NOT_EXIST_USER_ID = "존재하지 않는 아이디 입니다.";
     public static final String NOT_EXIST_CATEGORY_ID = "존재하지 않는 카테고리 입니다.";
     public static final String NOT_EXIST_STORE_ID = "존재하지 않는 매장 입니다.";
+    public static final String NOT_EXIST_ORDER_DETAIL_ID = "존재하지 않는 주문 번호 입니다.";
     public static final String NOT_ADMIN = "관리자 아이디가 아닙니다.";
     public static final String NOT_PERMISSION = "Doesn't Have Permission";
     

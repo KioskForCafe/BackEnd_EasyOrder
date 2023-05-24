@@ -59,14 +59,14 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "WHERE store_id = :storeId "
   + "GROUP BY user_id, order_log_id " , nativeQuery = true
   )
-  public int countTotalUserByStoreId(@Param("storeId") int storeId);
+  public Integer countTotalUserByStoreId(@Param("storeId") int storeId);
   
   @Query(value = "SELECT count(*) "
   + "FROM order_detail_log "
   + "WHERE store_id = :storeId AND user_id IN (SELECT user_id FROM user WHERE created_at BETWEEN :startedAt AND :endedAt) AND created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY user_id, order_log_id " , nativeQuery = true
   )
-  public int countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
+  public Integer countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
   @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, b.point point, sum(price_with_option) amountPayment "
   + "FROM order_detail_log a "
@@ -84,7 +84,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount, DATE_FORMAT(b.created_at, '%H') time "
   + "FROM order_detail_log a "
-  + "LEFT JOIN order_log b "
+  + "JOIN order_log b "
   + "ON a.order_log_id = b.order_log_id "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "
@@ -95,11 +95,11 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public List<GetAnalysisBusinessResultSet> findByBusinessByTime(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT count(*) saleCount, sum(c.saleAmount) saleAmount "
+  @Query(value = "SELECT IFNULL(count(*),0) saleCount, IFNULL(sum(c.saleAmount),0) saleAmount "
   + "FROM ( "
   + "SELECT a.order_log_id orderId, sum(a.price_with_option) saleAmount "
   + "FROM order_detail_log a "
-  + "LEFT JOIN order_log b "
+  + "JOIN order_log b "
   + "ON a.order_log_id = b.order_log_id "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt "
   + "GROUP BY a.order_log_id "

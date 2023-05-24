@@ -3,6 +3,7 @@ package com.kiosk.kioskback.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -25,7 +26,9 @@ public class WebSecurityConfig {
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().requestMatchers("/", "/auth/**").permitAll()
+            .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/menu/**", "/api/category/**", "/file/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/user/duplicate/**", "/file/**", "/api/order").permitAll()
             .anyRequest().authenticated();
 
             httpSecurity

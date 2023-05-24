@@ -8,7 +8,10 @@ public class ApiPattern {
     public static final String ANALYSIS = "/api/analysis";
     public static final String POINT = "/api/point";
     public static final String ORDER = "/api/order";
-    public static final String ORDER_DETAIL = "/api/order-detail";
+    // public static final String ORDER_DETAIL = "/api/order-detail";
     public static final String USER = "/api/user";
     public static final String REVIEW = "/api/review";
+
+    public static final String FILE = "/file";
+    public static final String SMS = "/sms";
 }

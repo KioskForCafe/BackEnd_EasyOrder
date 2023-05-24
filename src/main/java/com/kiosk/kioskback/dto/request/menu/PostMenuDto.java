@@ -16,12 +16,11 @@ import lombok.NoArgsConstructor;
 public class PostMenuDto {
     
     @ApiModelProperty(value = "매장 번호", example = "1", required = true)
-    @NotBlank
+    @Min(1)
     private int storeId;
 
     @ApiModelProperty(value = "카테고리 번호", required = true)
-    @Min(1)
-    private int categoryId;
+    private Integer categoryId;
 
     @ApiModelProperty(value = "메뉴 이름", required = true)
     @NotBlank

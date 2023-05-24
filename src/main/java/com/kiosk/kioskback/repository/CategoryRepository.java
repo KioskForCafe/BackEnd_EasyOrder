@@ -10,7 +10,7 @@ import com.kiosk.kioskback.entity.CategoryEntity;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
 
-    public List<CategoryEntity> findByStoreIdOrderByCategoryPriorityDesc(int storeId);
+    public List<CategoryEntity> findByStoreIdOrderByCategoryPriorityAsc(int storeId);
 
     public CategoryEntity findByCategoryId(int categoryId);
     

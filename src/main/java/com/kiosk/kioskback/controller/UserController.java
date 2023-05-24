@@ -14,12 +14,14 @@ import com.kiosk.kioskback.common.constants.ApiPattern;
 import com.kiosk.kioskback.dto.request.user.PatchUserDto;
 import com.kiosk.kioskback.dto.request.user.PostCheckEmailDuplicateDto;
 import com.kiosk.kioskback.dto.request.user.PostCheckIdDuplicateDto;
+import com.kiosk.kioskback.dto.request.user.PostCheckTelNumberDuplicateDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.user.DeleteUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.GetUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.PatchUserResponseDto;
 import com.kiosk.kioskback.dto.response.user.PostCheckEmailDuplicateResponseDto;
 import com.kiosk.kioskback.dto.response.user.PostCheckIdDuplicateResponseDto;
+import com.kiosk.kioskback.dto.response.user.PostCheckTelNumberDuplicateResponseDto;
 import com.kiosk.kioskback.service.UserServcie;
 
 import io.swagger.annotations.Api;
@@ -36,8 +38,9 @@ public class UserController {
     private final String GET_USER = "/";
     private final String PATCH_USER = "/";
     private final String DELETE = "/{userId}";
-    private final String POST_CHECKEMAIL_DUPLICATE = "/checkEmail/duplicate";
-    private final String POST_CHECKID_DUPLICATE = "/checkId/duplicate";
+    private final String POST_CHECKEMAIL_DUPLICATE = "/duplicate/checkEmail";
+    private final String POST_CHECKID_DUPLICATE = "/duplicate/checkId";
+    private final String POST_CHECKTELNUMBER_DUPLICATE = "/duplicate/checkTelNumber";
 
     @ApiOperation(value="회원 정보 조회", notes="Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
     @GetMapping(GET_USER)
@@ -77,6 +80,15 @@ public class UserController {
         @Valid @RequestBody PostCheckIdDuplicateDto requestBody
     ) {
         ResponseDto<PostCheckIdDuplicateResponseDto> response = userService.postCheckIdDuplicate(requestBody);
+        return response;
+    }
+
+    @ApiOperation(value="유저 전화번호 중복체크", notes="Request Body에 telNumber를 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
+    @PostMapping(POST_CHECKTELNUMBER_DUPLICATE)
+    public ResponseDto<PostCheckTelNumberDuplicateResponseDto> postCheckTelNumberDuplicate(
+        @Valid @RequestBody PostCheckTelNumberDuplicateDto requestBody
+    ) {
+        ResponseDto<PostCheckTelNumberDuplicateResponseDto> response = userService.postCheckTelNumberDuplicate(requestBody);
         return response;
     }
 }

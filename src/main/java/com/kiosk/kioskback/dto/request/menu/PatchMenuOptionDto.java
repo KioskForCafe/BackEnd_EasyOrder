@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatchMenuOptionDto {
     @ApiModelProperty(value = "옵션 번호", required = true)
-    @Min(1)
     private Integer optionId;
 
     @ApiModelProperty(value = "옵션 이름", required = true)
@@ -32,4 +31,5 @@ public class PatchMenuOptionDto {
         this.optionName = optionEntity.getOptionName();
         this.optionPrice = optionEntity.getOptionPrice();
     }
+
 }

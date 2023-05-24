@@ -1,22 +1,21 @@
-package com.kiosk.kioskback.dto.request.order;
+package com.kiosk.kioskback.dto.request;
 
 import com.kiosk.kioskback.entity.OptionEntity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@ApiModel(value = "메뉴 수정 옵션 Request Body")
+@ApiModel(value = "옵션 추가 Request Body")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class PostOrderDetailOptionDto {
+public class OptionDto {
+
     @ApiModelProperty(value = "옵션 번호", required = true)
-    @Min(1)
+    @NotEmpty
     private int optionId;
 
     @ApiModelProperty(value = "옵션 이름", required = true)
@@ -24,12 +23,13 @@ public class PostOrderDetailOptionDto {
     private String optionName;
 
     @ApiModelProperty(value = "옵션 가격", required = true)
-    @Min(0)
+    @NotEmpty
     private int optionPrice;
-    
-    public PostOrderDetailOptionDto(OptionEntity optionEntity) {
+
+    public OptionDto(OptionEntity optionEntity) {
         this.optionId = optionEntity.getOptionId();
         this.optionName = optionEntity.getOptionName();
         this.optionPrice = optionEntity.getOptionPrice();
     }
+    
 }
