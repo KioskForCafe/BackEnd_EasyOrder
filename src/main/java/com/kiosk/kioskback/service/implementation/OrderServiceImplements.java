@@ -1,6 +1,7 @@
 package com.kiosk.kioskback.service.implementation;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +10,32 @@ import org.springframework.stereotype.Service;
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.order.PatchOrderDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDetailDto;
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailLogDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDto;
+import com.kiosk.kioskback.dto.request.order.PostOrderLogDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
+import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
+import com.kiosk.kioskback.entity.OptionLogEntity;
 import com.kiosk.kioskback.entity.OrderDetailEntity;
+import com.kiosk.kioskback.entity.OrderDetailLogEntity;
 import com.kiosk.kioskback.entity.OrderDetailOptionEntity;
 import com.kiosk.kioskback.entity.OrderEntity;
+import com.kiosk.kioskback.entity.OrderLogEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
+import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.OrderDetailOptionRepository;
 import com.kiosk.kioskback.repository.OrderDetailRepository;
+import com.kiosk.kioskback.repository.OrderLogRepository;
 import com.kiosk.kioskback.repository.OrderRepository;
 import com.kiosk.kioskback.repository.StoreRepository;
 import com.kiosk.kioskback.repository.UserRepository;
@@ -42,6 +51,8 @@ public class OrderServiceImplements implements OrderService {
     @Autowired private OptionRepository optionRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private StoreRepository storeRepository;
+    @Autowired private OrderDetailLogRepository orderdetailLogRepository;
+    @Autowired private OrderLogRepository orderLogRepository;
 
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState){
         List<GetOrderResponseDto> data = null;
@@ -142,6 +153,33 @@ public class OrderServiceImplements implements OrderService {
 
             data = new PostOrderResponseDto(true);
 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    // 
+    public ResponseDto<PostOrderLogResponseDto> postOrderLog(PostOrderLogDto dto) {
+
+        PostOrderLogResponseDto data = null;
+        List<PostOrderDetailLogDto> detailLogList = dto.getPostOrderDetailLogDtoList();
+
+        try {
+            OrderLogEntity orderLogEntity = new OrderLogEntity(dto);
+            orderLogEntity = orderLogRepository.save(orderLogEntity);
+            int orderLogId = orderLogEntity.getOrderLogId();
+            Date orderLogDate = orderLogEntity.getCreatedAt();
+            List<OrderDetailLogEntity> orderDetailLogEntityList = OrderDetailLogEntity.copyList(detailLogList, orderLogId, orderLogDate);
+            orderDetailLogEntityList = orderdetailLogRepository.saveAll(orderDetailLogEntityList);
+            for(OrderDetailLogEntity orderDetailLogEntity : orderDetailLogEntityList){
+                int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
+                OptionLogEntity optionLogEntity = new OptionLogEntity();
+            }
+            // todo : optionLog 저장(entity 만들기, dto 만들기)
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
