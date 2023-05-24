@@ -1,5 +1,7 @@
 package com.kiosk.kioskback.entity;
 
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailOptionDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +25,10 @@ public class OptionLogEntity {
     private int optionPrice;
     private int orderDetailLogId;
 
-    public OptionLogEntity(List<PostOrderDetailOptionDto> optionList, int orderDetailLogId) {
-        
+    public OptionLogEntity(PostOrderDetailOptionDto option, int orderDetailLogId) {
+        this.optionId = option.getOptionId();
+        this.optionName = option.getOptionName();
+        this.optionPrice = option.getOptionPrice();
+        this.orderDetailLogId = orderDetailLogId;
     }
 }

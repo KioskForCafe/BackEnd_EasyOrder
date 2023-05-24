@@ -37,18 +37,17 @@ public class OrderDetailLogEntity {
   private Date createdAt;
 
   public OrderDetailLogEntity(PostOrderDetailLogDto dto, int orderLogId, Date orderLogDate) {
-
-  }
-
-  public static List<OrderDetailLogEntity> copyList(List<PostOrderDetailLogDto> dto, int orderLogId, Date orderLogDate) {
-    List<OrderDetailLogEntity> list = new ArrayList<>();
-
-    for(PostOrderDetailLogDto postOrderDetailLogDto : dto){
-      OrderDetailLogEntity orderDetailLogEntity = new OrderDetailLogEntity(postOrderDetailLogDto, orderLogId, orderLogDate);
-        list.add(orderDetailLogEntity);
-    }
-
-    return list;
+    this.orderLogId = orderLogId;
+    this.menuId = dto.getMenuId();
+    this.menuName = dto.getMenuName();
+    this.menuPrice = dto.getMenuPrice();
+    this.categoryId = dto.getCategoryId();
+    this.categoryName = dto.getCategoryName();
+    this.storeId = dto.getStoreId();
+    this.storeName = dto.getStoreName();
+    this.priceWithOption = dto.getPriceWithOption();
+    this.count = dto.getCount();
+    this.createdAt= orderLogDate;
   }
   
 }

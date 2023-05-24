@@ -32,6 +32,7 @@ import com.kiosk.kioskback.entity.OrderLogEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
 import com.kiosk.kioskback.repository.MenuRepository;
+import com.kiosk.kioskback.repository.OptionLogRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
 import com.kiosk.kioskback.repository.OrderDetailLogRepository;
 import com.kiosk.kioskback.repository.OrderDetailOptionRepository;
@@ -54,6 +55,7 @@ public class OrderServiceImplements implements OrderService {
     @Autowired private StoreRepository storeRepository;
     @Autowired private OrderDetailLogRepository orderdetailLogRepository;
     @Autowired private OrderLogRepository orderLogRepository;
+    @Autowired private OptionLogRepository optionLogRepository;
 
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState){
         List<GetOrderResponseDto> data = null;
@@ -163,7 +165,7 @@ public class OrderServiceImplements implements OrderService {
     }
 
     // 
-    public ResponseDto<PostOrderLogResponseDto> postOrderLog(PostOrderLogDto dto) {
+    public ResponseDto<PostOrderLogResponseDto> postOrderLog(String userId, PostOrderLogDto dto) {
 
         PostOrderLogResponseDto data = null;
         List<PostOrderDetailLogDto> detailLogList = dto.getPostOrderDetailLogDtoList();
@@ -173,19 +175,19 @@ public class OrderServiceImplements implements OrderService {
             orderLogEntity = orderLogRepository.save(orderLogEntity);
             int orderLogId = orderLogEntity.getOrderLogId();
             Date orderLogDate = orderLogEntity.getCreatedAt();
-            List<OrderDetailLogEntity> orderDetailLogEntityList = OrderDetailLogEntity.copyList(detailLogList, orderLogId, orderLogDate);
-            orderDetailLogEntityList = orderdetailLogRepository.saveAll(orderDetailLogEntityList);
             
             for(PostOrderDetailLogDto postOrderDetailLogDto : detailLogList) {
-                int orderDetailLogId = 
+                OrderDetailLogEntity orderDetailLogEntity = new OrderDetailLogEntity(postOrderDetailLogDto, orderLogId, orderLogDate);
+                orderDetailLogEntity = orderdetailLogRepository.save(orderDetailLogEntity);
+                int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
                 List<PostOrderDetailOptionDto> optionList = postOrderDetailLogDto.getOptions();
-                OptionLogEntity optionLogEntity = new OptionLogEntity(optionList, orderDetailLogId);
+                for(PostOrderDetailOptionDto postOrderDetailOptionDto : optionList){
+                    OptionLogEntity optionLogEntity = new OptionLogEntity(postOrderDetailOptionDto, orderDetailLogId);
+                    optionLogRepository.save(optionLogEntity);
+                }
             }
-            // for(OrderDetailLogEntity orderDetailLogEntity : orderDetailLogEntityList){
-            //     int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
-            //     OptionLogEntity optionLogEntity = new OptionLogEntity();
-            // }
-            // todo : optionLog 저장(entity 만들기, dto 만들기), 
+
+            data = new PostOrderLogResponseDto(true);
             
         } catch (Exception exception) {
             exception.printStackTrace();

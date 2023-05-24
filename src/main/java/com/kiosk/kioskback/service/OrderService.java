@@ -20,5 +20,5 @@ public interface OrderService {
     public ResponseDto<PostOrderResponseDto> postOrder(PostOrderDto dto);
     public ResponseDto<DeleteOrderResponseDto> deleteOrderDetail(int orderDetailId);
     public ResponseDto<List<PatchOrderResponseDto>> patchOrder(String userId, PatchOrderDto dto);
-    public ResponseDto<PostOrderLogResponseDto> postOrderLog(PostOrderLogDto dto);
+    public ResponseDto<PostOrderLogResponseDto> postOrderLog(String userId, PostOrderLogDto dto);
 }

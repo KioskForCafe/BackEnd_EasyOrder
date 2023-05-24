@@ -77,8 +77,8 @@ public class OrderController {
 
     @ApiOperation(value = "완료된 주문 로그에 저장하기")
     @PostMapping(POST_ORDER_LOG)
-    public ResponseDto<PostOrderLogResponseDto> postOrderLog(@Valid @RequestBody PostOrderLogDto requestBody) {
-        ResponseDto<PostOrderLogResponseDto> response = orderService.postOrderLog(requestBody);       
+    public ResponseDto<PostOrderLogResponseDto> postOrderLog(@AuthenticationPrincipal String userId, @Valid @RequestBody PostOrderLogDto requestBody) {
+        ResponseDto<PostOrderLogResponseDto> response = orderService.postOrderLog(userId, requestBody);       
         return response;
     }
     

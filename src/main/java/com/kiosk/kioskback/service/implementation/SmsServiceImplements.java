@@ -7,6 +7,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,6 +18,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -74,8 +77,16 @@ public class SmsServiceImplements implements SmsService{
 	}
 
     @Override
-    public SmsResponseDto sendSms(MessageDto messageDto) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException {
-        Long time = System.currentTimeMillis();
+    public SmsResponseDto sendSms(String telNumber) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException {
+        Random random = new Random();
+		String rand = "";
+		for (int i = 0; i < 6; i++) {
+			String ran = Integer.toString(random.nextInt(10));
+			rand += ran;
+		}
+		MessageDto messageDto = new MessageDto(telNumber, "Kiosk 본인인증 ["+rand+"]");
+
+		Long time = System.currentTimeMillis();
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -102,7 +113,6 @@ public class SmsServiceImplements implements SmsService{
 		RestTemplate restTemplate = new RestTemplate();
 	    restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 	    SmsResponseDto response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
- 
 	    return response;
     }
     

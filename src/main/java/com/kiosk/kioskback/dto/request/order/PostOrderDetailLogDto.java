@@ -18,6 +18,8 @@ public class PostOrderDetailLogDto {
     private String categoryName;
     private List<PostOrderDetailOptionDto> options;
     private int priceWithOption;
+    private int storeId;
+    private String storeName;
     private int count;
 
 }
