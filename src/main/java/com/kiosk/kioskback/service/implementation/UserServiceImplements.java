@@ -96,14 +96,18 @@ public class UserServiceImplements implements UserServcie {
     public ResponseDto<PatchUserResponseDto> patchUser(String userId, PatchUserDto dto) {
 
         PatchUserResponseDto data = null;
+        
+        String userName = dto.getUserName();
+        String userEmail = dto.getUserEmail();
+        String telNumber = dto.getTelNumber();
 
         try {
             UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
 
-            // todo : Email, TelNumber 중복 확인
-
-            userEntity.patch(dto);
+            userEntity.setUserName(userName);
+            userEntity.setUserEmail(userEmail);
+            userEntity.setTelNumber(telNumber);
             userRepository.save(userEntity);
 
             data = new PatchUserResponseDto(userEntity);
