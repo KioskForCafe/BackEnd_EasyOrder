@@ -24,6 +24,6 @@ public class OptionLogEntity {
     private int orderDetailLogId;
 
     public OptionLogEntity(List<PostOrderDetailOptionDto> optionList, int orderDetailLogId) {
-
+        
     }
 }

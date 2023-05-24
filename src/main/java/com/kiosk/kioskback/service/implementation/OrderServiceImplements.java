@@ -11,6 +11,7 @@ import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.order.PatchOrderDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDetailDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDetailLogDto;
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailOptionDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderLogDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
@@ -174,11 +175,17 @@ public class OrderServiceImplements implements OrderService {
             Date orderLogDate = orderLogEntity.getCreatedAt();
             List<OrderDetailLogEntity> orderDetailLogEntityList = OrderDetailLogEntity.copyList(detailLogList, orderLogId, orderLogDate);
             orderDetailLogEntityList = orderdetailLogRepository.saveAll(orderDetailLogEntityList);
-            for(OrderDetailLogEntity orderDetailLogEntity : orderDetailLogEntityList){
-                int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
-                OptionLogEntity optionLogEntity = new OptionLogEntity();
+            
+            for(PostOrderDetailLogDto postOrderDetailLogDto : detailLogList) {
+                int orderDetailLogId = 
+                List<PostOrderDetailOptionDto> optionList = postOrderDetailLogDto.getOptions();
+                OptionLogEntity optionLogEntity = new OptionLogEntity(optionList, orderDetailLogId);
             }
-            // todo : optionLog 저장(entity 만들기, dto 만들기)
+            // for(OrderDetailLogEntity orderDetailLogEntity : orderDetailLogEntityList){
+            //     int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
+            //     OptionLogEntity optionLogEntity = new OptionLogEntity();
+            // }
+            // todo : optionLog 저장(entity 만들기, dto 만들기), 
             
         } catch (Exception exception) {
             exception.printStackTrace();
