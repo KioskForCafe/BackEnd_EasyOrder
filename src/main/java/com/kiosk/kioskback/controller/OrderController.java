@@ -82,11 +82,11 @@ public class OrderController {
 
     @ApiOperation(value = "주문 상태 변경", notes = "Request Header Athorization에 Bearer JWT를 포함하고 Request Body에 orderId, orderState를 포함하여 요청하면 성공 시 성공 메세지, 실패 시 실패 메세지를 반환")
     @PatchMapping(PATCH_ORDER)
-    public ResponseDto<PatchOrderResponseDto> patchOrder(
+    public ResponseDto<List<PatchOrderResponseDto>> patchOrder(
         @ApiParam(hidden = true)
         @AuthenticationPrincipal String userId,
         @Valid @RequestBody PatchOrderDto requestBody) {
-            ResponseDto<PatchOrderResponseDto> response = orderService.patchOrder(userId, requestBody);
+            ResponseDto<List<PatchOrderResponseDto>> response = orderService.patchOrder(userId, requestBody);
             return response;
         }
 
