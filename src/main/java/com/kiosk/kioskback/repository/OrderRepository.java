@@ -10,6 +10,7 @@ import com.kiosk.kioskback.entity.OrderEntity;
 public interface OrderRepository extends JpaRepository<OrderEntity, Integer>{
 
     public List<OrderEntity> findByStoreIdAndOrderState(int storeId, String orderState);
+    public List<OrderEntity> findByStoreId(int storeId);
     public OrderEntity findByOrderId(int orderId);
     public OrderEntity findByUserIdAndOrderId(String userId, int orderId);
     

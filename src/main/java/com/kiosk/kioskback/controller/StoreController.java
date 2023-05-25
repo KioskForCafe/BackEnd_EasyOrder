@@ -18,6 +18,7 @@ import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
 import com.kiosk.kioskback.dto.request.store.PostStoreDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.store.DeleteStoreResponseDto;
+import com.kiosk.kioskback.dto.response.store.GetStoreListResponseDto;
 import com.kiosk.kioskback.dto.response.store.GetStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PatchStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PostStoreResponseDto;
@@ -32,17 +33,27 @@ import io.swagger.annotations.ApiOperation;
 public class StoreController {
     @Autowired private StoreService storeService;
 
-    private final String GET = "";
+    private final String GET = "/{storeId}";
+    private final String GET_LIST = "";
     private final String POST = "";
     private final String PATCH = "";
     private final String DELETE = "/{storeId}";
 
     @ApiOperation(
+        value = "매장 정보 가져오기",
+        notes = "PathVariable에 StoreId를 포함하여 요청을 하면, 성공시 매장 정보를 반환, 실패시 실패 메세지를 반환")
+    @GetMapping(GET)
+    public ResponseDto<GetStoreResponseDto> getStore(@PathVariable("storeId") int storeId){
+        ResponseDto<GetStoreResponseDto> response = storeService.getStore(storeId);
+        return response;
+    }
+
+    @ApiOperation(
         value = "전체 매장 리스트 가져오기",
         notes = "Reqeust Header Authorization에 Bearer JWT를 포함하여 요청을 하면, 성공시 전체 매장 리스트를 최신순으로 반환, 실패시 실패 메세지를 반환")
-    @GetMapping(GET)
-    public ResponseDto<List<GetStoreResponseDto>> getStore(@AuthenticationPrincipal String userId){
-        ResponseDto<List<GetStoreResponseDto>> response = storeService.getStore(userId);
+    @GetMapping(GET_LIST)
+    public ResponseDto<List<GetStoreListResponseDto>> getStoreList(@AuthenticationPrincipal String userId){
+        ResponseDto<List<GetStoreListResponseDto>> response = storeService.getStoreList(userId);
         return response;
     }
 

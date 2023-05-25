@@ -6,14 +6,17 @@ import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
 import com.kiosk.kioskback.dto.request.store.PostStoreDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.store.DeleteStoreResponseDto;
+import com.kiosk.kioskback.dto.response.store.GetStoreListResponseDto;
 import com.kiosk.kioskback.dto.response.store.GetStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PatchStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PostStoreResponseDto;
 
 public interface StoreService {
     
+    public ResponseDto<GetStoreResponseDto> getStore(int storeId);
+
     //^ 매장 전체 조회
-    public ResponseDto<List<GetStoreResponseDto>> getStore(String userId);
+    public ResponseDto<List<GetStoreListResponseDto>> getStoreList(String userId);
 
     //^ 매장 등록
     public ResponseDto<PostStoreResponseDto> postStore(String userId, PostStoreDto requestbody);
