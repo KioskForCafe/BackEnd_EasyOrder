@@ -67,16 +67,23 @@ public class OrderServiceImplements implements OrderService {
 
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
-            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
             if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
 
-            boolean isEqualUserId = userId.equals(storeEntity.getUserId());
-            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
+            List<OrderEntity> orderEntityList;
 
-            List<OrderEntity> orderEntityList = orderRepository.findByStoreIdAndOrderState(storeId, orderState);
+            if(orderState != null){
+                if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
+                
+                boolean isEqualUserId = userId.equals(storeEntity.getUserId());
+                if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
+                orderEntityList = orderRepository.findByStoreIdAndOrderState(storeId, orderState);
+            }else{
+                orderEntityList = orderRepository.findByStoreId(storeId);
+            }
+            
             data = GetOrderResponseDto.copyList(orderEntityList);
 
         } catch (Exception exception) {

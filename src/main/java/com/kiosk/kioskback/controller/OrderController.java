@@ -38,7 +38,8 @@ public class OrderController {
 
     @Autowired private OrderService orderService;
 
-    private final String GET_ORDER_LIST = "/list/{storeId}/{orderState}";
+    private final String GET_ORDER_LIST = "/list/{storeId}";
+    private final String GET_ORDER_LIST_STATE = "/list/{storeId}/{orderState}";
     private final String GET_ORDER_DETAIL_LIST = "/{orderId}";
     private final String POST_ORDER = "";
     private final String POST_ORDER_LOG = "/log";
@@ -46,12 +47,12 @@ public class OrderController {
     private final String PATCH_ORDER = "";
 
     @ApiOperation(value = "결제된 주문 리스트 조회", notes = "")
-    @GetMapping(GET_ORDER_LIST)
+    @GetMapping(value = {GET_ORDER_LIST, GET_ORDER_LIST_STATE})
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(
         @ApiParam(hidden = true)
         @AuthenticationPrincipal String userId,
         @PathVariable("storeId") int storeId,
-        @PathVariable("orderState") String orderState
+        @PathVariable(value = "orderState", required = false) String orderState
     ) {
         ResponseDto<List<GetOrderResponseDto>> response = orderService.getOrderList(userId, storeId, orderState);
         return response;
