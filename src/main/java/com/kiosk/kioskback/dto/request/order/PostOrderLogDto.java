@@ -20,6 +20,7 @@ public class PostOrderLogDto {
     private String storeName;
     private int orderId;
     private Date createdAt;
+    private int totalPrice;
 
     
 }

@@ -29,6 +29,7 @@ public class OrderLogEntity {
     private int storeId;
     private String storeName;
     private Date createdAt;
+    private int totalPrice;
 
     public OrderLogEntity(PostOrderLogDto dto) {
         this.orderId = dto.getOrderId();
@@ -38,5 +39,6 @@ public class OrderLogEntity {
         this.storeId = dto.getStoreId();
         this.storeName = dto.getStoreName();
         this.createdAt = dto.getCreatedAt();
+        this.totalPrice = dto.getTotalPrice();
     }
 }
