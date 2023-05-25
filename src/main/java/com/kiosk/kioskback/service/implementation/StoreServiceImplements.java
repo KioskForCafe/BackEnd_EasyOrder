@@ -10,6 +10,7 @@ import com.kiosk.kioskback.dto.request.store.PatchStoreDto;
 import com.kiosk.kioskback.dto.request.store.PostStoreDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.store.DeleteStoreResponseDto;
+import com.kiosk.kioskback.dto.response.store.GetStoreListResponseDto;
 import com.kiosk.kioskback.dto.response.store.GetStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PatchStoreResponseDto;
 import com.kiosk.kioskback.dto.response.store.PostStoreResponseDto;
@@ -27,10 +28,30 @@ public class StoreServiceImplements implements StoreService{
     @Autowired private StoreRepository storeRepository;
     @Autowired private MenuRepository menuRepository;
 
+    @Override
+    public ResponseDto<GetStoreResponseDto> getStore(int storeId){
+        GetStoreResponseDto data = null;
+
+        try{
+            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+            
+            data = new GetStoreResponseDto(storeEntity);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+        
+    }
+
+
     //^ 매장 리스트 가져오기
     @Override
-    public ResponseDto<List<GetStoreResponseDto>> getStore(String userId) {
-        List<GetStoreResponseDto> data = null;
+    public ResponseDto<List<GetStoreListResponseDto>> getStoreList(String userId) {
+        List<GetStoreListResponseDto> data = null;
 
         try {
             //? 로그인 유저 정보 불러오기
@@ -40,7 +61,7 @@ public class StoreServiceImplements implements StoreService{
             if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
             List<StoreEntity> storeEntities = storeRepository.findByUserId(userId);
-            data = GetStoreResponseDto.copyList(storeEntities);
+            data = GetStoreListResponseDto.copyList(storeEntities);
 
         } catch (Exception e) {
             e.printStackTrace();
