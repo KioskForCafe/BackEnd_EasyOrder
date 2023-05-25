@@ -15,15 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetOrderDetailOptionListDto {
+    int optionId;
     String optionName;
     int optionPrice;
 
     public GetOrderDetailOptionListDto(OptionEntity optionEntity) {
+        this.optionId = optionEntity.getOptionId();
         this.optionName = optionEntity.getOptionName();
         this.optionPrice = optionEntity.getOptionPrice();
     }
 
-    public List<GetOrderDetailOptionListDto> copyOptionList(List<OptionEntity> optionList) {
+    public static List<GetOrderDetailOptionListDto> copyList(List<OptionEntity> optionList) {
 
         List<GetOrderDetailOptionListDto> list = new ArrayList<>();
 
