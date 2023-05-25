@@ -21,6 +21,7 @@ import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
+import com.kiosk.kioskback.entity.CategoryEntity;
 import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
 import com.kiosk.kioskback.entity.OptionLogEntity;
@@ -31,6 +32,7 @@ import com.kiosk.kioskback.entity.OrderEntity;
 import com.kiosk.kioskback.entity.OrderLogEntity;
 import com.kiosk.kioskback.entity.StoreEntity;
 import com.kiosk.kioskback.entity.UserEntity;
+import com.kiosk.kioskback.repository.CategoryRepository;
 import com.kiosk.kioskback.repository.MenuRepository;
 import com.kiosk.kioskback.repository.OptionLogRepository;
 import com.kiosk.kioskback.repository.OptionRepository;
@@ -56,6 +58,7 @@ public class OrderServiceImplements implements OrderService {
     @Autowired private OrderDetailLogRepository orderdetailLogRepository;
     @Autowired private OrderLogRepository orderLogRepository;
     @Autowired private OptionLogRepository optionLogRepository;
+    @Autowired private CategoryRepository categoryRepository;
 
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState){
         List<GetOrderResponseDto> data = null;
@@ -67,7 +70,8 @@ public class OrderServiceImplements implements OrderService {
             if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
-            // todo : storeEntity == null 확인
+            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
@@ -92,30 +96,32 @@ public class OrderServiceImplements implements OrderService {
             if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
 
             OrderEntity orderEntity = orderRepository.findByOrderId(orderId);
-            // todo : orderEntity null 확인
+            if(orderEntity==null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
+
             int storeId = orderEntity.getStoreId();
             StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
-            // todo : storeEntity == null 확인
+            if(storeEntity==null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+            
             boolean isEqualUserId = userId.equals(storeEntity.getUserId());
             if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
 
 
             List<OrderDetailEntity> orderDetailEntityList = orderDetailRepository.findByOrderId(orderId);
-            // todo : 맞는지 좀 더 확인 해볼 것 (강사님에게 문의 해볼 것)
             for(OrderDetailEntity orderDetailEntity : orderDetailEntityList){
                 int menuId = orderDetailEntity.getMenuId();
-                MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
-                String menuName = menuEntity.getMenuName();
-                int count = orderDetailEntity.getCount();
                 int orderDetailId = orderDetailEntity.getOrderDetailId();
+                MenuEntity menuEntity = menuRepository.findByMenuId(menuId);
+                int categoryId = menuEntity.getCategoryId();
+                CategoryEntity categoryEntity = categoryRepository.findByCategoryId(categoryId);
+                String categoryName = categoryEntity.getCategoryName();
                 List<OrderDetailOptionEntity> orderDetailOptionEntityList = orderDetailOptionRepository.findByOrderDetailId(orderDetailId);
-                List<String> optionList = new ArrayList<>();
+                List<OptionEntity> optionList = new ArrayList<>();
                 for(OrderDetailOptionEntity orderDetailOptionEntity : orderDetailOptionEntityList){
                     int optionId = orderDetailOptionEntity.getOptionId();
                     OptionEntity optionEntity = optionRepository.findByOptionId(optionId);
-                    optionList.add(optionEntity.getOptionName());
+                    optionList.add(optionEntity);
                 }
-                GetOrderDetailResponseDto getOrderDetailResponseDto = new GetOrderDetailResponseDto(menuName, count , optionList);
+                GetOrderDetailResponseDto getOrderDetailResponseDto = new GetOrderDetailResponseDto(orderDetailEntity, menuEntity, categoryName , optionList);
                 data.add(getOrderDetailResponseDto);
             }
 
@@ -168,7 +174,8 @@ public class OrderServiceImplements implements OrderService {
     public ResponseDto<PostOrderLogResponseDto> postOrderLog(String userId, PostOrderLogDto dto) {
 
         PostOrderLogResponseDto data = null;
-        List<PostOrderDetailLogDto> detailLogList = dto.getPostOrderDetailLogDtoList();
+        List<PostOrderDetailLogDto> detailLogList = dto.getOrderDetail();
+        System.out.println(dto);
 
         try {
             OrderLogEntity orderLogEntity = new OrderLogEntity(dto);
@@ -180,7 +187,7 @@ public class OrderServiceImplements implements OrderService {
                 OrderDetailLogEntity orderDetailLogEntity = new OrderDetailLogEntity(postOrderDetailLogDto, orderLogId, orderLogDate);
                 orderDetailLogEntity = orderdetailLogRepository.save(orderDetailLogEntity);
                 int orderDetailLogId = orderDetailLogEntity.getOrderDetailLogId();
-                List<PostOrderDetailOptionDto> optionList = postOrderDetailLogDto.getOptions();
+                List<PostOrderDetailOptionDto> optionList = postOrderDetailLogDto.getOptionList();
                 for(PostOrderDetailOptionDto postOrderDetailOptionDto : optionList){
                     OptionLogEntity optionLogEntity = new OptionLogEntity(postOrderDetailOptionDto, orderDetailLogId);
                     optionLogRepository.save(optionLogEntity);

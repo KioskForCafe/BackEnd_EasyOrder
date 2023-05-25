@@ -41,7 +41,7 @@ public class OrderController {
     private final String GET_ORDER_LIST = "/list/{storeId}/{orderState}";
     private final String GET_ORDER_DETAIL_LIST = "/{orderId}";
     private final String POST_ORDER = "";
-    private final String POST_ORDER_LOG = "";
+    private final String POST_ORDER_LOG = "/log";
     private final String DELETE_ORDER_DETAIL = "/detail/{orderDetailId}";
     private final String PATCH_ORDER = "";
 

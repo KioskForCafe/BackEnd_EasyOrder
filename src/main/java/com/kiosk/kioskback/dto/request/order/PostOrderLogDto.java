@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostOrderLogDto {
 
-    private List<PostOrderDetailLogDto> postOrderDetailLogDtoList;
+    private List<PostOrderDetailLogDto> orderDetail;
     private String userId;
     private String userName;
     private String telNumber;
