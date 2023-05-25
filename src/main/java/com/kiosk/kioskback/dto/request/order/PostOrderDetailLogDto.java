@@ -16,7 +16,7 @@ public class PostOrderDetailLogDto {
     private int menuPrice;
     private int categoryId;
     private String categoryName;
-    private List<PostOrderDetailOptionDto> options;
+    private List<PostOrderDetailOptionDto> optionList;
     private int priceWithOption;
     private int storeId;
     private String storeName;
