@@ -1,5 +1,8 @@
 package com.kiosk.kioskback.dto.response.store;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.kiosk.kioskback.entity.StoreEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -8,11 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "매장 정보 가져오기 Response Body - data")
+@ApiModel(value = "매장 리스트 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetStoreResponseDto {
+public class GetStoreListResponseDto {
     @ApiModelProperty(value = "매장 번호", example = "1" ,required = true)
     private int storeId;
     
@@ -31,7 +34,7 @@ public class GetStoreResponseDto {
     @ApiModelProperty(value = "매장 로고 URL", example = "http://~" ,required = true)
     private String storeLogoUrl;
 
-    public GetStoreResponseDto(StoreEntity storeEntity){
+    public GetStoreListResponseDto(StoreEntity storeEntity){
         this.storeId = storeEntity.getStoreId();
         this.storeName = storeEntity.getStoreName();
         this.storeOpenTime = storeEntity.getStoreOpenTime();
@@ -39,4 +42,16 @@ public class GetStoreResponseDto {
         this.storeImgUrl = storeEntity.getStoreImgUrl();
         this.storeLogoUrl = storeEntity.getStoreLogoUrl();
     }
+
+    public static List<GetStoreListResponseDto> copyList(List<StoreEntity> storeEntities){
+        List<GetStoreListResponseDto> list = new ArrayList<>();
+
+        for(StoreEntity storeEntity : storeEntities){
+            GetStoreListResponseDto dto = new GetStoreListResponseDto(storeEntity);
+            list.add(dto);
+        }
+
+        return list;
+    }
+
 }
