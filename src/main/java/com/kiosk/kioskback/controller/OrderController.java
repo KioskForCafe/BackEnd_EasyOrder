@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kiosk.kioskback.common.constants.ApiPattern;
 import com.kiosk.kioskback.dto.request.order.PatchOrderDto;
 import com.kiosk.kioskback.dto.request.order.PostOrderDto;
+import com.kiosk.kioskback.dto.request.order.PostOrderLogDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
+import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
 import com.kiosk.kioskback.service.OrderService;
 
@@ -36,19 +38,21 @@ public class OrderController {
 
     @Autowired private OrderService orderService;
 
-    private final String GET_ORDER_LIST = "/list/{storeId}/{orderState}";
+    private final String GET_ORDER_LIST = "/list/{storeId}";
+    private final String GET_ORDER_LIST_STATE = "/list/{storeId}/{orderState}";
     private final String GET_ORDER_DETAIL_LIST = "/{orderId}";
     private final String POST_ORDER = "";
+    private final String POST_ORDER_LOG = "/log";
     private final String DELETE_ORDER_DETAIL = "/detail/{orderDetailId}";
     private final String PATCH_ORDER = "";
 
     @ApiOperation(value = "결제된 주문 리스트 조회", notes = "")
-    @GetMapping(GET_ORDER_LIST)
+    @GetMapping(value = {GET_ORDER_LIST, GET_ORDER_LIST_STATE})
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(
         @ApiParam(hidden = true)
         @AuthenticationPrincipal String userId,
         @PathVariable("storeId") int storeId,
-        @PathVariable("orderState") String orderState
+        @PathVariable(value = "orderState", required = false) String orderState
     ) {
         ResponseDto<List<GetOrderResponseDto>> response = orderService.getOrderList(userId, storeId, orderState);
         return response;
@@ -71,6 +75,14 @@ public class OrderController {
         ResponseDto<PostOrderResponseDto> response = orderService.postOrder(requestBody);
         return response;
     }
+
+    @ApiOperation(value = "완료된 주문 로그에 저장하기")
+    @PostMapping(POST_ORDER_LOG)
+    public ResponseDto<PostOrderLogResponseDto> postOrderLog(@AuthenticationPrincipal String userId, @Valid @RequestBody PostOrderLogDto requestBody) {
+        ResponseDto<PostOrderLogResponseDto> response = orderService.postOrderLog(userId, requestBody);       
+        return response;
+    }
+    
 
     // todo : 필요한지 확인
     @ApiOperation(value = "장바구니 메뉴 삭제", notes = "Path Variable에 menuId를 포함하여 요청을 하고, 성공시 장바구니 전체 정보 반환, 실패시 실패 메세지를 반환")

@@ -1,6 +1,10 @@
 package com.kiosk.kioskback.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.kiosk.kioskback.dto.request.order.PostOrderDetailLogDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,8 +25,6 @@ public class OrderDetailLogEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int orderDetailLogId;
   private int orderLogId;
-  private String userId;
-  private String telNumber;
   private int menuId;
   private String menuName;
   private int menuPrice;
@@ -30,9 +32,22 @@ public class OrderDetailLogEntity {
   private String categoryName;
   private int storeId;
   private String storeName;
-  private String options;
   private int priceWithOption;
   private int count;
   private Date createdAt;
+
+  public OrderDetailLogEntity(PostOrderDetailLogDto dto, int orderLogId, Date orderLogDate) {
+    this.orderLogId = orderLogId;
+    this.menuId = dto.getMenuId();
+    this.menuName = dto.getMenuName();
+    this.menuPrice = dto.getMenuPrice();
+    this.categoryId = dto.getCategoryId();
+    this.categoryName = dto.getCategoryName();
+    this.storeId = dto.getStoreId();
+    this.storeName = dto.getStoreName();
+    this.priceWithOption = dto.getPriceWithOption();
+    this.count = dto.getCount();
+    this.createdAt= orderLogDate;
+  }
   
 }

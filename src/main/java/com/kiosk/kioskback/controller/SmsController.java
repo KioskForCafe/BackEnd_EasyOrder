@@ -35,8 +35,8 @@ public class SmsController {
         value = "SMS 보내기",
         notes = "Reqeust Header Authorization에 Bearer JWT를 포함하고 Request Body에 매장이름, 오픈시간, 마감시간, 로고 URL, 이미지 URL을 포함하여 요청을 하면, 성공시 매장 정보를 반환, 실패시 실패 메세지를 반환")
     @PostMapping(POST_SMS)
-    public SmsResponseDto postSMS(@RequestBody MessageDto requestbody) throws InvalidKeyException, JsonProcessingException, RestClientException, NoSuchAlgorithmException, UnsupportedEncodingException, URISyntaxException{
-        SmsResponseDto response = smsService.sendSms(requestbody);
+    public SmsResponseDto postSMS(@RequestBody String telNumber) throws InvalidKeyException, JsonProcessingException, RestClientException, NoSuchAlgorithmException, UnsupportedEncodingException, URISyntaxException{
+        SmsResponseDto response = smsService.sendSms(telNumber);
         return response;
     }
 

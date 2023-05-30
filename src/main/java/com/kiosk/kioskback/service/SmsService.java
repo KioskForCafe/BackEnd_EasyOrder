@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kiosk.kioskback.dto.request.sms.MessageDto;
 import com.kiosk.kioskback.dto.response.sms.SmsResponseDto;
 
 @Service
 public interface SmsService {
     public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException;
-    public SmsResponseDto sendSms(MessageDto messageDto) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException;
+    public SmsResponseDto sendSms(String telNumber) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException;
 }
