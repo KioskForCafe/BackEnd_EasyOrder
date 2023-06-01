@@ -21,7 +21,6 @@ import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
-import com.kiosk.kioskback.dto.response.order.GetOrderStateResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
@@ -41,7 +40,6 @@ public class OrderController {
 
     private final String GET_ORDER_LIST = "/list/{storeId}";
     private final String GET_ORDER_LIST_STATE = "/list/{storeId}/{orderState}";
-    private final String GET_ORDER_STATE_COUNT = "/count/{storeId}";
     private final String GET_ORDER_DETAIL_LIST = "/{orderId}";
     private final String POST_ORDER = "";
     private final String POST_ORDER_LOG = "/log";
@@ -68,16 +66,6 @@ public class OrderController {
         @PathVariable("orderId") int orderId
     ) {
         ResponseDto<List<GetOrderDetailResponseDto>> response = orderService.getOrderDetailList(userId, orderId);
-        return response;
-    }
-
-    @ApiOperation(value = "orderState와 orderState에 따른 주문 갯수 전체를 반환하는 기능", notes = "")
-    @GetMapping(GET_ORDER_STATE_COUNT)
-    public ResponseDto<List<GetOrderStateResponseDto>> getOrderState(
-        @ApiParam(hidden = true)
-        @AuthenticationPrincipal String userId,
-        @PathVariable("storeId") int storeId) {
-            ResponseDto<List<GetOrderStateResponseDto>> response = orderService.getOrderState(userId, storeId);
         return response;
     }
 

@@ -18,7 +18,6 @@ import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
-import com.kiosk.kioskback.dto.response.order.GetOrderStateResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
@@ -135,55 +134,6 @@ public class OrderServiceImplements implements OrderService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    public ResponseDto<List<GetOrderStateResponseDto>> getOrderState(String userId, int storeId) {
-        List<GetOrderStateResponseDto> data = new ArrayList<>();
-
-        try {
-            UserEntity userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER_ID);
-
-            StoreEntity storeEntity = storeRepository.findByStoreId(storeId);
-            if(storeEntity == null) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
-
-            List<OrderEntity> orderEntityList;
-
-            if(!userEntity.isAdmin()) return ResponseDto.setFailed(ResponseMessage.NOT_ADMIN);
-            
-            boolean isEqualUserId = userId.equals(storeEntity.getUserId());
-            if(!isEqualUserId) return ResponseDto.setFailed(ResponseMessage.NOT_PERMISSION);
-
-            orderEntityList = orderRepository.findByStoreId(storeId);
-            
-            int waitingCount = 0;
-            int confirmCount = 0;
-            int completeCount = 0;
-
-            for(OrderEntity orderEntity: orderEntityList) {
-                if(orderEntity.getOrderState().equals(null)) return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_ORDER);
-
-                if(orderEntity.getOrderState().equals("Waiting")) {
-                    waitingCount++;
-                }
-                if(orderEntity.getOrderState().equals("Confirm")) {
-                    confirmCount++;
-                }
-                if(orderEntity.getOrderState().equals("Complete")) {
-                    completeCount++;
-                }
-            }
-
-            data.add(new GetOrderStateResponseDto("Waiting", waitingCount));
-            data.add(new GetOrderStateResponseDto("Confirm", confirmCount));
-            data.add(new GetOrderStateResponseDto("Complete", completeCount));
-
-        } catch (Exception e) {
-            e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
 

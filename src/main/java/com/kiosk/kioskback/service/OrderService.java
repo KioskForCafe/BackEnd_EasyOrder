@@ -9,7 +9,6 @@ import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.order.DeleteOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderDetailResponseDto;
 import com.kiosk.kioskback.dto.response.order.GetOrderResponseDto;
-import com.kiosk.kioskback.dto.response.order.GetOrderStateResponseDto;
 import com.kiosk.kioskback.dto.response.order.PatchOrderResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
@@ -18,7 +17,6 @@ public interface OrderService {
 
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(String userId, int storeId, String orderState);
     public ResponseDto<List<GetOrderDetailResponseDto>> getOrderDetailList(String userId, int orderId);
-    public ResponseDto<List<GetOrderStateResponseDto>> getOrderState(String userId, int storeId);
     public ResponseDto<PostOrderResponseDto> postOrder(PostOrderDto dto);
     public ResponseDto<DeleteOrderResponseDto> deleteOrderDetail(int orderDetailId);
     public ResponseDto<List<PatchOrderResponseDto>> patchOrder(String userId, PatchOrderDto dto);
