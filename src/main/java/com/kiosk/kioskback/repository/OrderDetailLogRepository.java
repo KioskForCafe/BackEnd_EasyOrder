@@ -49,7 +49,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   + "LEFT JOIN point b "
   + "ON a.tel_number = b.tel_number "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt + INTERVAL 1 DAY "
-  + "GROUP BY a.user_id, a.order_log_id, a.user_name, a.tel_number "
+  + "GROUP BY a.user_id, a.user_name, a.tel_number "
   + "ORDER BY amountPayment DESC "
   , nativeQuery = true
   )
