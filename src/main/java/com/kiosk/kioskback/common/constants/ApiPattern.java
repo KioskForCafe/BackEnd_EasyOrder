@@ -14,4 +14,5 @@ public class ApiPattern {
 
     public static final String FILE = "/file";
     public static final String SMS = "/sms";
+    public static final String ALARM = "/api/alarm";
 }
