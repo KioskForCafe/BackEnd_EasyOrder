@@ -40,7 +40,7 @@ public class CategoryController {
     private final String PATCH_CATEGORY = "";
     private final String DELETE_CATEGORY = "/{categoryId}";
 
-    @ApiOperation(value = "카테고리 리스트 조회", notes = "Path Variable에 storeId를 포함하여 요청을 하면, 성공시 게시물 전체 데이터를 반환, 실패시 실패 메세지를 반환")
+    @ApiOperation(value = "카테고리 리스트 조회", notes = "Path Variable에 storeId를 포함하여 요청을 하면, 성공시 카테고리 전체 데이터를 반환, 실패시 실패 메세지를 반환")
     @GetMapping(GET_LIST)
     public ResponseDto<List<GetCategoryResponseDto>> getList(@ApiParam(value = "매장 식별 번호", example = "1", required = true) @PathVariable("storeId") int storeId) {
         ResponseDto<List<GetCategoryResponseDto>> response = categoryService.getList(storeId);
