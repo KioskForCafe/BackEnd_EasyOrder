@@ -44,7 +44,7 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public Integer countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, b.point point, sum(a.total_price) amountPayment "
+  @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, b.current_point point, sum(a.total_price) amountPayment "
   + "FROM order_log a "
   + "LEFT JOIN point b "
   + "ON a.tel_number = b.tel_number "
