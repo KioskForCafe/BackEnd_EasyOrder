@@ -28,7 +28,7 @@ public class WebSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/menu/**", "/api/category/**", "/file/**","/api/store/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/user/duplicate/**", "/file/**", "/api/order").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/user/duplicate/**", "/file/**", "/api/order", "/sms/**").permitAll()
             .anyRequest().authenticated();
 
             httpSecurity
