@@ -20,6 +20,10 @@ public class PostOrderDetailDto {
     @ApiModelProperty(value = "상품 갯수", example = "1", required = true)
     @Min(1)
     private int menuCount;
+    
+    @ApiModelProperty(value = "옵션포함 가격", example = "1", required = true)
+    @Min(1)
+    private int priceWithOption;
 
     @ApiModelProperty(value = "옵션 리스트", required = false)
     private List<Integer> optionList;

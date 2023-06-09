@@ -26,10 +26,12 @@ public class OrderDetailEntity {
     private int menuId;
     private int count;
     private int orderId;
+    private int priceWithOption;
 
     public OrderDetailEntity(PostOrderDetailDto postOrderDetailDto, int orderId) {
         this.menuId = postOrderDetailDto.getMenuId();
         this.count = postOrderDetailDto.getMenuCount();
+        this.priceWithOption = postOrderDetailDto.getPriceWithOption();
         this.orderId = orderId;
     }
 

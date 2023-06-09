@@ -78,12 +78,16 @@ public class SmsServiceImplements implements SmsService{
 
     @Override
     public SmsResponseDto sendSms(String telNumber) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException {
+		telNumber = telNumber.replaceAll("-","").replaceAll("=", "");
         Random random = new Random();
 		String rand = "";
 		for (int i = 0; i < 6; i++) {
 			String ran = Integer.toString(random.nextInt(10));
 			rand += ran;
 		}
+
+		
+
 		MessageDto messageDto = new MessageDto(telNumber, "Kiosk 본인인증 ["+rand+"]");
 
 		Long time = System.currentTimeMillis();
@@ -111,7 +115,7 @@ public class SmsServiceImplements implements SmsService{
 		HttpEntity<String> httpBody = new HttpEntity<>(body, headers);
 		
 		RestTemplate restTemplate = new RestTemplate();
-	    restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+	    // restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 	    SmsResponseDto response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
 	    return response;
     }
