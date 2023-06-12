@@ -31,7 +31,7 @@ public class PointEntity {
         this.telNumber = dto.getTelNumber();
         this.value = dto.getValue();
         this.type = dto.getType();
-        this.currentPoint = dto.getCurrentPoint();
+        this.currentPoint = dto.getValue();
         this.createdAt = now;
     }
     
@@ -44,9 +44,9 @@ public class PointEntity {
         this.type = isType;
         //^ type = true : 적립, false : 사용
         if(isType){
-            this.currentPoint = currentPoint + dto.getCurrentPoint();
+            this.currentPoint = currentPoint + dto.getValue();
         }else{
-            this.currentPoint = currentPoint - dto.getCurrentPoint();
+            this.currentPoint = currentPoint - dto.getValue();
         }
     }
 }
