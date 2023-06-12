@@ -8,5 +8,5 @@ import com.kiosk.kioskback.entity.PointEntity;
 @Repository
 public interface PointRepository extends JpaRepository<PointEntity,Integer>{
     
-    public PointEntity findByTelNumber(String telNumber);
+    public PointEntity findTopByTelNumberOrderByCreatedAtDesc(String telNumber);
 }

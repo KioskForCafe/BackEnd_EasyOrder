@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
-import com.kiosk.kioskback.dto.request.point.GetPointDto;
 import com.kiosk.kioskback.dto.request.point.PostPointDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.point.GetPointResponseDto;
@@ -19,12 +18,11 @@ public class PointServiceImplements implements PointService {
     @Autowired PointRepository pointRepository;
 
     @Override
-    public ResponseDto<GetPointResponseDto> getPoint(GetPointDto dto) {
+    public ResponseDto<GetPointResponseDto> getPoint(String telNumber) {
         GetPointResponseDto data = null;
-        String telNumber = dto.getTelNumber();
         int currentPoint = 0;
         try{
-            PointEntity pointEntity = pointRepository.findByTelNumber(telNumber);
+            PointEntity pointEntity = pointRepository.findTopByTelNumberOrderByCreatedAtDesc(telNumber);
             if(pointEntity != null) currentPoint = pointEntity.getCurrentPoint();
             data = new GetPointResponseDto(currentPoint);
 
@@ -43,7 +41,7 @@ public class PointServiceImplements implements PointService {
         String telNumber = dto.getTelNumber();
 
         try {
-            PointEntity pointEntity = pointRepository.findByTelNumber(telNumber);
+            PointEntity pointEntity = pointRepository.findTopByTelNumberOrderByCreatedAtDesc(telNumber);
             if(pointEntity == null){
                 pointEntity = new PointEntity(dto);
             }else{
