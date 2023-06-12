@@ -19,12 +19,11 @@ public class PointServiceImplements implements PointService {
     @Autowired PointRepository pointRepository;
 
     @Override
-    public ResponseDto<GetPointResponseDto> getPoint(GetPointDto dto) {
+    public ResponseDto<GetPointResponseDto> getPoint(String telNumber) {
         GetPointResponseDto data = null;
-        String telNumber = dto.getTelNumber();
         int currentPoint = 0;
         try{
-            PointEntity pointEntity = pointRepository.findByTelNumber(telNumber);
+            PointEntity pointEntity = pointRepository.findTopByTelNumberOrderByCreatedAtDesc(telNumber);
             if(pointEntity != null) currentPoint = pointEntity.getCurrentPoint();
             data = new GetPointResponseDto(currentPoint);
 
@@ -43,7 +42,7 @@ public class PointServiceImplements implements PointService {
         String telNumber = dto.getTelNumber();
 
         try {
-            PointEntity pointEntity = pointRepository.findByTelNumber(telNumber);
+            PointEntity pointEntity = pointRepository.findTopByTelNumberOrderByCreatedAtDesc(telNumber);
             if(pointEntity == null){
                 pointEntity = new PointEntity(dto);
             }else{
