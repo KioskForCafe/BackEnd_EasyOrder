@@ -20,20 +20,20 @@ public class PointEntity {
     private int pointId;
     private String telNumber;
     private int value;
-    private boolean type;
+    private Boolean type;
     private int currentPoint;
 
     public PointEntity(PostPointDto dto){
         this.telNumber = dto.getTelNumber();
         this.value = dto.getValue();
-        this.type = dto.isType();
+        this.type = dto.getType();
         this.currentPoint = dto.getCurrentPoint();
     }
     
     public PointEntity(int currentPoint, PostPointDto dto){
         this.telNumber = dto.getTelNumber();
         this.value = dto.getValue();
-        boolean isType = dto.isType();
+        boolean isType = dto.getType();
         this.type = isType;
         if(isType){
             this.currentPoint = currentPoint + dto.getCurrentPoint();
