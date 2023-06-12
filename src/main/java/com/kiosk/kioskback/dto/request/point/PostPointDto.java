@@ -20,6 +20,4 @@ public class PostPointDto {
     private int value;
     @NotNull
     private Boolean type;
-    @Min(0)
-    private int currentPoint;
 }
