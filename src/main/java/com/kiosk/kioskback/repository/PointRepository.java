@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.kiosk.kioskback.entity.PointEntity;
 
 @Repository
-public interface PointRepository extends JpaRepository<PointEntity,String>{
+public interface PointRepository extends JpaRepository<PointEntity,Integer>{
     
+    public PointEntity findByTelNumber(String telNumber);
 }
