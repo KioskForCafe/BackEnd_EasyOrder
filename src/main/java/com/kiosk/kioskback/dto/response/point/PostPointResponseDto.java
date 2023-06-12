@@ -18,7 +18,7 @@ public class PostPointResponseDto {
     public PostPointResponseDto(PointEntity pointEntity){
         this.telNumber = pointEntity.getTelNumber();
         this.value = pointEntity.getValue();
-        this.type = pointEntity.isType();
+        this.type = pointEntity.getType();
         this.currentPoint = pointEntity.getCurrentPoint();
     }
 }

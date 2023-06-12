@@ -26,7 +26,7 @@ public class WebSecurityConfig {
             .csrf().disable()
             .httpBasic().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**").permitAll()
+            .authorizeRequests().requestMatchers("/", "/auth/**", "/api/user/**", "/api/point/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/menu/**", "/api/category/**", "/file/**","/api/store/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/user/duplicate/**", "/file/**", "/api/order", "/sms/**").permitAll()
             .anyRequest().authenticated();
