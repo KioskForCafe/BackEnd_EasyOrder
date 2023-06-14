@@ -6,6 +6,8 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -13,22 +15,27 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiosk.kioskback.common.constants.ResponseMessage;
 import com.kiosk.kioskback.dto.request.sms.MessageDto;
+import com.kiosk.kioskback.dto.request.sms.PostSmsCheckDto;
 import com.kiosk.kioskback.dto.request.sms.SmsDto;
+import com.kiosk.kioskback.dto.response.ResponseDto;
+import com.kiosk.kioskback.dto.response.sms.PostSmsCheckResponseDto;
 import com.kiosk.kioskback.dto.response.sms.SmsResponseDto;
+import com.kiosk.kioskback.entity.SmsCertificationEntity;
+import com.kiosk.kioskback.repository.SmsCertificationRepository;
 import com.kiosk.kioskback.service.SmsService;
 
 @Service
@@ -45,6 +52,8 @@ public class SmsServiceImplements implements SmsService{
  
 	@Value("${naver-cloud-sms.senderPhone}")
 	private String phone;
+
+	@Autowired private SmsCertificationRepository smsCertificationRepository;
 
     @Override
     public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
@@ -77,7 +86,7 @@ public class SmsServiceImplements implements SmsService{
 	}
 
     @Override
-    public SmsResponseDto sendSms(String telNumber) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException {
+    public SmsResponseDto postSms(String telNumber) throws HttpMessageNotReadableException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException, JsonProcessingException, RestClientException, URISyntaxException {
 		telNumber = telNumber.replaceAll("-","").replaceAll("=", "");
         Random random = new Random();
 		String rand = "";
@@ -86,7 +95,8 @@ public class SmsServiceImplements implements SmsService{
 			rand += ran;
 		}
 
-		
+		SmsCertificationEntity sms = new SmsCertificationEntity(telNumber, rand);
+		sms = smsCertificationRepository.save(sms);
 
 		MessageDto messageDto = new MessageDto(telNumber, "Kiosk 본인인증 ["+rand+"]");
 
@@ -115,10 +125,38 @@ public class SmsServiceImplements implements SmsService{
 		HttpEntity<String> httpBody = new HttpEntity<>(body, headers);
 		
 		RestTemplate restTemplate = new RestTemplate();
-	    // restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 	    SmsResponseDto response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
 	    return response;
     }
+
+	@Override
+	public ResponseDto<PostSmsCheckResponseDto> postSmsCheck(PostSmsCheckDto dto) {
+		PostSmsCheckResponseDto data = null;
+		String code = dto.getAuthenticationCode();
+		String telNumber = dto.getTelNumber();
+		telNumber = telNumber.replaceAll("-","").replaceAll("=", "");
+		Calendar now = Calendar.getInstance();
+		now.setTime(new Date());
+		try {
+			
+			SmsCertificationEntity smsCertificationEntity = smsCertificationRepository.findByTelNumberAndAuthenticationCode(telNumber,code);
+			if(smsCertificationEntity == null) return ResponseDto.setFailed(ResponseMessage.FAIL_AUTHENTICATION_CODE);
+			Date createdAt = smsCertificationEntity.getCreatedAt();
+			Calendar expiredAt = Calendar.getInstance();
+			expiredAt.setTime(createdAt);
+			expiredAt.add(Calendar.SECOND,60);
+			int result = expiredAt.compareTo(now);
+			if(result < 0) return ResponseDto.setFailed(ResponseMessage.FAIL_AUTHENTICATION_CODE);
+
+			data = new PostSmsCheckResponseDto(true);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+		}
+
+		return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+	}
     
     
 }

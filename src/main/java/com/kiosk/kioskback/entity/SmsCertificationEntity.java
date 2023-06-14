@@ -24,4 +24,10 @@ public class SmsCertificationEntity {
     private String authenticationCode;
     private Date createdAt;
     
+    public SmsCertificationEntity(String telNumber, String authenticationCode){
+        Date now = new Date();
+        this.telNumber = telNumber;
+        this.authenticationCode = authenticationCode;
+        this.createdAt = now;
+    }
 }
