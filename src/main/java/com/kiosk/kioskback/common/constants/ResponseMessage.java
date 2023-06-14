@@ -17,6 +17,7 @@ public interface ResponseMessage {
 
     public static final String DATABASE_ERROR = "Database Error.";
 
+    public static final String FAIL_AUTHENTICATION_CODE = "인증 실패";
     public static final String NOT_EXIST_USER_ID = "존재하지 않는 아이디 입니다.";
     public static final String NOT_EXIST_CATEGORY_ID = "존재하지 않는 카테고리 입니다.";
     public static final String NOT_EXIST_STORE_ID = "존재하지 않는 매장 입니다.";
