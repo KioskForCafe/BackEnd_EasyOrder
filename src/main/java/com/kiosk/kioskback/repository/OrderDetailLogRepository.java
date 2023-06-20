@@ -44,13 +44,12 @@ public interface OrderDetailLogRepository extends JpaRepository<OrderDetailLogEn
   )
   public Integer countNewUserByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
   
-  @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, b.current_point point, sum(a.total_price) amountPayment "
+  @Query(value = "SELECT a.user_id userId, a.user_name userName, a.tel_number telNumber, count(*) visitedCount, sum(a.total_price) amountPayment, "
+  + "(SELECT current_point FROM point WHERE tel_number = a.tel_number ORDER BY created_at DESC LIMIT 1) AS point "
   + "FROM order_log a "
-  + "LEFT JOIN point b "
-  + "ON a.tel_number = b.tel_number "
   + "WHERE a.store_id = :storeId AND a.created_at BETWEEN :startedAt AND :endedAt + INTERVAL 1 DAY "
   + "GROUP BY a.user_id, a.user_name, a.tel_number "
-  + "ORDER BY amountPayment DESC "
+  + "ORDER BY amountPayment DESC LIMIT 10 "
   , nativeQuery = true
   )
   public List<UserTop10ResultSet> findByTop10UserAndByStoreId(@Param("storeId") int storeId,@Param("startedAt") Date startedAt,@Param("endedAt") Date endedAt);
