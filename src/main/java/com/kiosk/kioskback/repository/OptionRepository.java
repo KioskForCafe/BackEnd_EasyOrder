@@ -14,7 +14,7 @@ public interface OptionRepository extends JpaRepository<OptionEntity, Integer> {
     public List<OptionEntity> findByMenuId(int menuId);
     public OptionEntity findByOptionId(int optionId);
 
-    @Query(value = "SELECT * FROM `Option` WHERE option_id NOT IN :optionIdList", nativeQuery = true)
+    @Query(value = "SELECT * FROM `option` WHERE option_id NOT IN :optionIdList", nativeQuery = true)
     public List<OptionEntity> findOptionNotInList(@Param("optionIdList") List<Integer> optionIdList);
 
 
