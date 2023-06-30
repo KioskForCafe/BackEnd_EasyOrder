@@ -14,11 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kiosk.kioskback.common.constants.ApiPattern;
 import com.kiosk.kioskback.service.FileService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Api(description = "파일 모듈")
+
+// @Tag(description = "파일 모듈")
 @RestController
 @RequestMapping(ApiPattern.FILE)
 public class FileController {
@@ -29,17 +30,17 @@ public class FileController {
     private final String UPLOAD = "/upload";
     private final String GET_FILE = "/{fileName}";
 
-    @ApiOperation(value = "파일 업로드", notes = "Request Body에 100MB 이하의 파일을 포함하여 요청하면, 성공 시 다운로드 URL을 반환, 실패 시 null을 반환")
+    @Operation(summary = "파일 업로드", description = "Request Body에 100MB 이하의 파일을 포함하여 요청하면, 성공 시 다운로드 URL을 반환, 실패 시 null을 반환")
     @PostMapping(UPLOAD)
-    public String upload(@ApiParam(value = "업로드할 파일", required = true) @RequestParam("file") MultipartFile file) {
+    public String upload(@Parameter(description = "업로드할 파일", required = true) @RequestParam("file") MultipartFile file) {
         String response= fileService.upload(file);
         return response;
     }
 
-    @ApiOperation(value="파일 다운로드", notes="Path Variable에 fileName을 포함하여 요청하면, 성공시 해당하는 파일의 Resource를 반환, 실패시 null을 반환")
+    @Operation(summary="파일 다운로드", description = "Path Variable에 fileName을 포함하여 요청하면, 성공시 해당하는 파일의 Resource를 반환, 실패시 null을 반환")
     @GetMapping(value=GET_FILE, produces={MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Resource getFile(
-        @ApiParam(value="파일명", example="example.png", required=true)
+        @Parameter(description = "파일명", example="example.png", required=true)
         @PathVariable("fileName") String fileName
     ) {
         Resource response = fileService.getFile(fileName);

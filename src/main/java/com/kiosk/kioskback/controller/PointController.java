@@ -16,11 +16,11 @@ import com.kiosk.kioskback.dto.response.point.GetPointResponseDto;
 import com.kiosk.kioskback.dto.response.point.PostPointResponseDto;
 import com.kiosk.kioskback.service.PointService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Api(description = "포인트 모듈")
+// @Tag(description = "포인트 모듈")
 @RestController
 @RequestMapping(ApiPattern.POINT)
 public class PointController {
@@ -30,13 +30,13 @@ public class PointController {
 
     @Autowired private PointService pointService;
 
-    @ApiOperation(value = "포인트 조회", notes = "")
+    @Operation(summary = "포인트 조회", description = "")
     @GetMapping(GET_POINT)
     public ResponseDto<GetPointResponseDto> getPoint(@PathVariable("telNumber") String telNumber) {
         ResponseDto<GetPointResponseDto> response = pointService.getPoint(telNumber);
         return response;
     }
-    @ApiOperation(value = "포인트 사용/적립", notes = "")
+    @Operation(summary = "포인트 사용/적립", description = "")
     @PostMapping(POST_POINT)
     public ResponseDto<PostPointResponseDto> postPoint(@Valid @RequestBody PostPointDto requestBody) {
         ResponseDto<PostPointResponseDto> response = pointService.postPoint(requestBody);

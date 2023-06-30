@@ -40,7 +40,7 @@ public class WebSecurityConfig {
     @Bean
     protected WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-            .requestMatchers("/swagger-ui.html", "/swagger-resources/**", "/swagger/**", "/v2/api-docs", "/webjars/**");
+            .requestMatchers("/swagger-ui/**","/swagger-ui.html", "/swagger-resources/**", "/swagger/**", "/api-docs/**", "/webjars/**","/css/**", "/images/**","/js/**","/v2/api-docs");
     }
 
 }

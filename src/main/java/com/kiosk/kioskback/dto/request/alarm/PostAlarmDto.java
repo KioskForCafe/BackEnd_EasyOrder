@@ -2,12 +2,12 @@ package com.kiosk.kioskback.dto.request.alarm;
 
 import java.util.Date;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value="알람 생성 Request Body")
+@Schema(description = "알람 생성 Request Body")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

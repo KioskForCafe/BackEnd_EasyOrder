@@ -2,27 +2,26 @@ package com.kiosk.kioskback.dto.response.user;
 
 import com.kiosk.kioskback.entity.UserEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value="회원 정보 조회 Response Body - data")
+@Schema(description="회원 정보 조회 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetUserResponseDto {
-    @ApiModelProperty(value="사용자 아이디", example="comet7406", required=true)
+    @Schema(description="사용자 아이디", example="comet7406", required=true)
     private String userId;
 
-    @ApiModelProperty(value="사용자 이름", example="홍길동", required=true)
+    @Schema(description="사용자 이름", example="홍길동", required=true)
     private String userName;
 
-    @ApiModelProperty(value="사용자 이메일", example="qwer@qwer.com", required=true)
+    @Schema(description="사용자 이메일", example="qwer@qwer.com", required=true)
     private String userEmail;
 
-    @ApiModelProperty(value="사용자 전화번호", example="010-1234-9876", required=true)
+    @Schema(description="사용자 전화번호", example="010-1234-9876", required=true)
     private String telNumber;
 
     public GetUserResponseDto(UserEntity userEntity) {

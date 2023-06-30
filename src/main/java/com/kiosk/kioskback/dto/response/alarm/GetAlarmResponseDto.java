@@ -6,12 +6,12 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.AlarmEntity;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "전체 알람 리스트 가져오기 Response Body - data")
+@Schema(description = "전체 알람 리스트 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

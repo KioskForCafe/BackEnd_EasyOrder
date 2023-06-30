@@ -5,41 +5,16 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.CategoryEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "카테고리 작성 Response Body - data")
+@Schema(description = "카테고리 작성 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostCategoryResponseDto {
-    @ApiModelProperty(value = "카테고리 등록 결과 상태", example = "true", required = true)
+    @Schema(description = "카테고리 등록 결과 상태", example = "true", required = true)
     private boolean resultState;
-
-    // @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
-    // private int categoryId;
-
-    // @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
-    // private String categoryName;
-
-    // public PostCategoryResponseDto(CategoryEntity categoryEntity) {
-    //     this.categoryId = categoryEntity.getCategoryId();
-    //     this.categoryName = categoryEntity.getCategoryName();
-    // }
-    
-    // public static List<PostCategoryResponseDto> copyList(List<CategoryEntity> categoryEntityList) {
-
-    //     List<PostCategoryResponseDto> list = new ArrayList<>();
-
-    //     for (CategoryEntity categoryEntity : categoryEntityList) {
-    //         PostCategoryResponseDto dto = new PostCategoryResponseDto(categoryEntity);
-    //         list.add(dto);
-    //     }
-
-    //     return list;
-    // }
-
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
-import com.kiosk.kioskback.dto.request.point.GetPointDto;
 import com.kiosk.kioskback.dto.request.point.PostPointDto;
 import com.kiosk.kioskback.dto.response.ResponseDto;
 import com.kiosk.kioskback.dto.response.point.GetPointResponseDto;

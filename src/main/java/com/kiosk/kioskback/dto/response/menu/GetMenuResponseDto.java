@@ -5,30 +5,29 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.MenuEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "카테고리 안 메뉴 가져오기 Response Body - data")
+@Schema(description = "카테고리 안 메뉴 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetMenuResponseDto {
-    @ApiModelProperty(value = "메뉴 번호", required = true)
+    @Schema(description = "메뉴 번호", required = true)
     private int menuId;
 
-    @ApiModelProperty(value = "메뉴 이름", required = true)
+    @Schema(description = "메뉴 이름", required = true)
     private String menuName;
 
-    @ApiModelProperty(value = "메뉴 가격", required = true)
+    @Schema(description = "메뉴 가격", required = true)
     private int menuPrice;
 
-    @ApiModelProperty(value = "메뉴 이미지", required = false)
+    @Schema(description = "메뉴 이미지", required = false)
     private String menuImgUrl;
 
-    @ApiModelProperty(value = "메뉴 상태(품절/판매)", required = true)
+    @Schema(description = "메뉴 상태(품절/판매)", required = true)
     private boolean menuState;
 
     public GetMenuResponseDto(MenuEntity menuEntity) {

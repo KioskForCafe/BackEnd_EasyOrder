@@ -6,22 +6,23 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.OrderEntity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Schema
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatchOrderResponseDto {
-    @ApiModelProperty(value = "장바구니 번호", example = "1", required = true)
+    @Schema(description = "장바구니 번호", example = "1", required = true)
     private int orderId;
-    @ApiModelProperty(value = "총 가격", example = "18000", required = true)
+    @Schema(description = "총 가격", example = "18000", required = true)
     private int totalPrice;
-    @ApiModelProperty(value = "주문 상태", example = "접수", required = true)
+    @Schema(description = "주문 상태", example = "접수", required = true)
     private String orderState;
-    @ApiModelProperty(value = "주문 시간", example = "2023-05-15 23:03:22", required = true)
+    @Schema(description = "주문 시간", example = "2023-05-15 23:03:22", required = true)
     private Date updatedAt;
     
     public PatchOrderResponseDto(OrderEntity orderEntity){

@@ -5,24 +5,23 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.resultSet.GetAnalysisBusinessResultSet;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "매장 시간대별 매출 정보 가져오기 Response Body - data")
+@Schema(description = "매장 시간대별 매출 정보 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAnalysisBusinessResponseDto {
-    @ApiModelProperty()
+    @Schema
     private int saleAmount;
 
-    @ApiModelProperty()
+    @Schema
     private int saleCount;
 
-    @ApiModelProperty()
+    @Schema
     private int time;
 
     public GetAnalysisBusinessResponseDto(GetAnalysisBusinessResultSet analysisBusinessResultSet) {

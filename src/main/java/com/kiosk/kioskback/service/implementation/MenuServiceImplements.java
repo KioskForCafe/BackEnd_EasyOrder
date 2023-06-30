@@ -64,7 +64,6 @@ public class MenuServiceImplements implements MenuService{
             MenuEntity menuEntity = menuRepository.findByMenuId(menuId); // menuId에 해당하는 menuEntity 정보 가져옴
             if(menuEntity == null) return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
             List<OptionEntity> optionList = optionRepository.findByMenuId(menuId); // menuId에 해당하는 option List를 가져옴
-            // todo: 이렇게 해야하는게 맞는지 생각해봐야할 부분인것 같음
                 int categoryId = menuEntity.getCategoryId();
                 String categoryName =null;
                 if(categoryId>0){
@@ -150,8 +149,8 @@ public class MenuServiceImplements implements MenuService{
                 Integer optionId = patchMenuOptionDto.getOptionId();
                 optionIdList.add(optionId);
             }
-
-            List<OptionEntity> deleteOptionEntityList = optionRepository.findOptionNotInList(optionIdList);
+            
+            List<OptionEntity> deleteOptionEntityList = optionRepository.findOptionNotInList(menuId, optionIdList);
             
             optionRepository.deleteAll(deleteOptionEntityList);
             

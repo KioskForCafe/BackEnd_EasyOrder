@@ -2,24 +2,23 @@ package com.kiosk.kioskback.dto.response.analysis;
 
 import com.kiosk.kioskback.entity.resultSet.GetAnalysisSaleResultSet;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "기간동안의 매장 매출 정보 가져오기 Response Body - data")
+@Schema(description = "기간동안의 매장 매출 정보 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAnalysisSaleResponseDto {
-    @ApiModelProperty()
+    @Schema
     private int saleAmount;
 
-    @ApiModelProperty()
+    @Schema
     private int saleCount;
 
-    @ApiModelProperty()
+    @Schema
     private double avgSaleAmount;
 
     public GetAnalysisSaleResponseDto(GetAnalysisSaleResultSet getAnalysisSaleResultSet){
