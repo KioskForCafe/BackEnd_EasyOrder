@@ -5,34 +5,33 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.resultSet.UserTop10ResultSet;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "기간동안의 회원 정보 Response Body - data")
+@Schema(description = "기간동안의 회원 정보 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserTop10ResponseDto {
 
-    @ApiModelProperty(value = "회원 번호", example = "1", required = true)
+    @Schema(description = "회원 번호", example = "1", required = true)
     private String userId;
 
-    @ApiModelProperty(value = "회원 이름", example = "홍길동", required = true)
+    @Schema(description = "회원 이름", example = "홍길동", required = true)
     private String userName;
 
-    @ApiModelProperty(value = "회원 전화번호", example = "010-0000-0000", required = true)
+    @Schema(description = "회원 전화번호", example = "010-0000-0000", required = true)
     private String telNumber;
 
-    @ApiModelProperty(value = "방문수", example = "10", required = true)
+    @Schema(description = "방문수", example = "10", required = true)
     private int visitedCount;
 
-    @ApiModelProperty(value = "적립 포인트", example = "100", required = true)
+    @Schema(description = "적립 포인트", example = "100", required = true)
     private int point;
 
-    @ApiModelProperty(value = "결제 금액", example = "10000", required = true)
+    @Schema(description = "결제 금액", example = "10000", required = true)
     private int amountPayment;
 
     public UserTop10ResponseDto(UserTop10ResultSet userTop10ResultSet) {

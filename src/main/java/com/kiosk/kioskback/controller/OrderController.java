@@ -27,12 +27,11 @@ import com.kiosk.kioskback.dto.response.order.PostOrderLogResponseDto;
 import com.kiosk.kioskback.dto.response.order.PostOrderResponseDto;
 import com.kiosk.kioskback.service.OrderService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
-@Api(description = "주문 모듈")
+// @Tag(description = "주문 모듈")
 @RestController
 @RequestMapping(ApiPattern.ORDER)
 public class OrderController {
@@ -48,10 +47,10 @@ public class OrderController {
     private final String DELETE_ORDER_DETAIL = "/detail/{orderDetailId}";
     private final String PATCH_ORDER = "";
 
-    @ApiOperation(value = "결제된 주문 리스트 조회", notes = "")
+    @Operation(summary = "결제된 주문 리스트 조회", description = "")
     @GetMapping(value = {GET_ORDER_LIST, GET_ORDER_LIST_STATE})
     public ResponseDto<List<GetOrderResponseDto>> getOrderList(
-        @ApiParam(hidden = true)
+        @Parameter(hidden = true)
         @AuthenticationPrincipal String userId,
         @PathVariable("storeId") int storeId,
         @PathVariable(value = "orderState", required = false) String orderState
@@ -60,10 +59,10 @@ public class OrderController {
         return response;
     }
 
-    @ApiOperation(value = "주문번호에 해당하는 상세주문 리스트", notes = "")
+    @Operation(summary = "주문번호에 해당하는 상세주문 리스트", description = "")
     @GetMapping(GET_ORDER_DETAIL_LIST)
     public ResponseDto<List<GetOrderDetailResponseDto>> getOrderDetailList(
-        @ApiParam(hidden = true)
+        @Parameter(hidden = true)
         @AuthenticationPrincipal String userId,    
         @PathVariable("orderId") int orderId
     ) {
@@ -71,24 +70,24 @@ public class OrderController {
         return response;
     }
 
-    @ApiOperation(value = "orderState와 orderState에 따른 주문 갯수 전체를 반환하는 기능", notes = "")
+    @Operation(summary = "orderState와 orderState에 따른 주문 갯수 전체를 반환하는 기능", description = "")
     @GetMapping(GET_ORDER_STATE_COUNT)
     public ResponseDto<List<GetOrderStateResponseDto>> getOrderState(
-        @ApiParam(hidden = true)
+        @Parameter(hidden = true)
         @AuthenticationPrincipal String userId,
         @PathVariable("storeId") int storeId) {
             ResponseDto<List<GetOrderStateResponseDto>> response = orderService.getOrderState(userId, storeId);
         return response;
     }
 
-    @ApiOperation(value = "주문하기", notes = "")
+    @Operation(summary = "주문하기", description = "")
     @PostMapping(POST_ORDER)
     public ResponseDto<PostOrderResponseDto> postOrder(@Valid @RequestBody PostOrderDto requestBody) {
         ResponseDto<PostOrderResponseDto> response = orderService.postOrder(requestBody);
         return response;
     }
 
-    @ApiOperation(value = "완료된 주문 로그에 저장하기")
+    @Operation(summary = "완료된 주문 로그에 저장하기")
     @PostMapping(POST_ORDER_LOG)
     public ResponseDto<PostOrderLogResponseDto> postOrderLog(@AuthenticationPrincipal String userId, @Valid @RequestBody PostOrderLogDto requestBody) {
         ResponseDto<PostOrderLogResponseDto> response = orderService.postOrderLog(userId, requestBody);       
@@ -97,17 +96,17 @@ public class OrderController {
     
 
     // todo : 필요한지 확인
-    @ApiOperation(value = "장바구니 메뉴 삭제", notes = "Path Variable에 menuId를 포함하여 요청을 하고, 성공시 장바구니 전체 정보 반환, 실패시 실패 메세지를 반환")
+    @Operation(summary = "장바구니 메뉴 삭제", description = "Path Variable에 menuId를 포함하여 요청을 하고, 성공시 장바구니 전체 정보 반환, 실패시 실패 메세지를 반환")
     @DeleteMapping(DELETE_ORDER_DETAIL)
-    public ResponseDto<DeleteOrderResponseDto> deleteOrderDetail(@ApiParam(value = "상세 주문 번호", example = "1", required = true) @PathVariable("orderDetailId") int orderDetailId) {
+    public ResponseDto<DeleteOrderResponseDto> deleteOrderDetail(@Parameter(description = "상세 주문 번호", example = "1", required = true) @PathVariable("orderDetailId") int orderDetailId) {
         ResponseDto<DeleteOrderResponseDto> response = orderService.deleteOrderDetail(orderDetailId);
         return response;
     }
 
-    @ApiOperation(value = "주문 상태 변경", notes = "Request Header Athorization에 Bearer JWT를 포함하고 Request Body에 orderId, orderState를 포함하여 요청하면 성공 시 성공 메세지, 실패 시 실패 메세지를 반환")
+    @Operation(summary = "주문 상태 변경", description = "Request Header Athorization에 Bearer JWT를 포함하고 Request Body에 orderId, orderState를 포함하여 요청하면 성공 시 성공 메세지, 실패 시 실패 메세지를 반환")
     @PatchMapping(PATCH_ORDER)
     public ResponseDto<List<PatchOrderResponseDto>> patchOrder(
-        @ApiParam(hidden = true)
+        @Parameter(hidden = true)
         @AuthenticationPrincipal String userId,
         @Valid @RequestBody PatchOrderDto requestBody) {
             ResponseDto<List<PatchOrderResponseDto>> response = orderService.patchOrder(userId, requestBody);

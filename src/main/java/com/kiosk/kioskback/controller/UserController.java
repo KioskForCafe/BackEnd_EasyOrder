@@ -24,11 +24,11 @@ import com.kiosk.kioskback.dto.response.user.PostCheckIdDuplicateResponseDto;
 import com.kiosk.kioskback.dto.response.user.PostCheckTelNumberDuplicateResponseDto;
 import com.kiosk.kioskback.service.UserServcie;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Api(description="유저 모듈")
+// @Tag(description="유저 모듈")
 @RestController
 @RequestMapping(ApiPattern.USER)
 public class UserController {
@@ -42,30 +42,30 @@ public class UserController {
     private final String POST_CHECKID_DUPLICATE = "/duplicate/checkId";
     private final String POST_CHECKTELNUMBER_DUPLICATE = "/duplicate/checkTelNumber";
 
-    @ApiOperation(value="회원 정보 조회", notes="Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
+    @Operation(summary="회원 정보 조회", description = "Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
     @GetMapping(GET_USER)
     public ResponseDto<GetUserResponseDto> getUser(@AuthenticationPrincipal String userId) {
         ResponseDto<GetUserResponseDto> response = userService.getUser(userId);
         return response;
     }
 
-    @ApiOperation(value="회원 정보 수정", notes="Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
+    @Operation(summary="회원 정보 수정", description = "Reqeust Header Authorization에 Bearer JWT를 포함하여 요청하면, 성공 시 회원 정보(아이디, 이름, 이메일, 전화번호)를 반환, 실패 시 실패 메세지를 반환")
     @PatchMapping(PATCH_USER)
     public ResponseDto<PatchUserResponseDto> patchUser(@AuthenticationPrincipal String userId, @RequestBody PatchUserDto requestBody) {
         ResponseDto<PatchUserResponseDto> response =userService.patchUser(userId, requestBody);
         return response;
     }
 
-    @ApiOperation(
-        value="회원 탈퇴", 
-        notes="Request Header Athorization에 Bearer JWT를 포함하고 Path Variable에 Id를 포함하여 요청을 하면, 성공시 true를 반환, 실패시 실패 메세지를 반환")
+    @Operation(
+        summary="회원 탈퇴", 
+        description = "Request Header Athorization에 Bearer JWT를 포함하고 Path Variable에 Id를 포함하여 요청을 하면, 성공시 true를 반환, 실패시 실패 메세지를 반환")
     @DeleteMapping(DELETE)
     public ResponseDto<DeleteUserResponseDto> deleteUser(@AuthenticationPrincipal String userId){
         ResponseDto<DeleteUserResponseDto> response = userService.deleteUser(userId);
         return response;
     }
 
-    @ApiOperation(value="유저 이메일 중복체크", notes="Request Body에 email을 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
+    @Operation(summary="유저 이메일 중복체크", description = "Request Body에 email을 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
     @PostMapping(POST_CHECKEMAIL_DUPLICATE)
     public ResponseDto<PostCheckEmailDuplicateResponseDto> postCheckEmailDuplicate(
         @Valid @RequestBody PostCheckEmailDuplicateDto requestBody
@@ -74,7 +74,7 @@ public class UserController {
         return response;
     }
 
-    @ApiOperation(value="유저 아이디 중복체크", notes="Request Body에 id를 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
+    @Operation(summary="유저 아이디 중복체크", description = "Request Body에 id를 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
     @PostMapping(POST_CHECKID_DUPLICATE)
     public ResponseDto<PostCheckIdDuplicateResponseDto> postCheckIdDuplicate(
         @Valid @RequestBody PostCheckIdDuplicateDto requestBody
@@ -83,7 +83,7 @@ public class UserController {
         return response;
     }
 
-    @ApiOperation(value="유저 전화번호 중복체크", notes="Request Body에 telNumber를 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
+    @Operation(summary="유저 전화번호 중복체크", description = "Request Body에 telNumber를 포함하여 요청하면, 중복결과를 반환, 실패 시 실패 메세지를 반환")
     @PostMapping(POST_CHECKTELNUMBER_DUPLICATE)
     public ResponseDto<PostCheckTelNumberDuplicateResponseDto> postCheckTelNumberDuplicate(
         @Valid @RequestBody PostCheckTelNumberDuplicateDto requestBody

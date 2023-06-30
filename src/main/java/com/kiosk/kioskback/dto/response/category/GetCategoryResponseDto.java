@@ -5,25 +5,24 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.CategoryEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "전체 카테고리 리스트 가져오기 Response Body - data")
+@Schema(description = "전체 카테고리 리스트 가져오기 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCategoryResponseDto {
 
-    @ApiModelProperty(value = "카테고리 번호", example = "1", required = true)
+    @Schema(description = "카테고리 번호", example = "1", required = true)
     private int categoryId;
 
-    @ApiModelProperty(value = "카테고리 이름", example = "Category Name", required = true)
+    @Schema(description = "카테고리 이름", example = "Category Name", required = true)
     private String categoryName;
 
-    @ApiModelProperty(value = "카테고리 순위", example = "1", required = true)
+    @Schema(description = "카테고리 순위", example = "1", required = true)
     private int categoryPriority;
 
     public GetCategoryResponseDto(CategoryEntity categoryEntity) {

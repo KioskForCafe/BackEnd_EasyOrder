@@ -8,12 +8,12 @@ import com.kiosk.kioskback.entity.MenuEntity;
 import com.kiosk.kioskback.entity.OptionEntity;
 import com.kiosk.kioskback.entity.OrderDetailEntity;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "주문번호에 해당하는 상세주문 리스트 Response Body - data")
+@Schema(description = "주문번호에 해당하는 상세주문 리스트 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.kiosk.kioskback.entity.OptionEntity;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "주문 내역 상세 옵션 확인 Response Body - data")
+@Schema(description = "주문 내역 상세 옵션 확인 Response Body - data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

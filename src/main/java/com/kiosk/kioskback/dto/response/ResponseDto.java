@@ -2,24 +2,23 @@ package com.kiosk.kioskback.dto.response;
 
 import com.kiosk.kioskback.common.constants.ResponseMessage;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "Response Format")
+@Schema(description = "Response Format")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "set")
 public class ResponseDto<D> {
-    @ApiModelProperty(value = "작업 결과 상태", example = "true", required = true)
+    @Schema(description = "작업 결과 상태", example = "true", required = true)
     private boolean result;
 
-    @ApiModelProperty(value = "작업 결과 메세지", example = ResponseMessage.SUCCESS, required = true)
+    @Schema(description = "작업 결과 메세지", example = ResponseMessage.SUCCESS, required = true)
     private String message;
     
-    @ApiModelProperty(value = "작업 결과 데이터", required = true)
+    @Schema(description = "작업 결과 데이터", required = true)
     private D data;
 
     public static <D> ResponseDto<D> setSuccess(String message, D data){
